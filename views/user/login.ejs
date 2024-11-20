@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>RegistrationForm_v1 by Colorlib</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- MATERIAL DESIGN ICONIC FONT -->
+    <!-- <link rel="stylesheet" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css"> -->
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="/styles/userStyle/style1.css" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="inner">
+        <div class="image-holder">
+          <img
+            src="/images/userImg/home/img1.jpg"
+            alt=""
+            width="405"
+            height="530"
+          />
+        </div>
+        <form id="loginform" method="post" action="/login">
+          <h3>Welcome Back! Ready to Blend?</h3>
+
+          <div class="form-wrapper">
+            <input
+              type="text"
+              placeholder="Email Address"
+              class="form-control"
+              id="email"
+              name="email"
+              required=""
+              autocomplete="off"
+            />
+            <i class="zmdi zmdi-email"></i>
+            <div id="error1" class="error-message"></div>
+          </div>
+
+          <!-- <%if(locals.message && message.length>0){%>
+                        <div class="alert alert-danger text-center">
+                          <%=message%>
+                        </div>
+                        <%}%> -->
+
+          <!-- <div class="form-wrapper">
+						<input type="text" placeholder="Phone Number" class="form-control" id="phone" name="phone" required="" autocomplete="off">
+						<i class="zmdi zmdi-account"></i>
+						<div id="error2" class="error-message"></div>
+					</div> -->
+
+          <!-- <div class="form-wrapper">
+						<select name="" id="" class="form-control">
+							<option value="" disabled selected>Gender</option>
+							<option value="male">Male</option>
+							<option value="femal">Female</option>
+							<option value="other">Other</option>
+						</select>
+						<i class="zmdi zmdi-caret-down" style="font-size: 17px"></i>
+					</div> -->
+          <div class="form-wrapper">
+            <input
+              type="password"
+              placeholder="Password"
+              class="form-control"
+              id="password"
+              required=""
+              name="password"
+            />
+            <i class="zmdi zmdi-lock"></i>
+            <div id="error2" class="error-message"></div>
+          </div>
+
+          <!-- <div class="form-wrapper">
+						<input type="password" placeholder="Confirm Password" class="form-control" id="confirm-password" required="" name="cPassword" >
+						<i class="zmdi zmdi-lock"></i>
+						<div id="error5" class="error-message"></div>
+					</div> -->
+          <!-- <%if(locals.message && message.length>0){%>
+						<div class="alert alert-danger text-center">
+						  <%=message%>
+						</div>
+						<%}%> -->
+          <button>
+            Register
+            <i class="zmdi zmdi-arrow-right"></i>
+          </button>
+          <h4 style="margin: 2px 144px">OR</h4>
+          <div class="form-wrapper">
+            <a href="/auth/google" class="button" style="text-decoration: none"
+              >Sign Up with Google</a
+            >
+          </div>
+
+          <a href="/signup" style="color: black">Dont have an acoount?</a>
+        </form>
+      </div>
+    </div>
+    <script>
+      const emailid = document.getElementById("email");
+      const passid = document.getElementById("password");
+      const error1 = document.getElementById("error1");
+      const error2 = document.getElementById("error2");
+      const loginform = document.getElementById("loginform");
+
+      function emailValidateChecking(e) {
+        const emailval = emailid.value;
+        const emailpattern =
+          /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,4})$/;
+
+        if (!emailpattern.test(emailval)) {
+          error1.style.display = "block";
+          error1.innerHTML = "Invalid Format";
+        } else {
+          error1.style.display = "none";
+          error1.innerHTML = "";
+        }
+      }
+
+      function passValidateChecking(e) {
+        const passval = passid.value;
+        if (passval.length < 8) {
+          error2.style.display = "block";
+          error2.innerHTML = "Should contain at least 8 characters";
+        } else {
+          error2.style.display = "none";
+          error2.innerHTML = "";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loginform.addEventListener("submit", function (e) {
+          emailValidateChecking();
+          passValidateChecking();
+
+          if (!emailid || !passid || !error1 || !error2 || !loginform) {
+            console.error("One or more elements not found");
+          }
+
+          if (error1.innerHTML || error2.innerHTML) {
+            e.preventDefault();
+          }
+        });
+      });
+    </script>
+  </body>
+  <!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Blendify - let you Customize your smoothie"
+    />
+    <meta name="keywords" content="Male_Fashion, unica, creative, html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
+    <title>Blendify</title>
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Css Styles -->
+    <link
+      rel="stylesheet"
+      href="/styles/userStyle/bootstrap.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/styles/userStyle/font-awesome.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/styles/userStyle/elegant-icons.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/styles/userStyle/magnific-popup.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/styles/userStyle/nice-select.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/styles/userStyle/owl.carousel.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/styles/userStyle/slicknav.min.css"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="/styles/userStyle/style.css" type="text/css" />
+    <style>
+       .marquee {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    animation: scroll-left 10s linear infinite;
+  }
+
+  @keyframes scroll-left {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+    </style>
+  </head>
+
+  <body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+      <div class="offcanvas__option">
+        <div class="offcanvas__links">
+          <a href="/signup" style="color: rgb(0, 0, 0);
+        
+          padding: 0 10px;">SIGN UP</a>
+          <a href="/login" style="color: rgb(0, 0, 0);
+          ">LOGIN</a>
+          <!-- <a href="#">FAQs</a> -->
+        </div>
+        <!-- <div class="offcanvas__top__hover">
+          <span>Usd <i class="arrow_carrot-down"></i></span>
+          <ul>
+            <li>USD</li>
+            <li>EUR</li>
+            <li>USD</li>
+          </ul>
+        </div> -->
+      </div>
+      <div class="offcanvas__nav__option">
+        <a href="#" class="search-switch"
+          ><img src="/images/icon/search.png" alt=""
+        /></a>
+        <a href="#"><img src="/images/icon/heart.png" alt="" /></a>
+        <a href="#"
+          ><img src="/images/icon/cart.png" alt="" /> <span>0</span></a
+        >
+        <div class="price">$0.00</div>
+      </div>
+      <div id="mobile-menu-wrap"></div>
+      <div class="offcanvas__text">
+        <p>
+          Free shipping, 30-day return or refund guarantee.asss
+        </p>
+      </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+      <div class="header__top" style="background-color: #dd2d50">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 col-md-7">
+              <div class="header__top__left">
+                <p>Free shipping, 30-day return or refund guarantee.</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-5">
+              <div class="header__top__right">
+                <div class="header__top__links">
+                  <!-- <%if(locals.user){%> -->
+                  <!-- <div class="header__top__hover"> -->
+                  <!-- <a href="#"><%=locals.user.name%></a> -->
+                  <!-- <span><i class="arrow_carrot-down"></i></span>
+                      <ul>
+                          <li><a href="/userProfile">Profile</a></li>
+                          <li><a href="/logout">Logout</a></li>
+                      </ul> -->
+                  <!-- </div> -->
+                  <!-- <%}else{%> -->
+
+                  <!-- <%}%> -->
+                  <!-- <a href="#">FAQs</a> -->
+                </div>
+                <%if(locals.user){%>
+                <div class="header__top__hover">
+                  <span
+                    ><%=locals.user.name%>
+                  </span>
+                  <ul>
+                    <li>Profile</li>
+                    <li><a href="/logout" style="color: black;">Logout</a></li>
+                    <!-- <li>USD</li> -->
+                  </ul>
+                </div>
+                <%}else{%>
+                <a href="/login" style="color: white;
+                
+                padding: 0 10px;">LOGIN</a>
+                <a href="/signup" style="color: white;
+              
+        ">SIGN UP</a>
+                <%}%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-md-2">
+            <div class="header__logo" style="    padding: 15px 0;">
+              
+              <a href="./index.html" style="    color: black;
+              font-size: x-large;
+              font-weight: 900;"><img src="/images/logo.png" alt="" width="50px">Blendify</a>
+            </div>
+          </div>
+          <div class="col-lg-7 col-md-7">
+            <nav class="header__menu mobile-menu">
+              <ul>
+                <li class="active"><a href="./index.html">Home</a></li>
+                <li><a href="./shop.html">Customize</a></li>
+                <li>
+                  <a href="#">Categories</a>
+                  <ul class="dropdown">
+                    <li><a href="./about.html">Energy Booster</a></li>
+                    <li><a href="./shop-details.html">Post Workout</a></li>
+                    <li><a href="./shopping-cart.html">Vegan</a></li>
+                    <li><a href="./checkout.html">Green</a></li>
+                    <li><a href="./blog-details.html">Dessert Inspired</a></li>
+                    <li><a href="./blog-details.html">Detox</a></li>
+                  </ul>
+                </li>
+                <li><a href="./blog.html">About</a></li>
+                <li><a href="./blog.html">Blog</a></li>
+                <li><a href="./contact.html">Contacts</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="header__nav__option">
+              <a href="#" class="search-switch"
+                ><img src="/images/userImg/icon/search.png" alt=""
+              /></a>
+              <a href="#"><img src="/images/userImg/icon/heart.png" alt="" /></a>
+              <a href="#"
+                ><img src="/images//userImg/icon/cart.png" alt="" />
+                <span>0</span></a
+              >
+              <div class="price">$0.00</div>
+            </div>
+          </div>
+        </div>
+        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+      </div>
+    </header>
+  </body>
+</html>

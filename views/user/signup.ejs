@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>RegistrationForm_v1 by Colorlib</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- MATERIAL DESIGN ICONIC FONT -->
+    <!-- <link rel="stylesheet" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css"> -->
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="/styles/userStyle/style1.css" />
+    <style>
+      .error-message{
+        color: red;
+        font-size: smaller;
+      }
+      .form-control{
+        font-size: medium;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="inner">
+        <div class="image-holder">
+          <img
+            src="/images/userImg/home/img1.jpg"
+            alt=""
+            width="405"
+            height="530"
+          />
+        </div>
+        <form action="/signup" method="post" id="signform">
+          <h3>Sign Up to Start Blending</h3>
+          <!-- <div id="error1" class="error-message"></div> -->
+          <div class="form-wrapper">
+            <input
+              type="text"
+              placeholder="Full Name"
+              class="form-control"
+              id="name"
+              name="name"
+              required=""
+              autocomplete="off"
+            />
+            <i id="error1" class="error-message"></i>
+          </div>
+
+          <div ></div>
+          <div class="form-wrapper">
+            <input
+              type="text"
+              placeholder="Email Address"
+              class="form-control"
+              id="email"
+              name="email"
+              required=""
+              autocomplete="off"
+            />
+            <i id="error2" class="error-message"></i>
+          </div>
+          
+          <div ></div>
+          <div class="form-wrapper">
+            <input
+              type="text"
+              placeholder="Phone Number"
+              class="form-control"
+              id="phone"
+              name="phone"
+              required=""
+              autocomplete="off"
+            />
+            <i id="error3" class="error-message"></i>
+          </div>
+
+          <!-- <div class="form-wrapper">
+						<select name="" id="" class="form-control">
+							<option value="" disabled selected>Gender</option>
+							<option value="male">Male</option>
+							<option value="femal">Female</option>
+							<option value="other">Other</option>
+						</select>
+						<i class="zmdi zmdi-caret-down" style="font-size: 17px"></i>
+					</div> -->
+          <div ></div>
+          <div class="form-wrapper">
+            <input
+              type="password"
+              placeholder="Password"
+              class="form-control"
+              id="password"
+              required=""
+              name="password"
+            />
+            <i id="error4" class="error-message"></i>
+          </div>
+          
+          <div ></div>
+          <div class="form-wrapper">
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              class="form-control"
+              id="confirm-password"
+              required=""
+              name="cPassword"
+            />
+            <i id="error5" class="error-message"></i>
+          </div>
+          <!-- <%if(locals.message && message.length>0){%>
+						<div class="alert alert-danger text-center">
+						  <%=message%>
+						</div>
+						<%}%> -->
+          <button>
+            Sign Up
+            <i class="zmdi zmdi-arrow-right"></i>
+          </button>
+          <h4 style="margin: 2px 144px">OR</h4>
+          <div class="form-wrapper">
+            <a href="/auth/google" class="button" style="text-decoration: none"
+              >Sign Up with Google</a
+            >
+          </div>
+
+          <a href="/login" style="color: black">have an acoount?</a>
+        </form>
+      </div>
+    </div>
+    <script>
+      const nameid = document.getElementById("name");
+      const emailid = document.getElementById("email");
+      const phoneid = document.getElementById("phone");
+      const passid = document.getElementById("password");
+      const cpassid = document.getElementById("confirm-password");
+      const error1 = document.getElementById("error1");
+      const error2 = document.getElementById("error2");
+      const error3 = document.getElementById("error3");
+      const error4 = document.getElementById("error4");
+      const error5 = document.getElementById("error5");
+      const signform = document.getElementById("signform");
+
+      function nameValidateChecking() {
+        const nameval = nameid.value;
+        const namepattern = /^[A-Za-z\s]+$/;
+        if (nameval.trim() === "") {
+          error1.style.display = "block";
+          error1.innerHTML = "Please enter a valid name";
+        } else if (!namepattern.test(nameval)) {
+          error1.style.display = "block";
+          error1.innerHTML = "Name can only contain letters and spaces";
+        } else {
+          error1.style.display = "none";
+          error1.innerHTML = "";
+        }
+      }
+
+      function phoneValidationChecking() {
+        const phoneval = phoneid.value;
+        if (phoneval.trim() === "") {
+          error3.style.display = "block";
+          error3.innerHTML = "Enter a valid phone number";
+        } else if (phoneval.length !== 10) {
+          error3.style.display = "block";
+          error3.innerHTML = "Enter a 10-digit number";
+        } else {
+          error3.style.display = "none";
+          error3.innerHTML = "";
+        }
+      }
+
+      function emailValidateChecking() {
+        const emailVal = emailid.value;
+        const emailpattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailpattern.test(emailVal)) {
+          error2.style.display = "block";
+          error2.innerHTML = "Enter a valid email address";
+        } else {
+          error2.style.display = "none";
+          error2.innerHTML = "";
+        }
+      }
+
+      function passValidateChecking() {
+        const passval = passid.value;
+        const cpassval = cpassid.value;
+        const alpha = /[a-zA-Z]/;
+        const digit = /\d/;
+        if (passval.length < 8) {
+          error4.style.display = "block";
+          error4.innerHTML = "Password must be at least 8 characters";
+        } else if (!alpha.test(passval) || !digit.test(passval)) {
+          error4.style.display = "block";
+          error4.innerHTML = "Password should contain both letters and numbers";
+        } else {
+          error4.style.display = "none";
+          error4.innerHTML = "";
+        }
+        if (passval !== cpassval) {
+          error5.style.display = "block";
+          error5.innerHTML = "Passwords do not match";
+        } else {
+          error5.style.display = "none";
+          error5.innerHTML = "";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        signform.addEventListener("submit", function (e) {
+          nameValidateChecking();
+          emailValidateChecking();
+          phoneValidationChecking();
+          passValidateChecking();
+          if (
+            error1.innerHTML ||
+            error2.innerHTML ||
+            error3.innerHTML ||
+            error4.innerHTML ||
+            error5.innerHTML
+          ) {
+            e.preventDefault();
+          }
+        });
+      });
+    </script>
+  </body>
+  <!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
