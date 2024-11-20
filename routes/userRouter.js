@@ -12,7 +12,7 @@ router.post("/signup",userController.signup)
 router.get("/shop",userController.loadShopping)
 router.post("/verify-otp",userController.verifyOtp)
 router.post("/resend-otp",userController.resendOTP);
-
+router.get("/logout",userController.logout)
 router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}))
 
 router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}),(req,res)=>{

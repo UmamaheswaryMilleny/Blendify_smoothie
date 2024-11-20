@@ -73,6 +73,11 @@
             <i class="zmdi zmdi-lock"></i>
             <div id="error2" class="error-message"></div>
           </div>
+               <%if(locals.message && message.length>0){%>
+                  <div class="alert alert-danger text-center">
+                    <%=message%>
+                  </div>
+                  <%}%>
 
           <!-- <div class="form-wrapper">
 						<input type="password" placeholder="Confirm Password" class="form-control" id="confirm-password" required="" name="cPassword" >

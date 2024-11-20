@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, "public")))
 
 
 app.use("/",userRouter)
-// app.use('/admin',adminRouter)
+app.use('/admin',adminRouter)
 
 const PORT = 8080 || process.env.PORT
 app.listen(PORT,()=>{
