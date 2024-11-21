@@ -19,10 +19,6 @@ const productSchema = new Schema({
         type:Number,
         required:true
     },
-    productOffer:{
-        type:Number,
-        default:0
-    },
     quantity:{
         type:Number,
         default:true
@@ -40,6 +36,13 @@ const productSchema = new Schema({
         enum:["Available","Out of stock","Discountinued"],
         required:true,
         default:"Available"
+    },
+    sizes: {
+        type: [{
+            size: { type: String, required: true },
+            quantity: { type: Number, required: true }
+        }],
+        required: true
     }
 },{timestamps:true})
 

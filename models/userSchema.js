@@ -10,6 +10,7 @@ const userSchema = new Schema({
         email:{
             type:String,
             required:true,
+            sparse:true,
             unique:true
         },
         phone:{
@@ -21,6 +22,7 @@ const userSchema = new Schema({
         },
         googleId:{
             type:String,
+            required:false,
             unique: true,
             sparse: true, // Prevents conflicts when the field is null
         },
@@ -36,44 +38,11 @@ const userSchema = new Schema({
             type:Boolean,
             default:false
         },
-        cart:[
-            {
-                type:Schema.Types.ObjectId,
-                ref:"Cart"
-            }
-        ],
-        wallet:[
-            {
-                type:Schema.Types.ObjectId,
-                ref:"Wishlist"
-            }
-        ],
-        order:[
-            {
-                type:Schema.Types.ObjectId,
-                ref:"Order"
-            }
-        ],
-    
+        
         createdOn:[{
             type:Date,
             default:Date.now
         }],
-        referalCode:{
-            type:String,
-            // required:true
-        },
-        redeemed:{
-            type:Boolean,
-            // default:false
-        },
-        redeemedUsers:[
-            {
-                type:Schema.Types.ObjectId,
-                ref:"User",
-                // required:true
-            }
-        ],
         searchHistory:[
             {
                 category:{
@@ -88,7 +57,7 @@ const userSchema = new Schema({
         ],
         
         
-})
+},{timestamps:true})
 
 const User = mongoose.model("User",userSchema)
 

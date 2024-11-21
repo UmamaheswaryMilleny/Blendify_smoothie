@@ -1,4 +1,6 @@
 const User = require("../../models/userSchema")
+const Product = require("../../models/productSchema")
+const Category = require("../../models/categorySchema")
 const mongoose = require("mongoose")
 const bcrypt = require("bcrypt")
 
@@ -23,15 +25,15 @@ const login = async(req,res)=>{
             req.session.admin=true
             return res.redirect("/admin")
         }else{
-            return res.redirect("/login")
+            return res.redirect("/admin/login")
         }
     }else{
-        return res.redirect("/login")
+        return res.redirect("/admin/login")
     }
   
    }catch(error){
     console.log("login eroor",error)
-    return res.redirect("/pageerror")
+    return res.redirect("/admin/pageerror")
 
    }
 }
@@ -52,13 +54,13 @@ const logout=async(req,res)=>{
         req.session.destroy(err=>{
             if(err){
                 console.log("Error destroying session",error)
-                return res.redirect("/pageerror")
+                return res.redirect("/admin/pageerror")
             }
             res.redirect("/admin/login")
         })
     }catch(error){
         console.log("unexpected error during logout",error);
-        res.redirect("/pageerror")
+        res.redirect("/admin/pageerror")
     }
 }
 

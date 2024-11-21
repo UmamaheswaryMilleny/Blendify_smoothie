@@ -110,11 +110,11 @@
             />
             <i id="error5" class="error-message"></i>
           </div>
-          <!-- <%if(locals.message && message.length>0){%>
+          <%if(locals.message && message.length>0){%>
 						<div class="alert alert-danger text-center">
 						  <%=message%>
 						</div>
-						<%}%> -->
+						<%}%>
           <button>
             Sign Up
             <i class="zmdi zmdi-arrow-right"></i>
@@ -154,23 +154,31 @@
           error1.innerHTML = "Name can only contain letters and spaces";
         } else {
           error1.style.display = "none";
-          error1.innerHTML = "";
+          // error1.innerHTML = "";
         }
       }
 
-      function phoneValidationChecking() {
-        const phoneval = phoneid.value;
-        if (phoneval.trim() === "") {
-          error3.style.display = "block";
-          error3.innerHTML = "Enter a valid phone number";
-        } else if (phoneval.length !== 10) {
-          error3.style.display = "block";
-          error3.innerHTML = "Enter a 10-digit number";
-        } else {
-          error3.style.display = "none";
-          error3.innerHTML = "";
-        }
-      }
+
+      function phoneValidateChecking() {
+    const phoneval = phoneid.value.trim();
+    const phonePattern = /^[0-9]+$/;
+
+    if (phoneval === "") {
+      error3.style.display = "block";
+      error3.innerHTML = "Enter a valid phone number";
+    } else if (!phonePattern.test(phoneval)) {
+      error3.style.display = "block";
+      error3.innerHTML = "Phone number can only contain digits";
+    } else if (phoneval.length !== 10) {
+      error3.style.display = "block";
+      error3.innerHTML = "Phone number must be 10 digits";
+    } else if (phoneval === "0000000000") {
+      error3.style.display = "block";
+      error3.innerHTML = "Phone number cannot be all zeros";
+    } else {
+      error3.style.display = "none";
+    }
+  }
 
       function emailValidateChecking() {
         const emailVal = emailid.value;
@@ -180,7 +188,7 @@
           error2.innerHTML = "Enter a valid email address";
         } else {
           error2.style.display = "none";
-          error2.innerHTML = "";
+          // error2.innerHTML = "";
         }
       }
 
@@ -204,7 +212,7 @@
           error5.innerHTML = "Passwords do not match";
         } else {
           error5.style.display = "none";
-          error5.innerHTML = "";
+          // error5.innerHTML = "";
         }
       }
 
@@ -225,6 +233,12 @@
           }
         });
       });
+
+      nameid.addEventListener("input", nameValidateChecking);
+    emailid.addEventListener("input", emailValidateChecking);
+    phoneid.addEventListener("input", phoneValidateChecking);
+    passid.addEventListener("input", passwordValidateChecking);
+    cpassid.addEventListener("input", passwordValidateChecking);
     </script>
   </body>
   <!-- This templates was made by Colorlib (https://colorlib.com) -->

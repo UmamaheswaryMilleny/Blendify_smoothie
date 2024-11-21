@@ -13,33 +13,21 @@ const pageNotFound = async(req,res)=>{
 
 
 
-const loadHomepage=async(req,res)=>{
-    try{
+const loadHomepage = async (req, res) => {
+    try {
+        const user = req.session.user;
 
-        const user=req.session.user;
-        // console.log(req.session.user)
-        if(user){
-            const userData = await User.findOne({_id:user._id})
-            res.render("home",{user:userData})
-        }else{
-            return res.render('home')
+        if (user) {
+            const userData = await User.findOne({ _id: user});
+            return res.render("home", { user: userData});
+        } else {
+            return res.render("home");
         }
-
-    }catch(error){
-        console.log("home page not loading",error)
-        res.status(500).send("server error")
+    } catch (error) {
+        console.error("Error loading home page:", error);
+        res.status(500).send("Server error");
     }
-
-}
-
-const loadShopping=async(req,res)=>{
-    try{
-        return res.render('shop')
-    }catch(error){
-        console.log('shopping page not loading',error)
-        res.status(500).send('Server Error')
-    }
-}
+};
 
 const loadSignup=async(req,res)=>{
     try{
@@ -53,6 +41,9 @@ const loadSignup=async(req,res)=>{
 function generateOtp(){
     return Math.floor(100000 + Math.random()*900000).toString()
 }
+
+
+
 
 async function sendVerificationEmail(email,otp){
     try{
@@ -149,7 +140,7 @@ const verifyOtp=async (req,res)=>{
             })
 
             await saveUserData.save();
-            req.session.user=saveUserData
+            req.session.user=saveUserData._id
             res.json({success:true,redirectUrl:"/"})
         }else{
             res.status(400).json({success:false,message:"Invalid OTP,Please try again"})
@@ -191,49 +182,54 @@ const loadLogin=async(req,res)=>{
             res.redirect("/")
         }
     }catch(error){
-        res.redirect("/pageNotFound")
+        res.redirect("pageNotFound")
     }
 }
 
 
-const login=async(req,res)=>{
-    try{
-        const {email,password}=req.body;
-        const findUser=await User.findOne({isAdmin:0,email:email})
-        if(!findUser){
-            return res.render("login",{message:"User not found"})
-        }
-        if(findUser.isBlocked){
-            return res.render("login",{message:"User is blocked by admin"})
-        }
-        const passwordMatch=await bcrypt.compare(password,findUser.password)
-        if(!passwordMatch){
-            return res.render("login",{message:"Incorrect Password"})
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if (!password) {
+            return res.render("login", { message: "Password is required" });
         }
 
-        req.session.user=findUser;
-        res.redirect("/")
+        const findUser = await User.findOne({ isAdmin: 0, email: email });
+        if (!findUser) {
+            return res.render("login", { message: "User not found" });
+        }
+        if (findUser.isBlocked) {
+            return res.render("login", { message: "User is blocked by admin" });
+        }
 
-    }catch(error){
+        console.log("Password:", password);
+        console.log("Hashed Password:", findUser.password);
 
-        console.error("login error",error)
-        res.render("login",{message:"login failed. Please try again later"})
+        const passwordMatch = await bcrypt.compare(password, findUser.password);
+        if (!passwordMatch) {
+            return res.render("login", { message: "Incorrect Password" });
+        }
 
+        req.session.user = findUser._id;
+        res.redirect("/");
+    } catch (error) {
+        console.error("login error", error);
+        res.render("login", { message: "Login failed, please try again later" });
     }
-}
+};
 
 const logout=async(req,res)=>{
     try{
         req.session.destroy(err=>{
             if(err){
                 console.log("Error destroying session",error)
-                return res.redirect("/pageerror")
+                return res.redirect("/pageNotFound")
             }
             res.redirect("/login")
         })
     }catch(error){
         console.log("unexpected error during logout",error);
-        res.redirect("/pageerror")
+        res.redirect("/pageNotFound")
     }
 }
 
@@ -242,7 +238,6 @@ module.exports={
     loadHomepage,
     pageNotFound,
     loadSignup,
-    loadShopping,
     signup,
     verifyOtp,
     resendOTP,

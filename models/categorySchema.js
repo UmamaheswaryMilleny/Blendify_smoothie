@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const {Schema}=mongoose;
 
-const categorySchema=new mongoose.Schema({
+const categorySchema=new Schema({
     name:{
         type:String,
         required:true,
@@ -15,15 +15,12 @@ const categorySchema=new mongoose.Schema({
         type:Boolean,
         default:true
     },
-    CategoryOffer:{
-        type:Number,
-        default:0
-    },
+
     createdAt:{
         type:Date,
         default:Date.now
     }
-})
+},{ timestamps: true })
 
 const Category=mongoose.model("Category",categorySchema)
 module.exports=Category

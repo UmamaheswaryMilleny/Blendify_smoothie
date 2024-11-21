@@ -158,7 +158,7 @@
                 type="button"
                 class="btn btn-secondary"
                 onclick="resendOTP()"
-              >
+              disabled>
                 Resend OTP
               </button>
             </div>
@@ -189,10 +189,11 @@
             document.getElementById("timerValue").classList.add("expired");
             document.getElementById("timerValue").textContent = "Expired";
             document.getElementById("otp").disabled = true;
+            document.getElementById("resendOtpBtn").disabled = false;  
           }
         }, 1000);
       }
-      startTimer();
+ 
 
       function validateOTPForm() {
         const otpInput = document.getElementById("otp").value;
@@ -236,10 +237,13 @@
         timer = 60;
         document.getElementById("otp").disabled = false;
         document.getElementById("timerValue").classList.remove("expiresd");
-        startTimer();
+        document.getElementById("timerValue").textContent = timer;
+    document.getElementById("resendOtpBtn").disabled = true;  // Disable Resend OTP button again
+    startTimer();
+
         $.ajax({
           type: "POST",
-          url: "/resend-otp",
+          url: "resend-otp",
           success: function (response) {
             if (response.success) {
               Swal.fire({
@@ -257,7 +261,10 @@
             }
           },
         });
+        return false
       }
+
+      startTimer();
     </script>
   </body>
 </html>
