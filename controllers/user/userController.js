@@ -100,18 +100,6 @@ const signup=async (req,res)=>{
         res.redirect("/pageNotFound")
 
     }
-    // const {name,email,phone,password}=req.body
-    // try{  
-    //     const newUser=new User({name,email,phone,password})
-    //     console.log(newUser)
-    //     await newUser.save()
-    //     return res.redirect("/signup")
-
-    // }catch(error){
-    //     console.error("Error for save user",error)
-    //     res.status(500).send("Internal Server error")
-          
-    // }
 }
 
 const securePassword = async(password)=>{
@@ -202,8 +190,8 @@ const login = async (req, res) => {
             return res.render("login", { message: "User is blocked by admin" });
         }
 
-        console.log("Password:", password);
-        console.log("Hashed Password:", findUser.password);
+        // console.log("Password:", password);
+        // console.log("Hashed Password:", findUser.password);
 
         const passwordMatch = await bcrypt.compare(password, findUser.password);
         if (!passwordMatch) {
@@ -243,5 +231,8 @@ module.exports={
     resendOTP,
     loadLogin,
     login,
-    logout
+    logout,
+    generateOtp,
+    sendVerificationEmail,
+    securePassword
 }

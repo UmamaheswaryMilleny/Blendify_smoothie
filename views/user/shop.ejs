@@ -50,27 +50,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
-                          
-                                    <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                   
-                                        </div>
-                                    </div>
-                                </div>
+    
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-9">
-                                                    
+                    <div class="shop__product__option__right">
+                        <p>Sort by</p>
+                        <select id="sortOptions" onchange="sortProducts()">
+                            <option value="priceAsc" <%= selectedSort === 'priceAsc' ? 'selected' : '' %>>Price: Low To High</option>
+                            <option value="priceDesc" <%= selectedSort === 'priceDesc' ? 'selected' : '' %>>Price: High To Low</option>
+                            <option value="newest" <%= selectedSort === 'newest' ? 'selected' : '' %>>Newest</option>
+                            <option value="oldest" <%= selectedSort === 'oldest' ? 'selected' : '' %>>Oldest</option>
+                            <option value="alphaAsc" <%= selectedSort === 'alphaAsc' ? 'selected' : '' %>>Aa - Zz</option>
+                            <option value="alphaDesc" <%= selectedSort === 'alphaDesc' ? 'selected' : '' %>>Zz - Aa</option>
+                        </select>
+                    </div>                                        
                     <div class="row">
                         <%for(let i=0;i<product.length;i++){%>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item sale">
                                 <div class="product__item__pic set-bg" data-setbg="/uploads/product-images/<%= product[i].productImage[0] %>">
                                     
-                                    <span class="label" style="color: black;"><a href="/productDetails?id=<%=product[i]._id%>">For More Details</a></span>
+                                    <span class="label"><a href="/productDetails?id=<%=product[i]._id%>">For More Details</a></span>
                                 </div>
                                 <div class="product__item__text">
                                     <h6><%=product[i].productName%></h6>
@@ -82,7 +85,17 @@
                                         <i class="fa fa-star-o"></i>
                                     </div>
                                     <h5>INR <%=product[i].salePrice%></h5>
-                                   
+                                    <div class="product__color__select">
+                                        <label for="pc-34">
+                                            <input type="radio" id="pc-34">
+                                        </label>
+                                        <label class="active black" for="pc-35">
+                                            <input type="radio" id="pc-35">
+                                        </label>
+                                        <label class="grey" for="pc-36">
+                                            <input type="radio" id="pc-36">
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -108,3 +121,10 @@
 
     <%-include("../../views/partials/user/footer")%>
 
+    <script>
+        function sortProducts() {
+    const selectedOption = document.getElementById("sortOptions").value;
+    window.location.href = `/products?sort=${selectedOption}`;
+}
+
+    </script>

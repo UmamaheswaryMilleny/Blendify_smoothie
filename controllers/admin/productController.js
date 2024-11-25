@@ -93,12 +93,8 @@ const getProductAddPage = async (req, res) => {
       const productData = await Product.find({
         $or: [
           { productName: { $regex: new RegExp(".*" + search + ".*", "i") } }
-        ]
-      })
-        .limit(limit * 1)
-        .skip((page - 1) * limit)
-        .populate("category") // Populate category
-        .exec();
+        ],
+      }).limit(limit * 1).skip((page - 1) * limit).populate("category").exec();
   
       const count = await Product.find({
         $or: [
@@ -108,7 +104,7 @@ const getProductAddPage = async (req, res) => {
   
       const category = await Category.find({ isListed: true });
   
-      if (category && brand) {
+      if (category) {
         res.render("products", {
           data: productData,
           currentPage: page,

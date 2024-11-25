@@ -1,73 +1,92 @@
 const User = require("../../models/userSchema")
 const Product = require("../../models/productSchema")
 const Category = require("../../models/categorySchema")
-const mongoose = require("mongoose")
-const bcrypt = require("bcrypt")
+const Order = require("../../models/orderSchema")
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
-const pageerror=async(req,res)=>{
+const pageerror = async (req,res) => {
     res.render("admin-error")
 }
 
-const loadLogin=(req,res)=>{
+const loadLogin = (req,res)=>{
     if(req.session.admin){
         return res.redirect("/admin/dashboard")
     }
     res.render("admin-login",{message:null})
 }
 
-const login = async(req,res)=>{
-   try{
-    const {email,password}=req.body
-    const admin=await User.findOne({email,isAdmin:true})
-    if(admin){
-        const passwordMarch = bcrypt.compare(password,admin.password)
-        if(passwordMarch){
-            req.session.admin=true
-            return res.redirect("/admin")
+const login = async (req,res) => {
+    try {
+        const {email,password} = req.body
+        const admin = await User.findOne({email,isAdmin:true})
+        
+        if(admin){
+            const passwordMatch = await bcrypt.compare(password,admin.password)
+            if(passwordMatch){
+                req.session.admin = true
+                return res.redirect("/admin")
+            }else{
+                return res.redirect("/admin/login")
+            }
         }else{
             return res.redirect("/admin/login")
         }
-    }else{
-        return res.redirect("/admin/login")
+    } catch (error) {
+        console.log("login error",error);
+        return res.redirect("/admin/pageerror")
     }
-  
-   }catch(error){
-    console.log("login eroor",error)
-    return res.redirect("/admin/pageerror")
-
-   }
 }
 
-const loadDashboard=async(req,res)=>{
-    if(req.session.admin){
-        try{
-            res.render("dashboard")
-        }catch(error){
-            res.redirect("/pageerror")
+const loadDashboard = async (req, res) => {
+    try {
+        if (req.session.admin) {
+            const orders = await Order.find({ status: { $ne: "Canceled" } })
+                .populate({
+                    path: "orderedItems.product",
+                    populate: [
+                        { path: "category", select: "_id name" } 
+                    ]
+                });
+
+       
+
+
+
+            const products = await Product.find({});
+            const categories = await Category.find({});
+
+            return res.render("dashboard", {
+                products,
+                categories,
+            });
         }
+    } catch (error) {
+        res.redirect("/admin/pageerror");
+        console.error(error);
     }
-}
+};
 
 
-const logout=async(req,res)=>{
-    try{
+const logout = async (req,res) => {
+    try {
         req.session.destroy(err=>{
             if(err){
-                console.log("Error destroying session",error)
+                console.log("Error destroying session",err);
                 return res.redirect("/admin/pageerror")
             }
             res.redirect("/admin/login")
         })
-    }catch(error){
-        console.log("unexpected error during logout",error);
+    } catch (error) {
+        console.log("Unexpected error during logout",error);
         res.redirect("/admin/pageerror")
     }
 }
 
-module.exports={
+module.exports = {
+    pageerror,
     loadLogin,
     login,
     loadDashboard,
-    pageerror,
-    logout
+    logout,
 }

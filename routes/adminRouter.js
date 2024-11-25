@@ -5,6 +5,7 @@ const {userAuth,adminAuth}=require("../middlewares/auth")
 const customController=require("../controllers/admin/customerController")
 const categoryController = require("../controllers/admin/categoryController")
 const productController=require("../controllers/admin/productController")
+const orderController = require("../controllers/user/orderController")
 
 const storage = require("../helpers/multer")
 const multer=require("multer")
@@ -38,6 +39,9 @@ router.post("/editProduct/:id",adminAuth,uploads.array("images",4),productContro
 router.post("/deleteImage",adminAuth,productController.deleteSingleImage)
 // router.post("/addProducts",adminAuth,uploads.array("images",4),productController.addProducts)
 
+// router.get('/orderList', adminAuth, orderController.getOrderList);
+// router.post('/change-order-status/:orderId', adminAuth, orderController.changeOrderStatus);
+//Coupon Management
 
 
 module.exports=router

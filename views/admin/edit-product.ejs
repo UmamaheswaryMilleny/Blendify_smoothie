@@ -46,19 +46,7 @@
                                    class="form-control border" id="product_name">
                                    <div id="productName-error" class="error-message"></div>
                            </div>
-                           <div class="col-lg-4 mb-4">
-                               <label class="form-label">Brand</label>
-                               <select class="form-select border" name="brand">
-                                <% for (let i = 0; i < brand.length; i++) { %>
-                                    <option value="<%= brand[i].brandName %>">
-                                        <%= brand[i].brandName %>
-                                    </option>
-                                <% } %>
-                            </select>                            
-                               <div id="brand-error" class="error-message"></div>
-
-
-                           </div>
+                   
                            <div class="mb-4">
                                <label class="form-label">Full description</label>
                                <input name="descriptionData" value="<%=product.description%>"  class="form-control border"
@@ -74,27 +62,41 @@
                                            <div id="regularPrice-error" class="error-message"></div>
                                    </div>
                                </div>
-                               <div class="col-lg-4">
-                                   <div class="mb-4">
-                                       <label class="form-label">Sale price</label>
-                                       <input name="salePrice" type="text" value="<%=product.salePrice%>"
-                                           class="form-control border">
-                                   </div>
-                                   <div id="salePrice-error" class="error-message"></div>
-                               </div>
+                       
                            </div>
                            <div class="row">
                              
                                <div class="col-lg-4">
-                                   <div class="mb-4">
-                                       <label class="form-label">Color</label>
-                                       <input name="color" type="text" value="<%=product.color%>"
-                                           class="form-control border">
-                                           <div id="color-error" class="error-message"></div>
-                                   </div>
+                                 
                                </div>
                                <div class="mb-4">
                                 <label class="form-label">Sizes</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="sizes" value="6" id="size6"
+                                        <% if (product.sizes.some(size => size.size === 'S')) { %> checked <% } %>>
+                                    <label class="form-check-label" for="size6">S</label>
+                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity6" name="quantity6"
+                                        placeholder="Quantity" value="<%= product.sizes.find(size => size.size === 'S')?.quantity || '' %>"
+                                        <% if (product.sizes.some(size => size.size === 'S')) { %> display:block; <% } else { %> display:none; <% } %>>
+                                </div>
+                            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="sizes" value="7" id="size7"
+                                        <% if (product.sizes.some(size => size.size === 'M')) { %> checked <% } %>>
+                                    <label class="form-check-label" for="size7">M</label>
+                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity7" name="quantity7"
+                                        placeholder="Quantity" value="<%= product.sizes.find(size => size.size === 'M')?.quantity || '' %>"
+                                        <% if (product.sizes.some(size => size.size === 'M')) { %> display:block; <% } else { %> display:none; <% } %>>
+                                </div>
+                            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="sizes" value="8" id="size8"
+                                        <% if (product.sizes.some(size => size.size === 'L')) { %> checked <% } %>>
+                                    <label class="form-check-label" for="size8">L</label>
+                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity8" name="quantity8"
+                                        placeholder="Quantity" value="<%= product.sizes.find(size => size.size === 'L')?.quantity || '' %>"
+                                        <% if (product.sizes.some(size => size.size === 'L')) { %> display:block; <% } else { %> display:none; <% } %>>
+                                </div>
                             
 
               
@@ -261,10 +263,7 @@ function validateForm() {
 
     const name = document.getElementsByName('productName')[0].value.trim();
     const description = document.getElementsByName('descriptionData')[0].value.trim();
-    const brand = document.getElementsByName('brand')[0].value;
     const price = document.getElementsByName('regularPrice')[0].value;
-    const salePrice = document.getElementsByName('salePrice')[0].value;
-    const color = document.getElementsByName('color')[0].value.trim();
     const category = document.getElementsByName('category')[0].value;
     const images = [
         document.getElementById('input1'),
@@ -288,11 +287,7 @@ function validateForm() {
         isValid = false;
     }
 
-    // Validate brand
-    if (!brand) {
-        displayErrorMessage('brand-error', 'Please select a brand.');
-        isValid = false;
-    }
+   
 
     // Validate category
     if (!category) {
@@ -306,17 +301,8 @@ function validateForm() {
         isValid = false;
     }
 
-    // Validate sale price
-    if (!salePrice || isNaN(salePrice) || salePrice <= 0) {
-        displayErrorMessage('salePrice-error', 'Sale price must be a positive number.');
-        isValid = false;
-    }
 
-    // Validate color
-    if (!color) {
-        displayErrorMessage('color-error', 'Color is required.');
-        isValid = false;
-    }
+
 
     // Validate selected sizes and quantities
     if (!selectedSizes.length) {
