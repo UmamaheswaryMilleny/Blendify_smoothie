@@ -78,7 +78,7 @@
         color: red;
       }
       .btn-primary {
-        background-color:  #dd2d50;
+        background-color: #bf3320;
         border: none;
         color: white;
         height: 33px;
@@ -116,13 +116,12 @@
       .pt-25 {
         padding-top: 25px;
       }
-      .container{
+      .container {
         /* background-image: url("/images/userImg/home/img2.jpg");  */
       }
     </style>
   </head>
   <body>
-   
     <div class="container">
       <div class="login_wrap">
         <div class="padding_eight_all bg-white">
@@ -136,10 +135,9 @@
             onsubmit="return validateOTPForm()"
           >
             <div class="form-group">
-              <label for="otp" style="margin-left: 23px;">Enter OTP:</label>
-              <input style="    height: 25px;
-              width: 230px;
-          "
+              <label for="otp" style="margin-left: 23px">Enter OTP:</label>
+              <input
+                style="height: 25px; width: 230px"
                 type="text"
                 id="otp"
                 name="otp"
@@ -158,7 +156,8 @@
                 type="button"
                 class="btn btn-secondary"
                 onclick="resendOTP()"
-              disabled>
+                disabled
+              >
                 Resend OTP
               </button>
             </div>
@@ -189,11 +188,10 @@
             document.getElementById("timerValue").classList.add("expired");
             document.getElementById("timerValue").textContent = "Expired";
             document.getElementById("otp").disabled = true;
-            document.getElementById("resendOtpBtn").disabled = false;  
+            document.getElementById("resendOtpBtn").disabled = false;
           }
         }, 1000);
       }
- 
 
       function validateOTPForm() {
         const otpInput = document.getElementById("otp").value;
@@ -238,8 +236,8 @@
         document.getElementById("otp").disabled = false;
         document.getElementById("timerValue").classList.remove("expiresd");
         document.getElementById("timerValue").textContent = timer;
-    document.getElementById("resendOtpBtn").disabled = true;  // Disable Resend OTP button again
-    startTimer();
+        document.getElementById("resendOtpBtn").disabled = true; // Disable Resend OTP button again
+        startTimer();
 
         $.ajax({
           type: "POST",
@@ -261,7 +259,7 @@
             }
           },
         });
-        return false
+        return false;
       }
 
       startTimer();

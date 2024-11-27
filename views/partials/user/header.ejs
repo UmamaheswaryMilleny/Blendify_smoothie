@@ -55,26 +55,30 @@
       type="text/css"
     />
     <link rel="stylesheet" href="/styles/userStyle/style.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
     <style>
-       .marquee {
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    box-sizing: border-box;
-    animation: scroll-left 10s linear infinite;
-  }
+      .marquee {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        box-sizing: border-box;
+        animation: scroll-left 10s linear infinite;
+      }
 
-  @keyframes scroll-left {
-    from {
-      transform: translateX(100%);
-    }
-    to {
-      transform: translateX(-100%);
-    }
-  }
+      @keyframes scroll-left {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(-100%);
+        }
+      }
     </style>
   </head>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <body>
     <!-- Page Preloder -->
     <div id="preloder">
@@ -86,11 +90,16 @@
     <div class="offcanvas-menu-wrapper">
       <div class="offcanvas__option">
         <div class="offcanvas__links">
-          <a href="/signup" style="color: rgb(0, 0, 0);
-        
-          padding: 0 10px;">SIGN UP</a>
-          <a href="/login" style="color: rgb(0, 0, 0);
-          ">LOGIN</a>
+          <a
+            href="/signup"
+            style="
+              color: rgb(0, 0, 0);
+
+              padding: 0 10px;
+            "
+            >SIGN UP</a
+          >
+          <a href="/login" style="color: rgb(0, 0, 0)">LOGIN</a>
           <!-- <a href="#">FAQs</a> -->
         </div>
         <!-- <div class="offcanvas__top__hover">
@@ -114,16 +123,14 @@
       </div>
       <div id="mobile-menu-wrap"></div>
       <div class="offcanvas__text">
-        <p>
-          Free shipping, 30-day return or refund guarantee.asss
-        </p>
+        <p>Free shipping, 30-day return or refund guarantee.asss</p>
       </div>
     </div>
     <!-- Offcanvas Menu End -->
 
     <!-- Header Section Begin -->
     <header class="header">
-      <div class="header__top" style="background-color: #dd2d50">
+      <div class="header__top" style="background-color: #bf3320">
         <div class="container">
           <div class="row">
             <div class="col-lg-6 col-md-7">
@@ -150,22 +157,24 @@
                 </div>
                 <%if(locals.user){%>
                 <div class="header__top__hover">
-                  <span
-                    ><%=locals.user.name%>
-                  </span>
+                  <span><%=locals.user.name%> </span>
                   <ul>
-                    <li> <a href="/profile">Profile</a></li>
-                    <li><a href="/logout" style="color: black;">Logout</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout" style="color: black">Logout</a></li>
                     <!-- <li>USD</li> -->
                   </ul>
                 </div>
                 <%}else{%>
-                <a href="/login" style="color: white;
-                
-                padding: 0 10px;">LOGIN</a>
-                <a href="/signup" style="color: white;
-              
-        ">SIGN UP</a>
+                <a
+                  href="/login"
+                  style="
+                    color: white;
+
+                    padding: 0 10px;
+                  "
+                  >LOGIN</a
+                >
+                <a href="/signup" style="color: white">SIGN UP</a>
                 <%}%>
               </div>
             </div>
@@ -175,11 +184,12 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-2 col-md-2">
-            <div class="header__logo" style="    padding: 15px 0;">
-              
-              <a href="./index.html" style="    color: black;
-              font-size: x-large;
-              font-weight: 900;"><img src="/images/logo.png" alt="" width="50px">Blendify</a>
+            <div class="header__logo" style="padding: 15px 0">
+              <a
+                href="./index.html"
+                style="color: black; font-size: x-large; font-weight: 900"
+                ><img src="/images/logo.png" alt="" width="50px" />Blendify</a
+              >
             </div>
           </div>
           <div class="col-lg-7 col-md-7">
@@ -209,7 +219,9 @@
               <a href="#" class="search-switch"
                 ><img src="/images/userImg/icon/search.png" alt=""
               /></a>
-              <a href="#"><img src="/images/userImg/icon/heart.png" alt="" /></a>
+              <a href="#"
+                ><img src="/images/userImg/icon/heart.png" alt=""
+              /></a>
               <a href="/cart"
                 ><img src="/images//userImg/icon/cart.png" alt="" />
                 <span>0</span></a

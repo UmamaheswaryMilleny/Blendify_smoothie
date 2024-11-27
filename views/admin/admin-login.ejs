@@ -10,14 +10,21 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/styles/adminStyle/adminLogin.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="/styles/adminStyle/adminLogin.css"
+      type="text/css"
+    />
     <title>Login</title>
   </head>
   <body>
     <div class="wrapper">
       <div class="container main">
         <div class="row">
-          <div class="col-md-6 side-image" style="background-image: url(../images/adminImg/admin4.jpg)">
+          <div
+            class="col-md-6 side-image"
+            style="background-image: url(../images/adminImg/admin4.jpg)"
+          >
             <!-------------      image     ------------->
 
             <div>
@@ -30,7 +37,9 @@
           </div>
           <div class="col-md-6 right">
             <div class="input-box">
-              <header style="color: #DD2D50;font-size: larger;">Admin Signin</header>
+              <header style="color: #bf3320; font-size: larger">
+                Admin Signin
+              </header>
               <!-- <div class="input-field">
                 <input
                   type="text"
@@ -42,35 +51,42 @@
                 <label for="fullname">Full name</label>
               </div> -->
               <% if (message) { %>
-                <div class="alert alert-danger text-center"><%= message %></div>
-                <% } %>
-            
-    <form id="adminLoginForm" method="post" action="/admin/login">
-      <div class="input-field">
-        <input
-          type="email"
-          class="input"
-          id="email"
-          name="email"
-          required=""
-          autocomplete="off"
-        />
-        <label for="email">Email</label>
-        <div id="emailError" class="error-message"></div>
+              <div class="alert alert-danger text-center"><%= message %></div>
+              <% } %>
 
-      </div>
-      <div class="input-field">
-        <input type="password" class="input" id="adminPassword" required="" name="password"/>
-        <label for="pass">Password</label>
-        <div id="passwordError" class="error-message"></div>
-
-      </div>
-      <div class="input-field">
-        <input type="submit" style="font-size: small;
-        font-weight: 600;
-    " class="submit" value="Sign Up" />
-      </div>
-    </form>
+              <form id="adminLoginForm" method="post" action="/admin/login">
+                <div class="input-field">
+                  <input
+                    type="email"
+                    class="input"
+                    id="email"
+                    name="email"
+                    required=""
+                    autocomplete="off"
+                  />
+                  <label for="email">Email</label>
+                  <div id="emailError" class="error-message"></div>
+                </div>
+                <div class="input-field">
+                  <input
+                    type="password"
+                    class="input"
+                    id="adminPassword"
+                    required=""
+                    name="password"
+                  />
+                  <label for="pass">Password</label>
+                  <div id="passwordError" class="error-message"></div>
+                </div>
+                <div class="input-field">
+                  <input
+                    type="submit"
+                    style="font-size: small; font-weight: 600"
+                    class="submit"
+                    value="Sign Up"
+                  />
+                </div>
+              </form>
               <!-- <h6 style="margin: 7px 155px; font-size: smaller">OR</h6> -->
               <!-- <div class="input-field">
                 <input style="font-size: small;
@@ -98,10 +114,11 @@
         const passwordField = document.getElementById("adminPassword");
         const emailError = document.getElementById("emailError");
         const passwordError = document.getElementById("passwordError");
-  
+
         adminLoginForm.addEventListener("submit", function (event) {
           let isValid = true;
-          const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+          const emailPattern =
+            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
           if (!emailPattern.test(emailField.value)) {
             emailError.textContent = "Invalid email format";
             isValid = false;
@@ -115,13 +132,12 @@
           } else {
             passwordError.textContent = "";
           }
-  
+
           if (!isValid) {
             event.preventDefault();
           }
         });
       });
     </script>
-  
   </body>
 </html>
