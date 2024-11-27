@@ -79,7 +79,7 @@ const signup=async (req,res)=>{
     try{
         const {name,email,phone,password,cPassword}=req.body
         if(password!==cPassword){
-            return res.render("signup",{message:"Password not matchj"})
+            return res.render("signup",{message:"Password not match"})
         }
         const findUser=await User.findOne({email});
         if(findUser){
