@@ -103,7 +103,7 @@ a:hover,
 a:focus {
   text-decoration: none;
   outline: none;
-  color: white;
+  color: rgb(78, 77, 77);
 }
 
 ul,
