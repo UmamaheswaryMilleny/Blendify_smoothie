@@ -2,12 +2,12 @@ const mongoose = require("mongoose")
 const Order = require("../../models/orderSchema")
 const Product = require("../../models/productSchema")
 const Address = require("../../models/addressSchema")
-
+const User = require("../../models/userSchema")
 
 const getMyOrders = async (req, res) => {
     try {
         const userId = req.session.user;
-
+        const userData=await User.findById(userId)
         const orders = await Order.find({ user: userId }).lean();
 
         if (orders.length < 1) {
@@ -41,7 +41,7 @@ const getMyOrders = async (req, res) => {
             })
         );
 
-        res.render('my-orders', { orders: enrichedOrders });
+        res.render('my-orders', { orders: enrichedOrders,user:userData });
     } catch (error) {
         console.error("Error fetching orders:", error);
         res.status(500).send("An error occurred while fetching orders. Please try again later.");

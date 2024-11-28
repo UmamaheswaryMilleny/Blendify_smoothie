@@ -6,7 +6,7 @@ const path = require('path')
 
 const getShopPage = async (req,res) => {
     try {
-        const category = await Category.find()
+        const category = await Category.find({isListed:true})
         const product = await Product.find({isBlocked:false})
         const user = req.session.user;
         const sort = req.query.sort || 'priceAsc';
@@ -82,10 +82,10 @@ const sortProducts = async (req,res) => {
 
     switch (sort) {
         case 'priceAsc':
-            sortCriteria = { salePrice: 1 }; 
+            sortCriteria = { regularPrice: 1 }; 
             break;
         case 'priceDesc':
-            sortCriteria = { salePrice: -1 };
+            sortCriteria = { regularPrice: -1 };
             break;
         case 'newest':
             sortCriteria = { createdAt: -1 }; 
