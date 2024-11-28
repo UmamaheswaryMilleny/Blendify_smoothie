@@ -1,7 +1,6 @@
 <%-include("../../views/partials/user/header")%>
-
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-option">
+    <section class="breadcrumb-option" style="padding:20px 0;overflow: hidden !important; ">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -19,7 +18,7 @@
     <!-- Breadcrumb Section End -->
 
     <!-- Shop Section Begin -->
-    <section class="shop spad">
+    <section class="shop spad" style="    padding-top: 50px;overflow: hidden !important;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -71,10 +70,17 @@
                         <%for(let i=0;i<product.length;i++){%>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item sale">
+                               
                                 <div class="product__item__pic set-bg" data-setbg="/uploads/product-images/<%= product[i].productImage[0] %>">
                                     
-                                    <span class="label"><a href="/productDetails?id=<%=product[i]._id%>">For More Details</a></span>
+                                    <span class="label"><a href="/productDetails?id=<%=product[i]._id%>" style="color: white;">For More Details</a></span>
                                 </div>
+                                <ul class="product__hover">
+                                  <li>
+                                    <a href="#"
+                                      ><img src="/images/userImg/icon/heart.png" alt=""
+                                    /></a>
+                                  </li>
                                 <div class="product__item__text">
                                     <h6><%=product[i].productName%></h6>
                                     <div class="rating">

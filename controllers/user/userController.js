@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer")
 const bcrypt = require("bcrypt")
 const User = require("../../models/userSchema")
 
+
 const pageNotFound = async(req,res)=>{
     try{
         res.render("page-404")

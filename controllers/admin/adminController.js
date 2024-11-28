@@ -16,6 +16,7 @@ const loadLogin = (req,res)=>{
     res.render("admin-login",{message:null})
 }
 
+
 const login = async (req,res) => {
     try {
         const {email,password} = req.body

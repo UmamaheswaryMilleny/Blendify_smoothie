@@ -40,10 +40,6 @@ const orderSchema = new Schema({
         type:Number,
         required:true
     },
-    discount:{
-        type:Number,
-        default:0
-    },
     finalAmount:{
         type:Number,
         required:true
@@ -52,9 +48,6 @@ const orderSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:"Address",
         required:true
-    },
-    invoiceDate:{
-        type:Date
     },
     status:{
         type:String,
@@ -66,18 +59,10 @@ const orderSchema = new Schema({
         default:Date.now,
         required:true
     },
-    couponApplied:{
-        type:Schema.Types.ObjectId,
-        ref:"Coupon",
-        required:false
-    },
+
     paymentMethod:{
         type:String,
         required:true
-    },
-    razorpayOrderId:{
-        type:String,
-        required:false
     }
 },{ timestamps: true })
 

@@ -38,7 +38,15 @@ const userSchema = new Schema({
             type:Boolean,
             default:false
         },
+        cart:[{
+            type:Schema.Types.ObjectId,
+            ref:"Cart"
+        }],
         
+    orderHistory:[{
+        type:Schema.Types.ObjectId,
+        ref:"Order"
+    }],
         createdOn:[{
             type:Date,
             default:Date.now

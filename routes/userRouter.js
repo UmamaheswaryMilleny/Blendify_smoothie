@@ -43,24 +43,26 @@ router.get("/reset-password",profileController.getResetPasswordPage)
 router.post("/resend-forgot-otp",profileController.resendOtp)
 router.post("/reset-password",profileController.resetPassword)
 //Address Management
-//Checkout Management
-router.get("/checkout",userAuth,checkoutController.getCheckoutPage)
-router.post("/place-order",userAuth,checkoutController.placeOrder)
-router.post('/verify-payment',userAuth, checkoutController.verifyPayment);
-router.get("/order-confirmation/:orderId",userAuth,checkoutController.orderConfirmation)
-router.get("/payment-failed/:orderId",userAuth,checkoutController.paymentFailed)
-router.post("/retry-payment/:orderId", userAuth, checkoutController.retryPayment)
-router.post('/verify-retry-payment',userAuth, checkoutController.verifyRetryPayment);
-//Order Management
-router.get("/orders",userAuth,orderController.getMyOrders)
-router.post("/cancel-order/:orderId",userAuth,orderController.cancelOrder)
-router.get("/orderDetails/:orderId",userAuth,orderController.getOrderDetails)
+
 router.get("/manage-addresses",userAuth,addressController.getManageAddresses)
 router.get("/manage-addresses/add-address",userAuth,addressController.getAddAddress)
 router.post("/manage-addresses/add-address",userAuth,addressController.addAddress)
 router.get("/manage-addresses/edit-address/:addressId",userAuth,addressController.getEditAddress)
 router.post("/manage-addresses/edit-address/:addressId",userAuth,addressController.editAddress)
 router.delete('/manage-addresses/delete-address/:addressId',userAuth, addressController.deleteAddress);
+
+//Checkout Management
+router.get("/checkout",userAuth,checkoutController.getCheckoutPage)
+router.post("/place-order",userAuth,checkoutController.placeOrder)
+
+router.get("/order-confirmation/:orderId",userAuth,checkoutController.orderConfirmation)
+
+//Order Management
+router.get("/orders",userAuth,orderController.getMyOrders)
+router.post("/cancel-order/:orderId",userAuth,orderController.cancelOrder)
+router.get("/orderDetails/:orderId",userAuth,orderController.getOrderDetails)
+
+
 //Cart Management
 router.get("/cart",userAuth,cartController.getCartPage)
 router.post("/addToCart",userAuth,cartController.addToCart)
