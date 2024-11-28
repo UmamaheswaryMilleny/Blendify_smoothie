@@ -132,7 +132,7 @@ const editAddress = async (req, res) => {
     const { addressId } = req.params;
     const { name, houseName, street, city, state, pincode, phone, altPhone } =
       req.body;
-    const userId = req.user._id; // Assuming you have the user's ID from authentication middleware
+    const userId = req.session.user; // Assuming you have the user's ID from authentication middleware
 
     // Find the user address document
     const userAddressData = await Address.findOne({ userId: userId });
@@ -169,7 +169,7 @@ const editAddress = async (req, res) => {
 
 const deleteAddress = async (req, res) => {
   try {
-    const userId = req.session.user._id; 
+    const userId = req.session.user; 
     const { addressId } = req.params; 
     const addressDoc = await Address.findOne({ userId });
 

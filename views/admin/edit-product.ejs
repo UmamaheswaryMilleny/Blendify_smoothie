@@ -249,7 +249,7 @@ function getSelectedSizesAndQuantities() {
     document.querySelectorAll('.form-check-input').forEach((checkbox) => {
         if (checkbox.checked) {
             const size = checkbox.value;  // Get the size
-            const quantity = document.getElementById(`quantity${size}`).value;  // Get the corresponding quantity
+            const quantity = +document.getElementById(`quantity${size}`).value;  // Get the corresponding quantity
             selectedSizes.push({ size, quantity });
         }
     });

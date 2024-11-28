@@ -58,19 +58,19 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="sizes" value="S" id="S">
                                     <label class="form-check-label" for="S">S</label>
-                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity6" name="quantity6" placeholder="Quantity" style="display:none;">
+                                    <input type="number" class="form-control mt-2 size-quantity" id="quantityS" name="quantityS" placeholder="Quantity" style="display:none;">
                                 </div>
                             
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="sizes" value="M" id="M">
                                     <label class="form-check-label" for="M">M</label>
-                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity7" name="quantity7" placeholder="Quantity" style="display:none;">
+                                    <input type="number" class="form-control mt-2 size-quantity" id="quantityM" name="quantityM" placeholder="Quantity" style="display:none;">
                                 </div>
                             
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="sizes" value="L" id="L">
                                     <label class="form-check-label" for="L">L</label>
-                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity8" name="quantity8" placeholder="Quantity" style="display:none;">
+                                    <input type="number" class="form-control mt-2 size-quantity" id="quantityL" name="quantityL" placeholder="Quantity" style="display:none;">
                                 </div>
                             
                                 <div id="sizes-error" class="error-message"></div>
@@ -315,7 +315,7 @@ function getSelectedSizesAndQuantities() {
     document.querySelectorAll('.form-check-input').forEach((checkbox) => {
         if (checkbox.checked) {
             const size = checkbox.value;  // Get the size
-            const quantity = document.getElementById(`quantity${size}`).value;  // Get the corresponding quantity
+            const quantity = +document.getElementById(`quantity${size}`).value;  // Get the corresponding quantity
             selectedSizes.push({ size, quantity });
         }
     });

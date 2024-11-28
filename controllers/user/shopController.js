@@ -7,7 +7,7 @@ const path = require('path')
 const getShopPage = async (req,res) => {
     try {
         const category = await Category.find()
-        const product = await Product.find()
+        const product = await Product.find({isBlocked:false})
         const user = req.session.user;
         const sort = req.query.sort || 'priceAsc';
         let userData = null
