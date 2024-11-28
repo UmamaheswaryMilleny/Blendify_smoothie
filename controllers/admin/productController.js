@@ -176,10 +176,15 @@ const editProduct = async (req, res) => {
       }
     }
     let sizes = [];
+    console.log(sizes)
     if (data.sizes && Array.isArray(data.sizes)) {
       sizes = data.sizes.map((size) => ({
         size: size, // Get the size value
+        
         quantity: data[`quantity${size}`] || 0, // Get the corresponding quantity from the form
+  
+       
+
       }));
     }
 

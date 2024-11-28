@@ -10,7 +10,7 @@
             <h3><b>My Orders</b></h3>
             <% if (orders.length > 0) { %>
             <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
+                <thead class="thead">
                     <tr>
                         <th>Order ID</th>
                         <th>Status</th>
@@ -18,7 +18,7 @@
                         <th>Address</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
-                        <th>Action</th>
+                        <!-- <th>Action</th> -->
                         <th>Details</th>
                     </tr>
                 </thead>
@@ -44,7 +44,7 @@
                                     <div><%= item.quantity %></div>
                                 <% }) %>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <% if (order.status === 'Canceled') { %>
                                     <button class="btn btn-secondary" disabled>Canceled</button>
                                 <% } else if (order.status == 'Pending') { %>
@@ -62,7 +62,7 @@
                                 <% } else { %>
                                     <span>N/A</span>
                                 <% } %>                                
-                            </td>
+                            </td> -->
                             <td><a href="/orderDetails/<%=order._id%>">Order Details</a></td>                                               
                         </tr>
                     <% }) %>

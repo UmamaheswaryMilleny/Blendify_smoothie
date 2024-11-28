@@ -58,7 +58,7 @@ const placeOrder = async (req, res) => {
         let totalPrice = 0;
 
         for (const item of cart.items) {
-            totalPrice += item.productId.salePrice * item.quantity;
+            totalPrice += item.productId.regularPrice * item.quantity;
 
             const product = await Product.findById(item.productId._id);
 
@@ -92,7 +92,7 @@ const placeOrder = async (req, res) => {
                 productName:item.productId.productName, 
                 size: item.size,
                 quantity: item.quantity,
-                price: item.productId.salePrice * item.quantity
+                price: item.productId.regularPrice * item.quantity
             })),
             user: userId,
             totalprice: totalPrice,

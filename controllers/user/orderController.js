@@ -118,7 +118,7 @@ const getOrderDetails = async (req,res) => {
         const {orderId} = req.params
         const order = await Order.findById(orderId)
 
-        const userId = req.user._id
+        const userId = req.session.user
 
         if (!order) {
             return res.redirect('/pageNotFound');

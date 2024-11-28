@@ -6,8 +6,8 @@
         <!-- Orders Table -->
         <div class="col-md-9">
             <h1>All Orders</h1>
-            <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
+            <table class="table table-bordered ">
+                <thead class="thead">
                     <tr>
                         <th>Order ID</th>
                         <th>Status</th>
@@ -63,7 +63,7 @@
                                             <option value="" disabled selected>Change Order Status</option>
                                             <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
                                             <option value="Processing" <%= order.status === 'Processing' ? 'selected' : '' %>>Processing</option>
-                                            <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                                            <!-- <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option> -->
                                             <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
                                             <option value="Canceled" <%= order.status === 'Canceled' ? 'selected' : '' %>>Canceled</option>
                                         </select>

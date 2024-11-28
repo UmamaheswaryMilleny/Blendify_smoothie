@@ -17,7 +17,7 @@ const getCartPage = async (req, res) => {
 
         // Calculate the total price for each item (in case you need this calculation dynamically)
         cart.items.forEach(item => {
-            item.totalPrice = item.quantity * item.salePrice;
+            item.totalPrice = item.quantity * item.regularPrice;
         });
 
         // Pass cart details to the template
@@ -66,8 +66,8 @@ const addToCart = async (req, res) => {
                     productId,
                     quantity,
                     size,
-                    price: product.salePrice || 0,
-                    totalPrice: (product.salePrice || 0) * quantity,
+                    price: product.regularPrice || 0,
+                    totalPrice: (product.regularPrice || 0) * quantity,
                 }]
             });
         } else {
@@ -80,7 +80,7 @@ const addToCart = async (req, res) => {
                 if (newQuantity <= MAX_QUANTITY_PER_PRODUCT) {
                     if (newQuantity <= availableStock) {
                         productItem.quantity = newQuantity;
-                        productItem.totalPrice = newQuantity * (product.salePrice || 0);
+                        productItem.totalPrice = newQuantity * (product.regularPrice || 0);
                     } else {
                         return res.status(400).json({ success: false, message: `Only ${availableStock} units available for size ${size}.` });
                     }
@@ -92,8 +92,8 @@ const addToCart = async (req, res) => {
                     productId,
                     quantity,
                     size,
-                    price: product.salePrice || 0,
-                    totalPrice: (product.salePrice || 0) * quantity,
+                    price: product.regularPrice || 0,
+                    totalPrice: (product.regularPrice || 0) * quantity,
                 });
             }
         }
@@ -162,7 +162,7 @@ const updateCart = async (req, res) => {
 
         await Cart.updateOne(
             { 'items.productId': itemId, 'items.size': size }, 
-            { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * (product.salePrice || 0) } } 
+            { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * (product.regularPrice || 0) } } 
         );
 
         res.json({ success: true, message: 'Quantity updated successfully' });
