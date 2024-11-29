@@ -1,6 +1,7 @@
 const User = require("../../models/userSchema")
 const Product = require("../../models/productSchema")
 const Cart = require("../../models/cartSchema")
+const mongoose = require("mongoose")
 
 const getCartPage = async (req, res) => {
     try {
@@ -165,7 +166,7 @@ const updateCart = async (req, res) => {
             { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * (product.regularPrice || 0) } } 
         );
 
-        res.json({ success: true, message: 'Quantity updated successfully' });
+        res.json({ success: true, message: 'Quantity updated successfully',totalPrice:quantity*(product.regularPrice || 0) });
     } catch (error) {
         console.error('Error updating quantity:', error);
         res.status(500).json({ success: false, message: 'Error updating quantity' });

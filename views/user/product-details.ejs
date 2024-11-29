@@ -121,7 +121,7 @@
             <br>
             <div class="product__details__option">
               <div class="product__details__option__size">
-                <span>Size:</span>
+                <span>Cup Size:</span>
                 <% if (availableSizes && availableSizes.length > 0) { %> <%
                 availableSizes.forEach(sizeObj => { %>
                 <label
@@ -161,8 +161,10 @@
             </div>
             <% } else { %>
             <div class="product__details__cart__option">
-              <div class="quantity">
-                <label for="quantity">Quantity:</label>
+              <label for="quantity">Quantity:</label>
+              <div class="quantity" style="position: relative;
+    top: 16px;
+    margin-right: 40px;">
                 <select id="quantity" name="quantity">
                   <% for (let i = 1; i <= 5; i++) { %>
                   <option value="<%= i %>"><%= i %></option>

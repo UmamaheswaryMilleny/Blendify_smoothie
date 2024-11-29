@@ -1,13 +1,14 @@
 const mongoose = require("mongoose")
+const User = require("../../models/userSchema")
 const Order = require("../../models/orderSchema")
 const Product = require("../../models/productSchema")
 const Address = require("../../models/addressSchema")
-const User = require("../../models/userSchema")
 
 const getMyOrders = async (req, res) => {
     try {
         const userId = req.session.user;
         const userData=await User.findById(userId)
+        // console.log(userData)
         const orders = await Order.find({ user: userId }).lean();
 
         if (orders.length < 1) {
