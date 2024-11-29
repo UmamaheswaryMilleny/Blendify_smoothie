@@ -16,7 +16,7 @@
 </style>
 
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-option">
+    <section class="breadcrumb-option" style="    padding: 16px 0;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -40,9 +40,9 @@
         <div class="container">
             <div class="row">
                 <!-- Address Selection -->
-                <div class="col-lg-8 col-md-6">
-                    <div class="checkout__address mb-5">
-                        <h4 class="order__title">Select Address</h4>
+                <div class="col-lg-7 col-md-6">
+                    <div class="checkout__address mb-5" style="    margin-top: 50px;">
+                        <h4 class="order__title"><b>Select Address</b></h4>
                         <div class="checkout__address__list">
                             <!-- Dynamically display addresses -->
                             <% if (addresses && addresses.address && addresses.address.length > 0) { %>
@@ -61,20 +61,9 @@
     
                     <!-- Payment Method Selection -->
                     <div class="checkout__payment">
-                        <h4 class="order__title">Select Payment Method</h4>
+                        <h4 class="order__title"><b>Select Payment Method</b></h4>
                         <div class="checkout__payment__options">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" value="Online Payment" id="onlinepayment" required>
-                                <label class="form-check-label" for="onlinepayment">
-                                    Online Payment
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" value="Wallet" id="wallet" required>
-                                <label class="form-check-label" for="wallet">
-                                    Wallet
-                                </label>
-                            </div>
+                       
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="paymentMethod" value="Cash on Delivery" id="cod" required>
                                 <label class="form-check-label" for="cod">
@@ -86,50 +75,25 @@
                 </div>
     
                 <!-- Order Summary -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <% if (discount && discount > 0) { %>
-                            <form id="removeCouponForm" method="post">
-                                <button id="removeCoupon" type="submit" 
-                                style="background-color: #dc3545; color: white; padding: 20px 20px; font-size: 16px; border-radius: 5px; display: inline-block;"
-                                >Remove Coupon</button>
-                            </form>
-                                                                                                                                       
-                        <% } else { %>
-                            <!-- Show the apply coupon form if no discount is applied -->
-                            <form id="applyCouponForm">
-                                <input type="text" id="couponCodeInput" name="couponCode" placeholder="Coupon code">
-                                <button type="submit">Apply</button>
-                            </form>
-                        <% } %>
-                    </div>                                                          
-
-                    <div class="checkout__order">
+         
+                    <div class="checkout__order" style="margin-top: 33px;width: 464px;">
                         <h4 class="order__title">Your order</h4>
-                        <div class="checkout__order__products">Product <span>Total</span></div>
+                        <div class="checkout__order__products">Product </div>
                     
                         <!-- Dynamically display cart items -->
                         <ul class="checkout__total__products">
                             <% cartItems.forEach((item, index) => { %>
                                 <li><%= index + 1 %>. <%= item.productId.productName %> 
-                                    <span>Size : <%=item.size%></span>
-                                    <span>Qty : <%=item.quantity%></span>
-                                    <span><%= item.totalPrice.toFixed(2) %></span>
+                                    <span style="padding-left: 12px;">Size : <%=item.size%></span>
+                                    <span style="padding-left: 20px;">Qty : <%=item.quantity%></span>
+                                    <span>Price :<%= item.totalPrice.toFixed(2) %></span>
                                 </li>
                             <% }) %>
                         </ul>
                     
                         <!-- Subtotal, Discount, and Total -->
                         <ul class="checkout__total__all">
-                            <li>Subtotal 
-                                <span><%= totalPrice.toFixed(2) %></span>
-                            </li>
-                            <% if (discount && discount > 0) { %>
-                                <li>Discount 
-                                    <span>- <%= discount.toFixed(2) %></span>
-                                </li>
-                            <% } %>
+                    
                             <li>Total 
                                 <span><%= (totalPrice - (discount || 0)).toFixed(2) %></span>
                             </li>

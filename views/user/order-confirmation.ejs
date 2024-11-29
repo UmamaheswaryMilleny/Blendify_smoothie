@@ -30,8 +30,8 @@
                     <tr>
                         <td><%= item.productName %></td>
                         <td><%= item.quantity %></td>
-                        <td>INR <%= item.price %></td>
-                        <td>INR <%= item.quantity * item.price %></td>
+                        <td>₹ <%= item.price %></td>
+                        <td>₹ <%=item.price %></td>
                     </tr>
                     <% }); %>
                 </tbody>
@@ -42,7 +42,7 @@
                     </tr>
                     <tr>         
                         <td colspan="3" class="text-end"><strong>Total Price:</strong></td>
-                        <td><strong>INR <%= order.finalAmount %></strong></td>
+                        <td><strong>₹ <%= order.finalAmount %></strong></td>
                     </tr>
                 </tfoot>
             </table>
@@ -69,13 +69,13 @@
     </div>
 
     <!-- Confirmation Message -->
-    <div class="alert alert-success mt-4" role="alert">
+    <!-- <div class="alert alert-success mt-4" role="alert">
         We’ve sent a confirmation email with your order details.
-    </div>
+    </div> -->
 
     <div class="text-center mt-4">
         <a href="/shop" class="btn btn-primary">Continue Shopping</a>
-        <button onclick="downloadPDF()" class="btn btn-success">Invoice Download</button>
+        <!-- <button onclick="downloadPDF()" class="btn btn-success">Invoice Download</button> -->
     </div>
 </div>
 
