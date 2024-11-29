@@ -103,6 +103,7 @@ const addAddress = async (req, res) => {
   }
 };
 
+
 const getEditAddress = async (req, res) => {
   try {
     const { addressId } = req.params;
@@ -132,23 +133,21 @@ const editAddress = async (req, res) => {
     const { addressId } = req.params;
     const { name, houseName, street, city, state, pincode, phone, altPhone } =
       req.body;
-    const userId = req.session.user; // Assuming you have the user's ID from authentication middleware
+    const userId = req.session.user; 
 
-    // Find the user address document
     const userAddressData = await Address.findOne({ userId: userId });
 
     if (!userAddressData) {
       return res.status(404).json({ message: "User addresses not found" });
     }
 
-    // Find the specific address in the address array
+
     const address = userAddressData.address.id(addressId);
 
     if (!address) {
       return res.status(404).json({ message: "Address not found" });
     }
 
-  
     address.name = name;
     address.houseName = houseName;
     address.street = street;
@@ -160,7 +159,7 @@ const editAddress = async (req, res) => {
 
     await userAddressData.save();
 
-    res.redirect("/manage-addresses"); 
+    res.redirect("/manage-addresses");
   } catch (error) {
     console.error("Error updating address:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -169,8 +168,8 @@ const editAddress = async (req, res) => {
 
 const deleteAddress = async (req, res) => {
   try {
-    const userId = req.session.user; 
-    const { addressId } = req.params; 
+    const userId = req.session.user;
+    const { addressId } = req.params;
     const addressDoc = await Address.findOne({ userId });
 
     if (!addressDoc) {
@@ -186,7 +185,6 @@ const deleteAddress = async (req, res) => {
     if (updatedAddresses.length === addressDoc.address.length) {
       return res.status(404).json({ message: "Address not found." });
     }
-
 
     addressDoc.address = updatedAddresses;
 

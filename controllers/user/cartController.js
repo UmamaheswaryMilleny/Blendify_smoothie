@@ -7,21 +7,15 @@ const getCartPage = async (req, res) => {
     try {
         const userId = req.session.user
         const userData = await User.findById(userId)
-
-        // Assuming req.user contains the logged-in user's information
         const cart = await Cart.findOne({ userId }).populate('items.productId');
 
         if (!cart || cart.items.length === 0) {
-            // If cart is empty, pass a message to the template
             return res.render("cart", { cart: null, message: "Your cart is empty. Add something to the cart!" });
         }
 
-        // Calculate the total price for each item (in case you need this calculation dynamically)
         cart.items.forEach(item => {
             item.totalPrice = item.quantity * item.regularPrice;
         });
-
-        // Pass cart details to the template
         res.render("cart", { cart,user:userData});
     } catch (error) {
         console.error(error);
@@ -35,7 +29,7 @@ const addToCart = async (req, res) => {
         const { productId, quantity, size } = req.body; 
         const userId = req.session.user; 
 
-        console.log("Received request to add to cart:", { productId, quantity, size, userId });
+        // console.log("Received request to add to cart:", { productId, quantity, size, userId });
 
         if (!quantity || quantity < 1) {
             console.log("Invalid quantity:", quantity);
@@ -113,7 +107,7 @@ const removeFromCart = async (req, res) => {
         const { productId } = req.body;
         const userId = req.session.user; 
 
-        console.log("Received request to remove from cart:", { productId, userId });
+        // console.log("Received request to remove from cart:", { productId, userId });
 
         const cart = await Cart.findOne({ userId });
         if (!cart) {
@@ -128,10 +122,10 @@ const removeFromCart = async (req, res) => {
         cart.items.splice(productIndex, 1);
 
         await cart.save();
-        console.log("Product removed from cart successfully.");
+        // console.log("Product removed from cart successfully.");
         res.status(200).json({ success: true, message: "Product removed from cart successfully!" });
     } catch (error) {
-        console.error("Error removing from cart:", error);
+        // console.error("Error removing from cart:", error);
         res.status(500).json({ success: false, error: "Internal server error." });
     }
 };
