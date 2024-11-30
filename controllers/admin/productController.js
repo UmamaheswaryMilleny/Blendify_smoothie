@@ -51,6 +51,20 @@ const addProducts = async (req, res) => {
       }
 
       let sizes = [];
+      let totalQuantity=0;
+      if(products.quantityS){
+        totalQuantity+=parseInt(products.quantityS)
+      }
+      if(products.quantityM){
+        totalQuantity+=parseInt(products.quantityM)
+
+      }
+      if(products.quantityL){
+        totalQuantity+=parseInt(products.quantityL)
+
+      }
+     console.log(products)
+
       if (products.sizes && Array.isArray(products.sizes)) {
         sizes = products.sizes.map((size, index) => ({
           size: size,
@@ -65,6 +79,7 @@ const addProducts = async (req, res) => {
         regularPrice: products.regularPrice,
         createdOn: new Date(),
         sizes: sizes,
+        quantity:totalQuantity,
         productImage: images,
         status: "Available",
       });

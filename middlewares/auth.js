@@ -7,7 +7,7 @@ const userAuth=(req,res,next)=>{
                 if(data && !data.isBlocked){
                     next();
                 }else{
-                    res.redirect("/login")
+                    res.redirect("/logout")
                 }
             }).catch(error=>{
                 console.log("Error in user auth middleware");
