@@ -47,6 +47,22 @@ const loadDashboard = async (req, res) => {
           populate: [{ path: "category", select: "_id name" }],
         }
       );
+      const productSales = {};
+      const categorySales = {};
+
+      orders.forEach((order) => {
+        order.orderedItems.forEach((item) => {
+            if (item.product) {
+                productSales[item.product._id] = (productSales[item.product._id] || 0) + item.quantity;
+
+                if (item.product.category) {
+                    const categoryId = item.product.category._id.toString();
+                    categorySales[categoryId] = (categorySales[categoryId] || 0) + item.quantity;
+                }
+            }
+        });
+    });
+
 
       const products = await Product.find({});
       const categories = await Category.find({});
@@ -54,11 +70,63 @@ const loadDashboard = async (req, res) => {
       return res.render("dashboard", {
         products,
         categories,
+        productSales,
+        categorySales,
       });
     }
   } catch (error) {
     res.redirect("/admin/pageerror");
     console.error(error);
+  }
+};
+
+
+
+const salesData = async (req, res) => {
+  try {
+      const { filter } = req.query;
+
+      const currentDate = new Date();
+      let startDate, endDate, groupFormat;
+
+      // Define date ranges and grouping format based on filter
+      if (filter === 'yearly') {
+          startDate = new Date(currentDate.getFullYear() - 3, 0, 1); // Start of 3 years ago
+          endDate = new Date(currentDate.getFullYear() + 1, 0, 1); // Start of next year
+          groupFormat = { $year: "$createdOn" }; // Group by year
+      } else if (filter === 'monthly') {
+          startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 5, 1); // Start of 6 months ago
+          endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1); // Start of next month
+          groupFormat = { $month: "$createdOn" }; // Group by month
+      } else if (filter === 'weekly') {
+          startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 27); // 4 weeks ago
+          endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1); // Tomorrow
+          groupFormat = { $week: "$createdOn" }; 
+      }
+
+      const data = await Order.aggregate([
+          {
+              $match: {
+                  createdOn: { $gte: startDate, $lt: endDate },
+                  status: { $ne: "Canceled" } 
+              }
+          },
+          {
+              $group: {
+                  _id: groupFormat, 
+                  totalSales: { $sum: "$finalAmount" } 
+              }
+          },
+          { $sort: { _id: 1 } }
+      ]);
+
+      const labels = data.map(item => item._id.toString());
+      const salesData = data.map(item => item.totalSales);
+
+      res.json({ labels, salesData });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to fetch sales data' });
   }
 };
 
@@ -83,4 +151,5 @@ module.exports = {
   login,
   loadDashboard,
   logout,
+  salesData
 };

@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+
 const userController=require("../controllers/user/userController");
 const passport = require("passport");
 const {userAuth,adminAuth} = require("../middlewares/auth")
@@ -9,6 +10,9 @@ const addressController = require("../controllers/user/addressController")
 const cartController = require("../controllers/user/cartController")
 const checkoutController = require("../controllers/user/checkoutController")
 const orderController = require("../controllers/user/orderController")
+const couponController = require("../controllers/user/couponController")
+const walletController = require("../controllers/user/walletController")
+const wishlistController = require("../controllers/user/wishlistController")
 
 router.get("/pageNotFound",userController.pageNotFound);
 
@@ -28,7 +32,7 @@ router.get('/auth/google/callback',passport.authenticate('google',{failureRedire
 
 router.get("/login",userController.loadLogin)
 router.post("/login",userController.login)
-
+router.get("/logout",userController.logout)
 
 
 router.get("/shop",userAuth,shopController.getShopPage)
@@ -57,13 +61,26 @@ router.delete('/manage-addresses/delete-address/:addressId',userAuth, addressCon
 
 router.get("/checkout",userAuth,checkoutController.getCheckoutPage)
 router.post("/place-order",userAuth,checkoutController.placeOrder)
-
+router.post('/verify-payment',userAuth, checkoutController.verifyPayment);
 router.get("/order-confirmation/:orderId",userAuth,checkoutController.orderConfirmation)
-
+router.get("/payment-failed/:orderId",userAuth,checkoutController.paymentFailed)
+router.post("/retry-payment/:orderId", userAuth, checkoutController.retryPayment)
+router.post('/verify-retry-payment',userAuth, checkoutController.verifyRetryPayment);
 
 router.get("/orders",userAuth,orderController.getMyOrders)
-// router.post("/cancel-order/:orderId",userAuth,orderController.cancelOrder)
+router.post("/cancel-order/:orderId",userAuth,orderController.cancelOrder)
+router.post("/return-order/:orderId",userAuth,orderController.returnOrder)
 router.get("/orderDetails/:orderId",userAuth,orderController.getOrderDetails)
+//Coupon Management
+router.get("/coupons",userAuth,couponController.getCouponPage)
+router.post("/addCoupon",userAuth,couponController.addCoupon)
+router.post("/removeCoupon",userAuth,couponController.removeCoupon)
+//Wallet Management
+router.get("/wallet",userAuth,walletController.getWalletPage)
+//Wishlist Management
+router.get("/wishlist",userAuth,wishlistController.getWishlistPage)
+router.post("/addToWishlist",userAuth,wishlistController.addToWishlist)
+router.post("/removeFromWishlist/:productId", userAuth, wishlistController.removeFromWishlist);
 
 
 router.get("/cart",userAuth,cartController.getCartPage)

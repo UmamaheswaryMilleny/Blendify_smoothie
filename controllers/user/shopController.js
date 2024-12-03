@@ -82,10 +82,10 @@ const sortProducts = async (req,res) => {
 
     switch (sort) {
         case 'priceAsc':
-            sortCriteria = { regularPrice: 1 }; 
+            sortCriteria = { salePrice: 1 }; 
             break;
         case 'priceDesc':
-            sortCriteria = { regularPrice: -1 };
+            sortCriteria = { salePrice: -1 };
             break;
         case 'newest':
             sortCriteria = { createdAt: -1 }; 

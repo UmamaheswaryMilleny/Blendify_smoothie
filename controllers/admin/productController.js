@@ -77,6 +77,7 @@ const addProducts = async (req, res) => {
         description: products.description,
         category: categoryId._id,
         regularPrice: products.regularPrice,
+        salePrice: products.salePrice,
         createdOn: new Date(),
         sizes: sizes,
         quantity:totalQuantity,
@@ -130,6 +131,67 @@ const getAllProducts = async (req, res) => {
   } catch (error) {
     res.redirect("/admin/pageerror");
     console.error("Error getting all products");
+  }
+};
+
+
+
+const addProductOffer = async (req, res) => {
+  try {
+    const { productId, percentage } = req.body;
+    const findProduct = await Product.findOne({ _id: productId });
+    const findCategory = await Category.findOne({ _id: findProduct.category });
+
+    if (findCategory.categoryOffer > percentage) {
+      return res.json({
+        status: false,
+        message: "This products category already has a category offer",
+      });
+    }
+
+    if (isNaN(percentage)) {
+      return res.json({
+        status: false,
+        message: "The offer percentage should be a positive number below 100",
+      });
+    }
+
+    if (percentage > 100 || percentage < 1) {
+      return res.json({
+        status: false,
+        message: "The offer percentage should be a positive number below 100",
+      });
+    }
+
+    findProduct.salePrice =
+      findProduct.salePrice -
+      Math.floor(findProduct.regularPrice * (percentage / 100));
+    findProduct.productOffer = parseInt(percentage);
+    await findProduct.save();
+    findCategory.categoryOffer = 0;
+    await findCategory.save();
+
+    res.json({ status: true });
+  } catch (error) {
+    res.redirect("/admin/pageerror");
+    res.status(500).json({ status: false, message: "Internal server error" });
+  }
+};
+
+const removeProductOffer = async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const findProduct = await Product.findOne({ _id: productId });
+    const percentage = findProduct.productOffer;
+    findProduct.salePrice =
+      findProduct.salePrice +
+      Math.floor(findProduct.regularPrice * (percentage / 100));
+    findProduct.productOffer = 0;
+    await findProduct.save();
+
+    res.json({ status: true });
+  } catch (error) {
+    res.redirect("/admin/pageerror");
   }
 };
 
@@ -209,6 +271,7 @@ const editProduct = async (req, res) => {
       description: data.description,
       category: data.category,
       regularPrice: data.regularPrice,
+      salePrice: data.salePrice,
       sizes: sizes,
     };
 
@@ -265,4 +328,6 @@ module.exports = {
   editProduct,
   getEditProduct,
   deleteSingleImage,
+   addProductOffer,
+  removeProductOffer,
 };

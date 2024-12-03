@@ -48,6 +48,49 @@ const addCategory = async (req,res) => {
 }
 
 
+
+const addCategoryOffer = async (req, res) => {
+    try {
+        const percentage = parseInt(req.body.percentage);
+        const categoryId = req.body.categoryId;
+
+        const category = await Category.findById(categoryId);
+
+        if (!category) {
+            return res.status(404).json({ status: false, message: "Category not found" });
+        }
+
+        if (isNaN(percentage)) {
+            return res.json({ status: false, message: "The offer percentage should be a positive number below 100" });
+        }
+
+        if (percentage > 100 || percentage < 1) {
+            return res.json({ status: false, message: "The offer percentage should be a positive number below 100" });
+        }
+
+        const products = await Product.find({ category: category._id });
+        const hasProductOffer = products.some((product) => product.productOffer > percentage);
+
+        if (hasProductOffer) {
+            return res.json({ status: false, message: "Products within this category already have offers" });
+        }
+
+        await Category.updateOne({ _id: categoryId }, { $set: { categoryOffer: percentage } });
+
+        for (const product of products) {
+            product.productOffer = percentage;
+            product.salePrice = product.regularPrice - (product.regularPrice * (percentage / 100));
+            await product.save();
+        }
+
+        res.json({ status: true });
+    } catch (error) {
+        console.error("Error", error);
+        res.status(500).json({ status: false, message: "Internal server error" });
+    }
+};
+
+
 const getEditCategory = async (req,res) => {
     try {
         const id = req.query.id
@@ -111,4 +154,6 @@ module.exports={
     editCategory,
     getListCategory,
     getUnlistCategory,
+    addCategoryOffer,
+    removeCategoryOffer,
 }
