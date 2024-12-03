@@ -1,313 +1,103 @@
-<%-include("../../views/partials/user/header")%>
+<%- include("../../views/partials/user/header") %>
 
-<style>
-    .remove-coupon-btn {
-    background-color: #dc3545; /* Red background */
-    color: white;  /* White text */
-    border: 2px solid #000; /* Add a border for visibility */
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-
-</style>
-
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-option" style="    padding: 16px 0;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__text">
-                        <h4>Check Out</h4>
-                        <div class="breadcrumb__links">
-                            <a href="/">Home</a>
-                            <a href="/shop">Shop</a>
-                            <a href="/cart">Shopping Cart</a>
-                            <a href="/checkout">Checkout</a>
-                        </div>
+<section class="breadcrumb-option" style="padding: 16px 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Check Out</h4>
+                    <div class="breadcrumb__links">
+                        <a href="/">Home</a>
+                        <a href="/shop">Shop</a>
+                        <a href="/cart">Shopping Cart</a>
+                        <span>Checkout</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+    </div>
+</section>
 
-    <!-- Checkout Section Begin -->
-    <section class="checkout spad">
-        <div class="container">
-            <div class="row">
-                <!-- Address Selection -->
-                <div class="col-lg-7 col-md-6">
-                    <div class="checkout__address mb-5" style="    margin-top: 50px;">
-                        <h4 class="order__title"><b>Select Address</b></h4>
-                        <div class="checkout__address__list">
-                            <!-- Dynamically display addresses -->
-                            <% if (addresses && addresses.address && addresses.address.length > 0) { %>
-                                <select name="selectedAddress" class="form-control" required>
-                                    <% addresses.address.forEach((address, index) => { %>
-                                        <option value="<%= address._id %>">
-                                            <%= address.name %>, <%= address.houseName %>, <%= address.street %>, <%= address.city %>, <%= address.state %> - <%= address.pincode %>
-                                        </option>
-                                    <% }) %>
-                                </select>
-                            <% } else { %>
-                                <p class="text text-danger">You haven't added any addresses. Please add an address from your Profile.</p>
-                            <% } %>
-                        </div>                        
-                    </div>
-    
-                    <!-- Payment Method Selection -->
-                    <div class="checkout__payment">
-                        <h4 class="order__title"><b>Select Payment Method</b></h4>
-                        <div class="checkout__payment__options">
-                       
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" value="Cash on Delivery" id="cod" required>
-                                <label class="form-check-label" for="cod">
-                                    Cash on Delivery (COD)
-                                </label>
-                            </div>
-                        </div>
+<section class="checkout spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-6">
+                <div class="checkout__address" style="margin-top: 31px;">
+                    <h4 class="order__title"><b>Select Address</b></h4>
+                    <div class="checkout__address__list">
+                        <% if (addresses && addresses.address.length > 0) { %>
+                            <select name="selectedAddress" class="form-control" required>
+                                <% addresses.address.forEach((address) => { %>
+                                    <option value="<%= address._id %>">
+                                        <%= address.name %>, <%= address.houseName %>, <%= address.street %>, 
+                                        <%= address.city %>, <%= address.state %> - <%= address.pincode %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                        <% } else { %>
+                            <p class="text-danger">No addresses found. Please add an address in your Profile.</p>
+                        <% } %>
                     </div>
                 </div>
-    
-                <!-- Order Summary -->
-         
-                    <div class="checkout__order" style="margin-top: 33px;width: 464px;">
-                        <h4 class="order__title">Your order</h4>
-                        <div class="checkout__order__products">Product </div>
-                    
-                        <!-- Dynamically display cart items -->
-                        <ul class="checkout__total__products">
-                            <% cartItems.forEach((item, index) => { %>
-                                <li><%= index + 1 %>. <%= item.productId.productName %> 
-                                    <span style="padding-left: 12px;">Size : <%=item.size%></span>
-                                    <span style="padding-left: 20px;">Qty : <%=item.quantity%></span>
-                                    <span>Price :<%= item.totalPrice.toFixed(2) %></span>
-                                </li>
-                            <% }) %>
-                        </ul>
-                    
-                        <!-- Subtotal, Discount, and Total -->
-                        <ul class="checkout__total__all">
-                    
-                            <li>Total 
-                                <span><%= (totalPrice - (discount || 0)).toFixed(2) %></span>
+                <div class="checkout__payment">
+                    <h4></h4>
+                    <div class="form-check" style="position: relative;
+                    top: 76px;
+                    right: 333px;">
+                        <h5><b><b>Payment Method</b></b></h5>
+                        <input class="form-check-input" type="radio" name="paymentMethod" value="COD" checked required>
+                        <label class="form-check-label">Cash on Delivery</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-md-6">
+                <div class="checkout__order" style="    margin-top: 51px;">
+                    <h4 class="order__title">Your Order</h4>
+                    <ul class="checkout__total__products">
+                        <% cartItems.forEach((item, index) => { %>
+                            <li>
+                                <%= index + 1 %>. <%= item.productId.productName %> - Size: <%= item.size %>, 
+                                Qty: <%= item.quantity %>, ₹<%= item.totalPrice.toFixed(2) %>
                             </li>
-                        </ul>
-                    
-                        <button type="submit" class="site-btn" id="place-order">PLACE ORDER</button>
-                    </div>                    
+                        <% }) %>
+                    </ul>
+                    <ul class="checkout__total__all">
+                        <li>Total: ₹<%= totalPrice.toFixed(2) %></li>
+                    </ul>
+                    <button id="place-order" class="site-btn">PLACE ORDER</button>
                 </div>
             </div>
         </div>
-    </section>
-    
-    <!-- Checkout Section End -->
+    </div>
+</section>
 
-    <%-include("../../views/partials/user/footer")%>
+<%- include("../../views/partials/user/footer") %>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Apply Coupon Event Listener
-        const applyCouponForm = document.getElementById('applyCouponForm');
-        if (applyCouponForm) {
-            applyCouponForm.addEventListener('submit', async function(event) {
-                event.preventDefault();
-                
-                const couponCode = document.getElementById('couponCodeInput').value.trim();
-                
-                if (!couponCode) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Empty Coupon Code',
-                        text: 'Please enter a valid coupon code.',
-                    });
-                    return;
-                }
-                
-                try {
-                    const response = await fetch('/addCoupon', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ couponCode })
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (response.ok) {
-                        window.location.reload();  // Reload the page if coupon is applied successfully
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: result.message,
-                        });
-                    }
-                } catch (error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred while applying the coupon.',
-                    });
-                }
+<script>
+    document.querySelector("#place-order").addEventListener("click", async () => {
+        const selectedAddress = document.querySelector("select[name='selectedAddress']").value;
+
+        try {
+            const response = await fetch("/place-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    selectedAddress,
+                    paymentMethod: "COD",
+                }),
             });
-        }
 
-        // Remove Coupon Event Listener
-        const removeCouponButton = document.getElementById('removeCoupon');
-        if (removeCouponButton) {
-            removeCouponButton.addEventListener('click', async function(event) {
-                event.preventDefault();
-                console.log('Remove coupon clicked');
-                
-                try {
-                    const response = await fetch('/removeCoupon', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (response.ok) {
-                        window.location.reload(); // Reload the page if the coupon was removed
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: result.message || 'Failed to remove the coupon.',
-                        });
-                    }
-                } catch (error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred while removing the coupon.',
-                    });
-                }
-            });
-        }
-    });
+            const data = await response.json();
 
-document.querySelector('#place-order').addEventListener('click', async () => {
-    const selectedAddress = document.querySelector('select[name="selectedAddress"]').value;
-    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-
-    try {
-        const response = await fetch('/place-order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                selectedAddress,
-                paymentMethod,
-            })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            if (paymentMethod === 'Online Payment') {
-                const { finalAmount, orderId, razorpayKey } = data;
-
-                const options = {
-                    "key": razorpayKey,
-                    "amount": finalAmount * 100, // Convert amount to paise
-                    "currency": "INR",
-                    "name": "Adb Store",
-                    "description": "Purchase Description",
-                    "order_id": orderId,
-                    "handler": function (response) {
-                        verifyPayment(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
-                    },
-                    "modal": {
-                        "ondismiss": function () {
-                            window.location.href = `/payment-failed/${data.message}`;
-                        }
-                    },
-                    "prefill": {
-                        "name": "Customer Name",
-                        "email": "customer@example.com",
-                        "contact": "9999999999"
-                    },
-                    "theme": {
-                        "color": "#F37254"
-                    }
-                };
-
-                const rzp = new Razorpay(options);
-                rzp.open();
-            } else {
+            if (data.success) {
                 window.location.href = `/order-confirmation/${data.message}`;
+            } else {
+                alert(data.message || "Failed to place order. Try again.");
             }
-        } else {
-            Swal.fire({
-                title: "Error!",
-                text: data.error || "Failed to Place Order",
-                icon: "error",
-                confirmButtonText: "OK",
-            });
+        } catch (error) {
+            console.error("Error placing order:", error);
+            alert("An error occurred while placing your order. Please try again.");
         }
-    } catch (error) {
-        console.error("Error placing order:", error);
-        Swal.fire({
-            title: "Error!",
-            text: "An error occurred while placing the order. Please try again.",
-            icon: "error",
-            confirmButtonText: "OK",
-        });
-    }
-});
-
-    async function verifyPayment(razorpay_payment_id, razorpay_order_id, razorpay_signature) {
-    console.log("Payment verification details:", {
-        razorpay_payment_id,
-        razorpay_order_id,
-        razorpay_signature
     });
-
-    try {
-        const response = await fetch('/verify-payment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                razorpay_payment_id,
-                razorpay_order_id,
-                razorpay_signature
-            })
-        });
-
-        const data = await response.json();
-        console.log("Response from server:", data);
-
-        if (data.success) {
-            window.location.href = `/order-confirmation/${data.message}`;
-        } else {
-            Swal.fire({
-                title: "Payment Verification Failed",
-                text: data.error || "An error occurred during payment verification.",
-                icon: "error",
-                confirmButtonText: "OK",
-            }).then(() => {
-                window.location.href = `/payment-failed/${data.message}`;
-            });
-        }
-    } catch (error) {
-        console.error("Error verifying payment:", error);
-        Swal.fire({
-            title: "Error",
-            text: "Unable to verify payment due to a network error.",
-            icon: "error",
-            confirmButtonText: "OK",
-        }).then(() => {
-            window.location.href = `/payment-failed/${data.message}`;
-        });
-    }
-}
-    </script>    
+</script>

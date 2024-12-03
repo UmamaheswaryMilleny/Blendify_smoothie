@@ -10,7 +10,7 @@ const getCartPage = async (req, res) => {
         const cart = await Cart.findOne({ userId }).populate('items.productId');
 
         if (!cart || cart.items.length === 0) {
-            return res.render("cart", { cart: null, message: "Your cart is empty. Add something to the cart!" });
+            return res.render("cart", { cart: null, message: "Your cart is empty. Add something to the cart!",user:userData });
         }
 
         cart.items.forEach(item => {
