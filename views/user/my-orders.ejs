@@ -18,7 +18,7 @@
                         <th>Address</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
-                        <!-- <th>Action</th> -->
+                        <th>Action</th>
                         <th>Details</th>
                     </tr>
                 </thead>
@@ -44,7 +44,7 @@
                                     <div><%= item.quantity %></div>
                                 <% }) %>
                             </td>
-                            <!-- <td>
+                            <td>
                                 <% if (order.status === 'Canceled') { %>
                                     <button class="btn btn-secondary" disabled>Canceled</button>
                                 <% } else if (order.status == 'Pending') { %>
@@ -62,7 +62,7 @@
                                 <% } else { %>
                                     <span>N/A</span>
                                 <% } %>                                
-                            </td> -->
+                            </td>
                             <td><a href="/orderDetails/<%=order._id%>">Order Details</a></td>                                               
                         </tr>
                     <% }) %>
@@ -228,9 +228,8 @@
             }
         });
     });
-
-    // Verify retry payment function
-    async function verifyRetryPayment(razorpay_payment_id, razorpay_order_id, razorpay_signature) {
+// Verify retry payment function
+async function verifyRetryPayment(razorpay_payment_id, razorpay_order_id, razorpay_signature) {
         try {
             Swal.fire({
                 title: 'Verifying Payment',
@@ -274,5 +273,4 @@
         }
     }
 });
-
 </script>

@@ -50,6 +50,14 @@
                              </div>
                                                
                            </div>
+                           <div class="col-lg-4">
+                            <div class="mb-4">
+                                <label class="form-label">Sale price</label>
+                                <input placeholder="$" name="salePrice" type="text" class="form-control border">
+                                <div id="salePrice-error" class="error-message"></div>
+                            </div>
+                         </div>                             
+                       </div>
                            <div class="row">
                     
                                <div class="mb-4">
@@ -342,16 +350,16 @@ function clearErrorMessages() {
     });
 }
 
-// Function to validate form
 function validateForm() {
     
     clearErrorMessages();  // Clear any previous error messages
 
     const name = document.getElementsByName('productName')[0].value.trim();
     const description = document.getElementById('descriptionid').value.trim();
-
+    const brand = document.getElementsByName('brand')[0].value;
     const price = document.getElementsByName('regularPrice')[0].value;
- 
+    const salePrice = document.getElementsByName('salePrice')[0].value;
+    const color = document.getElementsByName('color')[0].value.trim();
     const category = document.getElementsByName('category')[0].value;
     const images = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'), document.getElementById('input4')];
     const selectedSizes = getSelectedSizesAndQuantities(); // assuming this function retrieves selected sizes with quantities
@@ -370,7 +378,11 @@ function validateForm() {
         isValid = false;
     }
 
-
+    // Validate brand
+    if (!brand) {
+        displayErrorMessage('brand-error', 'Please select a brand.');
+        isValid = false;
+    }
 
     // Validate category
     if (!category) {
@@ -384,7 +396,17 @@ function validateForm() {
         isValid = false;
     }
 
- 
+    // Validate sale price
+    if (!salePrice || isNaN(salePrice) || salePrice <= 0) {
+        displayErrorMessage('salePrice-error', 'Sale price must be a positive number.');
+        isValid = false;
+    }
+
+    // Validate color
+    if (!color) {
+        displayErrorMessage('color-error', 'Color is required.');
+        isValid = false;
+    }
 
     // Validate selected sizes and quantities
     if (!selectedSizes.length) {
@@ -447,6 +469,8 @@ function validateSizesAndQuantities() {
 
     return isValid;
 }
+
+
 
 
 

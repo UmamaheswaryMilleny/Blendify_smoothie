@@ -64,6 +64,15 @@
                                </div>
                        
                            </div>
+                           <div class="col-lg-4">
+                            <div class="mb-4">
+                                <label class="form-label">Sale price</label>
+                                <input name="salePrice" type="text" value="<%=product.salePrice%>"
+                                    class="form-control border">
+                            </div>
+                            <div id="salePrice-error" class="error-message"></div>
+                        </div>
+                    </div>
                            <div class="row">
                              
                                <div class="col-lg-4">
@@ -264,6 +273,7 @@ function validateForm() {
     const name = document.getElementsByName('productName')[0].value.trim();
     const description = document.getElementsByName('descriptionData')[0].value.trim();
     const price = document.getElementsByName('regularPrice')[0].value;
+    const salePrice = document.getElementsByName('salePrice')[0].value;
     const category = document.getElementsByName('category')[0].value;
     const images = [
         document.getElementById('input1'),
@@ -301,7 +311,11 @@ function validateForm() {
         isValid = false;
     }
 
-
+    // Validate sale price
+    if (!salePrice || isNaN(salePrice) || salePrice <= 0) {
+        displayErrorMessage('salePrice-error', 'Sale price must be a positive number.');
+        isValid = false;
+    }
 
 
     // Validate selected sizes and quantities
