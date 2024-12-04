@@ -1,6 +1,109 @@
 <%-include("../../views/partials/user/header")%>
-
-<section class="breadcrumb-option">
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Inter", Arial, Helvetica, sans-serif;
+    }
+    .formbold-mb-5 {
+      margin-bottom: 20px;
+    }
+    .formbold-pt-3 {
+      padding-top: 12px;
+    }
+    .formbold-main-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+  
+    .formbold-form-wrapper {
+      margin: 0 auto;
+      max-width: 550px;
+      width: 100%;
+      background: white;
+    }
+    .formbold-form-label {
+      display: block;
+      font-weight: 500;
+      font-size: 16px;
+      color: #07074d;
+      margin-bottom: 12px;
+    }
+    .formbold-form-label-2 {
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+  
+    .formbold-form-input {
+      width: 100%;
+      padding: 12px 24px;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+      background: white;
+      font-weight: 500;
+      font-size: 16px;
+      color: #6b7280;
+      outline: none;
+      resize: none;
+    }
+    .formbold-form-input:focus {
+      border-color: #6a64f1;
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    }
+  
+    .formbold-btn {
+      text-align: center;
+      font-size: 16px;
+      border-radius: 6px;
+      padding: 14px 32px;
+      border: none;
+      font-weight: 600;
+      background-color: #6a64f1;
+      color: white;
+      width: 100%;
+      cursor: pointer;
+    }
+    .formbold-btn:hover {
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    }
+  
+    .formbold--mx-3 {
+      margin-left: -12px;
+      margin-right: -12px;
+    }
+    .formbold-px-3 {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    .flex {
+      display: flex;
+    }
+    .flex-wrap {
+      flex-wrap: wrap;
+    }
+    .w-full {
+      width: 100%;
+    }
+    @media (min-width: 540px) {
+      .sm\:w-half {
+        width: 50%;
+      }
+    }
+    .error-message {
+      display: block;
+      color: #ff0000;
+      font-size: 11px;
+      position: relative;
+      top: -15px;
+    }
+  </style>
+<section class="breadcrumb-option" style="    padding: 25px 0;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -20,45 +123,119 @@
 <!-- Breadcrumb Section End -->
 
 
-<div class="container mt-5">
-    <h2 class="mb-4">Edit Address</h2>
+<div  style="padding: 30px;background-position: center;background-image: url(/images/userImg/home/img2_1.png);
+    background-size: cover;    background-color: #f3cfb5;">
+    <h3 class="mb-4" style="text-align: center;" ><b>Edit Address</b></h3>
     <form id="addressform" method="post" action="/manage-addresses/edit-address/<%= address._id %>" novalidate>
-        <div class="form-group">
-            <label for="fullname">Full Name:</label>
-            <input type="text" class="form-control" id="name" name="name" value="<%= address.name %>" required>
-            <div id="error1" class="error-message"></div>
-        </div>
-        <div class="form-group">
-            <label for="housename">House Name:</label>
-            <input type="text" class="form-control" id="houseName" name="houseName" value="<%= address.houseName %>" required>
-            <div id="error2" class="error-message"></div>
-        </div>
-        <div class="form-group">
-            <label for="street">Street:</label>
-            <input type="text" class="form-control" id="street" name="street" value="<%= address.street %>" required>
-            <div id="error3" class="error-message"></div>
-        </div>
-        <div class="form-group">
-            <label for="city">City:</label>
-            <input type="text" class="form-control" id="city" name="city" value="<%= address.city %>" required>
-            <div id="error4" class="error-message"></div>
-        </div>
-        <div class="form-group">
-            <label for="state">State:</label>
-            <input type="text" class="form-control" id="state" name="state" value="<%= address.state %>" required>
-            <div id="error5" class="error-message"></div>
-        </div>
-        <div class="form-group">
-            <label for="pincode">Pincode:</label>
-            <input type="text" class="form-control" id="pincode" name="pincode" value="<%= address.pincode %>" required>
-            <div id="error6" class="error-message"></div>
-        </div>
-        <div class="form-group">
-            <label for="phone">Phone:</label>
-            <input type="tel" class="form-control" id="phone" name="phone" value="<%= address.phone %>" required>
-            <div id="error7" class="error-message"></div>
-        </div>
-        <button type="submit" class="btn btn-primary" style="    margin-bottom: 35px;">Save Changes</button>
+        <div class="formbold-main-wrapper" style="padding: 17px;">
+            <div class="formbold-form-wrapper">
+           
+                <div class="formbold-mb-5" style="padding: 35px 35px 0px 35px;">
+                  <label for="name" class="formbold-form-label"> Full Name </label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Full Name"
+                    class="formbold-form-input"
+                    value="<%= address.name %>"
+                  />
+                  <div id="error1" class="error-message" style="top: 4px"></div>
+                </div>
+                <div class="formbold-mb-5" style="padding: 0px 35px 0px 35px;">
+                  <label for="phone" class="formbold-form-label">
+                    Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    id="phone" name="phone" value="<%= address.phone %>"
+                    placeholder="Enter your phone number"
+                    class="formbold-form-input"
+                  />
+                  <div id="error7" class="error-message" style="top: 4px"></div>
+                </div>
+      
+                <div class="formbold-mb-5 formbold-pt-3">
+                  <label class="formbold-form-label formbold-form-label-2" style="padding-left: 35px;">
+                    Address Details
+                  </label>
+                  <div class="flex flex-wrap formbold--mx-3" style="padding: 0px 35px 0px 35px;">
+                    <div class="w-full sm:w-half formbold-px-3">
+                      <div class="formbold-mb-5">
+                        <input
+                          type="text"
+                          id="houseName"
+                          name="houseName"
+                          placeholder="Enter housename"
+                          class="formbold-form-input"
+                          value="<%= address.houseName %>"
+                        />
+                      </div>
+                      <div id="error2" class="error-message"></div>
+                    </div>
+                    <div class="w-full sm:w-half formbold-px-3">
+                      <div class="formbold-mb-5">
+                        <input
+                          type="text"
+                          name="city"
+                          id="city"
+                          placeholder="Enter city"
+                          class="formbold-form-input"
+                          value="<%= address.city %>" 
+                        />
+                        <div id="error4" class="error-message" style="top: 5px"></div>
+                      </div>
+                    </div>
+                    <div class="w-full sm:w-half formbold-px-3">
+                      <div class="formbold-mb-5">
+                        <input
+                          type="text"
+                          name="street"
+                          id="street"
+                          placeholder="Enter street"
+                          class="formbold-form-input"
+                          value="<%= address.street %>" 
+                        />
+                      </div>
+                      <div id="error3" class="error-message"></div>
+                    </div>
+                    <div class="w-full sm:w-half formbold-px-3">
+                      <div class="formbold-mb-5">
+                        <input
+                          type="text"
+                          id="state"
+                          name="state"
+                          placeholder="Enter state"
+                          value="<%= address.state %>"
+                          class="formbold-form-input"
+                        />
+                      </div>
+                      <div id="error5" class="error-message"></div>
+                    </div>
+                    <div class="w-full sm:w-half formbold-px-3">
+                      <div class="formbold-mb-5">
+                        <input
+                          type="text"
+                          id="pincode"
+                          name="pincode"
+                          placeholder="Pin Code"
+                          class="formbold-form-input"
+                          value="<%= address.pincode %>"
+                        />
+                      </div>
+                      <div id="error6" class="error-message"></div>
+                    </div>
+                  </div>
+                </div>
+      
+                <div style="padding: 0px 35px 30px 35px;">
+                  <button class="formbold-btn" style="background-color: #bf3320">
+                    Add Address
+                  </button>
+                </div>
+         
+            </div>
+          </div>
     </form>
 </div>
 
