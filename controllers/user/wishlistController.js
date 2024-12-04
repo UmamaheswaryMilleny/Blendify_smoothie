@@ -37,6 +37,7 @@ const getWishlistPage = async (req, res) => {
     try {
         const userId = req.session.user;
         console.log(userId);
+        const userData = await User.findById(userId);
         const wishlist = await Wishlist.findOne({ userId }).populate('product.productId');
 
         const wishlistItems = wishlist ? wishlist.product.map(item => ({
@@ -48,7 +49,7 @@ const getWishlistPage = async (req, res) => {
             addedOn: item.addedOn,
         })) : [];
 
-        res.render('wishlist', { wishlistItems,userId });
+        res.render('wishlist', { wishlistItems, user: userData });
     } catch (error) {
         console.error('Error retrieving wishlist:', error);
         res.status(500).send("An error occurred while loading the wishlist");

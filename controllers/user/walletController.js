@@ -1,5 +1,7 @@
 const Wallet = require("../../models/walletSchema")
 const User = require("../../models/userSchema")
+const Product = require("../../models/productSchema")
+const Order = require("../../models/orderSchema")
 
 const getWalletPage = async (req,res) => {
     try {

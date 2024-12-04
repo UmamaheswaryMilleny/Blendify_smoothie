@@ -3,12 +3,13 @@ const User = require("../../models/userSchema")
 const Order = require("../../models/orderSchema")
 const Product = require("../../models/productSchema")
 const Address = require("../../models/addressSchema")
+const Wallet = require("../../models/walletSchema")
 
 const getMyOrders = async (req, res) => {
     try {
         const userId = req.session.user;
         const userData=await User.findById(userId)
-        // console.log(userData)
+        console.log(userData)
         const orders = await Order.find({ user: userId }).lean();
 
         if (orders.length < 1) {

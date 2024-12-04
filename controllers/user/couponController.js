@@ -4,9 +4,11 @@ const Cart = require("../../models/cartSchema")
 
 const getCouponPage = async (req,res) => {
     try {
+        const userId = req.session.user;
+        const userData = await User.findById(userId);
         const coupons = await Coupon.find({isListed:true})
 
-        res.render("coupon",{coupons})
+        res.render("coupon",{coupons, user: userData})
     } catch (error) {
         console.error(error)
         res.redirect("/pageNotFound")

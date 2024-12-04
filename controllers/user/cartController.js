@@ -6,7 +6,9 @@ const mongoose = require("mongoose");
 const getCartPage = async (req, res) => {
   try {
     const userId = req.session.user;
+    console.log(userId)
     const userData = await User.findById(userId);
+    console.log('cart',userData)
     const cart = await Cart.findOne({ userId }).populate("items.productId");
 
     if (!cart || cart.items.length === 0) {
