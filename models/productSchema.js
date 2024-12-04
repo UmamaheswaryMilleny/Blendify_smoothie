@@ -17,7 +17,8 @@ const productSchema = new Schema({
     },
     regularPrice: {
         type: Number,
-        required: true
+        required: false,
+        sparse:true,
     },
     salePrice: {
         type: Number,
@@ -26,10 +27,6 @@ const productSchema = new Schema({
     productOffer: {
         type: Number,
         default: 0
-    },
-    color: {
-        type: String,
-        required: true
     },
     productImage: {
         type: [String],

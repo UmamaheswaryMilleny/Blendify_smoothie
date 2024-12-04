@@ -356,10 +356,8 @@ function validateForm() {
 
     const name = document.getElementsByName('productName')[0].value.trim();
     const description = document.getElementById('descriptionid').value.trim();
-    const brand = document.getElementsByName('brand')[0].value;
     const price = document.getElementsByName('regularPrice')[0].value;
     const salePrice = document.getElementsByName('salePrice')[0].value;
-    const color = document.getElementsByName('color')[0].value.trim();
     const category = document.getElementsByName('category')[0].value;
     const images = [document.getElementById('input1'), document.getElementById('input2'), document.getElementById('input3'), document.getElementById('input4')];
     const selectedSizes = getSelectedSizesAndQuantities(); // assuming this function retrieves selected sizes with quantities
@@ -378,11 +376,6 @@ function validateForm() {
         isValid = false;
     }
 
-    // Validate brand
-    if (!brand) {
-        displayErrorMessage('brand-error', 'Please select a brand.');
-        isValid = false;
-    }
 
     // Validate category
     if (!category) {
@@ -402,11 +395,7 @@ function validateForm() {
         isValid = false;
     }
 
-    // Validate color
-    if (!color) {
-        displayErrorMessage('color-error', 'Color is required.');
-        isValid = false;
-    }
+
 
     // Validate selected sizes and quantities
     if (!selectedSizes.length) {

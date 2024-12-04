@@ -43,7 +43,6 @@ const getWishlistPage = async (req, res) => {
             productId: item.productId._id,
             productName: item.productId.productName,
             description: item.productId.description,
-            brand: item.productId.brand,
             salePrice: item.productId.salePrice,
             productImage: item.productId.productImage[0],
             addedOn: item.addedOn,

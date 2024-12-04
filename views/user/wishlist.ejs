@@ -1,10 +1,11 @@
 <%- include("../../views/partials/user/header") %>
 
 <div class="container my-4">
-    <h2 class="text-center">Wishlist</h2>
+    <h2 class="text-center"><b>Wishlist</b></h2>
 
     <% if (!wishlistItems || wishlistItems.length === 0) { %>
-        <div class="alert alert-info text-center">
+        <div class="alert alert-info text-center" style="background-color: #f1d1d3;
+    border-color: #f1d1d3; border: none !important;margin-top: 20px;">
             <h4>Your wishlist is empty!</h4>
             <p>It seems you haven't added any products to your wishlist.</p>
             <a href="/shop" class="btn btn-primary">Go to Shop</a>
@@ -14,13 +15,13 @@
             <!-- Loop through wishlist items -->
             <% wishlistItems.forEach(item => { %>
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card h-100" style="width: 290px;
+    height: 435px !important;">
                     <a href="/productDetails?id=<%=item.productId%>"><img src="/uploads/product-images/<%= item.productImage %>" class="card-img-top" alt="<%= item.productName %>"></a>
                     <div class="card-body">
                         <h5 class="card-title"><%= item.productName %></h5>
-                        <p class="card-text"><%= item.description %></p>
-                        <p class="text-muted">Brand: <%= item.brand %></p>
-                        <p class="text-muted">Price: INR <%= item.salePrice %></p>
+                        <!-- <p class="card-text"><%= item.description %></p> -->
+                        <p class="text-muted">Price: ₹ <%= item.salePrice %></p>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         <button class="btn btn-danger btn-sm" onclick="removeFromWishlist('<%= item.productId %>')">Remove</button>

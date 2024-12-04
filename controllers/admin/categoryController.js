@@ -101,6 +101,34 @@ const getEditCategory = async (req,res) => {
     }
 }
 
+const removeCategoryOffer = async (req,res) => { 
+    try {
+        const  categoryId = req.body.categoryId
+        const category = await Category.findById(categoryId)
+
+        if(!category){
+            return res.status(404).json({status:false,message:"Category not found"})
+        }
+
+        const percentage = category.categoryOffer
+        const products = await Product.find({category:category._id})
+
+        if(products.length > 0){
+            for(let product of products){
+                product.salePrice = product.regularPrice;
+                product.productOffer = 0
+                await product.save()
+            }
+        }
+
+        category.categoryOffer = 0
+        await category.save()
+        res.json({status:true})
+    } catch (error) {
+        res.status(500).json({status:false,message:"internal server error"})
+    }
+}
+
 const editCategory = async (req,res) => {
     try {
         const id = req.params.id

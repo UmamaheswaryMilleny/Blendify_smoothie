@@ -49,22 +49,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__brand">
-                                                <ul>
-                                                    <%for(let i=0;i<brand.length;i++){%>
-                                                        <li><a href="#"><%=brand[i].brandName%></a></li>
-                                                        <%}%>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        
                             </div>
                         </div>
                     </div>
@@ -92,9 +77,12 @@
                                 </div>
                                 <ul class="product__hover">
                                   <li>
-                                    <a href="#"
-                                      ><img src="/images/userImg/icon/heart.png" alt=""
-                                    /></a>
+                                    <a
+                                    href="javascript:void(0);"
+                                    onclick="addToWishlist('<%= product._id %>')" style="color:#dc3545"
+                                  >
+                                    <i class="fa fa-heart"></i> 
+                                  </a>
                                   </li>
                                 <div class="product__item__text">
                                     <h6><%=product[i].productName%></h6>
@@ -146,6 +134,44 @@
         function sortProducts() {
     const selectedOption = document.getElementById("sortOptions").value;
     window.location.href = `/products?sort=${selectedOption}`;
+}
+function removeFromWishlist(productId) {
+    fetch(`/removeFromWishlist/${productId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: "Success!",
+                text: "Product removed from Wishlist successfully!",
+                icon: "success",
+                confirmButtonText: "OK",
+            }).then(() => {
+                // Optionally reload the page or remove the item from the DOM
+                location.reload(); // Reloads the page to reflect the changes
+            });
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: data.message || "Failed to remove product from Wishlist",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+            title: "Error!",
+            text: "An unexpected error occurred",
+            icon: "error",
+            confirmButtonText: "OK",
+        });
+    });
 }
 
     </script>

@@ -88,42 +88,7 @@
         </table>
     </div>
 </div>
-
-    <!-- Best-Selling Brands Table -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5>Top 10 Best-Selling Brands</h5>
-        </div>
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Brand Name</th>
-                        <th scope="col">Sales Count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% 
-                    brands
-                        .map(brand => ({
-                            brandName: brand.brandName,
-                            saleCount: brandSales[brand.brandName] || 0 // Use brandName to access sales count
-                        }))
-                        .sort((a, b) => b.saleCount - a.saleCount) // Sort by sales count descending
-                        .slice(0, 10) // Take top 10 brands
-                        .forEach((brand, index) => { 
-                    %>
-                        <tr>
-                            <th scope="row"><%= index + 1 %></th>
-                            <td><%= brand.brandName %></td>
-                            <td><%= brand.saleCount %></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        </div>
-    </div>    
+   
 
 </section>
 </div>
