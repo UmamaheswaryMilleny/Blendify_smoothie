@@ -23,7 +23,14 @@
       .acc:hover {
         color: #bf3320 !important ;
         text-decoration: underline;
+  
       }
+      #pass-icon{
+          width: 15px;
+    position: relative;
+    left: 295px;
+    top: -47px;
+        }
     </style>
   </head>
 
@@ -69,6 +76,7 @@
               name="password"
             />
             <i class="zmdi zmdi-lock"></i>
+            <img src="/images/userImg/icon/closed2.png" onclick="togglePassword()" alt="Toggle Password Visibility" class="pass-icon" id="pass-icon">
             <div id="error2" class="error-message"></div>
           </div>
 
@@ -156,6 +164,25 @@
           }
         });
       });
+
+      let isPasswordVisible = false;
+
+      function togglePassword() {
+          // Get references to elements
+          const passwordField = document.getElementById('password');
+          const passIcon = document.getElementById('pass-icon');
+
+          if (isPasswordVisible) {
+              passwordField.type = 'password';
+              passIcon.src = '/images/userImg/icon/closed2.png'; // Closed-eye icon
+          } else {
+              passwordField.type = 'text';
+              passIcon.src = '/images/userImg/icon/open.png'; // Open-eye icon
+          }
+
+          // Toggle state
+          isPasswordVisible = !isPasswordVisible;
+      }
     </script>
   </body>
 </html>
