@@ -17,12 +17,12 @@ const productSchema = new Schema({
     },
     regularPrice: {
         type: Number,
-        required: false,
+        required: true,
         sparse:true,
     },
     salePrice: {
         type: Number,
-        required: true
+        required:false
     },
     productOffer: {
         type: Number,

@@ -78,8 +78,8 @@
                                 <ul class="product__hover">
                                   <li>
                                     <a
-                                    href="javascript:void(0);"
-                                    onclick="addToWishlist('<%= product._id %>')" style="color:#dc3545"
+                                    href="#"
+                                    style="color:#dc3545"
                                   >
                                     <i class="fa fa-heart"></i> 
                                   </a>
@@ -93,7 +93,7 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star-o"></i>
                                     </div>
-                                    <h5>INR <%=product[i].regularPrice%></h5>
+                                    <h5>₹ <%=product[i].salePrice%></h5>
                                     <div class="product__color__select">
                                         <label for="pc-34">
                                             <input type="radio" id="pc-34">
@@ -134,44 +134,6 @@
         function sortProducts() {
     const selectedOption = document.getElementById("sortOptions").value;
     window.location.href = `/products?sort=${selectedOption}`;
-}
-function removeFromWishlist(productId) {
-    fetch(`/removeFromWishlist/${productId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            Swal.fire({
-                title: "Success!",
-                text: "Product removed from Wishlist successfully!",
-                icon: "success",
-                confirmButtonText: "OK",
-            }).then(() => {
-                // Optionally reload the page or remove the item from the DOM
-                location.reload(); // Reloads the page to reflect the changes
-            });
-        } else {
-            Swal.fire({
-                title: "Error!",
-                text: data.message || "Failed to remove product from Wishlist",
-                icon: "error",
-                confirmButtonText: "OK",
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        Swal.fire({
-            title: "Error!",
-            text: "An unexpected error occurred",
-            icon: "error",
-            confirmButtonText: "OK",
-        });
-    });
 }
 
     </script>

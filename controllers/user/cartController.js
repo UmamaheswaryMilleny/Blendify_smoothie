@@ -176,64 +176,44 @@ const removeFromCart = async (req, res) => {
   }
 };
 
+
 const updateCart = async (req, res) => {
-  const { itemId, quantity, size } = req.body;
+  const { itemId, quantity, size } = req.body; 
 
   try {
-    if (!size) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Size is required." });
-    }
-
-    const product = await Product.findById(itemId);
-
-    console.log("Product sizes:", product.sizes);
-
-    const normalizedSize = size.trim().toLowerCase();
-    const sizeInfo = product.sizes.find(
-      (s) => s.size.trim().toLowerCase() === normalizedSize
-    );
-
-    if (!sizeInfo) {
-      console.log("Invalid size selected:", normalizedSize);
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid size selected." });
-    }
-
-    const availableStock = sizeInfo.quantity;
-    if (quantity > availableStock) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: `Only ${availableStock} units available for size ${size}.`,
-        });
-    }
-
-    await Cart.updateOne(
-      { "items.productId": itemId, "items.size": size },
-      {
-        $set: {
-          "items.$.quantity": quantity,
-          "items.$.totalPrice": quantity * (product.salePrice || 0),
-        },
+      if (!size) {
+          return res.status(400).json({ success: false, message: 'Size is required.' });
       }
-    );
 
-    res.json({
-      success: true,
-      message: "Quantity updated successfully",
-      totalPrice: quantity * (product.regularPrice || 0),
-    });
+      const product = await Product.findById(itemId);
+
+      console.log('Product sizes:', product.sizes);
+
+      const normalizedSize = size.trim().toLowerCase();
+      const sizeInfo = product.sizes.find(s => s.size.trim().toLowerCase() === normalizedSize);
+
+      if (!sizeInfo) {
+          console.log('Invalid size selected:', normalizedSize); 
+          return res.status(400).json({ success: false, message: 'Invalid size selected.' });
+      }
+
+      const availableStock = sizeInfo.quantity; 
+      if (quantity > availableStock) {
+          return res.status(400).json({ success: false, message: `Only ${availableStock} units available for size ${size}.` });
+      }
+
+      await Cart.updateOne(
+          { 'items.productId': itemId, 'items.size': size }, 
+          { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * (product.salePrice || 0) } } 
+      );
+
+      res.json({ success: true, message: 'Quantity updated successfully' });
   } catch (error) {
-    console.error("Error updating quantity:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Error updating quantity" });
+      console.error('Error updating quantity:', error);
+      res.status(500).json({ success: false, message: 'Error updating quantity' });
   }
 };
+
 
 module.exports = {
   getCartPage,
