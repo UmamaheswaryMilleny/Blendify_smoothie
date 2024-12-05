@@ -209,58 +209,27 @@
 
 
     
-document.querySelector('#place-order').addEventListener('click', async () => {
+    document.querySelector("#place-order").addEventListener("click", async () => {
     const selectedAddress = document.querySelector('select[name="selectedAddress"]').value;
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
     try {
-        const response = await fetch('/place-order', {
-            method: 'POST',
+        const response = await fetch("/place-order", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 selectedAddress,
-                paymentMethod: "COD",
-            })
+                paymentMethod,
+            }),
         });
 
         const data = await response.json();
 
         if (data.success) {
-            if (paymentMethod === 'Online Payment') {
-                const { finalAmount, orderId, razorpayKey } = data;
-
-                const options = {
-                    "key": razorpayKey,
-                    "amount": finalAmount * 100, // Convert amount to paise
-                    "currency": "INR",
-                    "name": "Adb Store",
-                    "description": "Purchase Description",
-                    "order_id": orderId,
-                    "handler": function (response) {
-                        verifyPayment(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
-                    },
-                    "modal": {
-                        "ondismiss": function () {
-                            window.location.href = `/payment-failed/${data.message}`;
-                        }
-                    },
-                    "prefill": {
-                        "name": "Customer Name",
-                        "email": "customer@example.com",
-                        "contact": "9999999999"
-                    },
-                    "theme": {
-                        "color": "#F37254"
-                    }
-                };
-
-                const rzp = new Razorpay(options);
-                rzp.open();
-            } else {
-                window.location.href = `/order-confirmation/${data.message}`;
-            }
+            // Redirect to the confirmation page using the MongoDB _id
+            window.location.href = `/order-confirmation/${data.message}`;
         } else {
             Swal.fire({
                 title: "Error!",
@@ -279,6 +248,7 @@ document.querySelector('#place-order').addEventListener('click', async () => {
         });
     }
 });
+
 
     async function verifyPayment(razorpay_payment_id, razorpay_order_id, razorpay_signature) {
     console.log("Payment verification details:", {
