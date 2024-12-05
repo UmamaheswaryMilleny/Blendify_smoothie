@@ -207,7 +207,7 @@ const updateCart = async (req, res) => {
           { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * (product.salePrice || 0) } } 
       );
 
-      res.json({ success: true, message: 'Quantity updated successfully' });
+      res.json({ success: true, message: 'Quantity updated successfully' ,totalPrice:quantity * (product.salePrice || 0)});
   } catch (error) {
       console.error('Error updating quantity:', error);
       res.status(500).json({ success: false, message: 'Error updating quantity' });

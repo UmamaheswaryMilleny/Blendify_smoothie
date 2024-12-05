@@ -15103,7 +15103,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   padding-right: calc(1rem + 1.26em);
 }
 .menu-vertical .menu-item .menu-toggle::after {
-  right: 1rem;
+  /* right: 1rem; */
 }
 .menu-vertical .menu-divider {
   margin-top: 0.625rem;

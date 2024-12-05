@@ -9,7 +9,7 @@ const getMyOrders = async (req, res) => {
     try {
         const userId = req.session.user;
         const userData=await User.findById(userId)
-        console.log(userData)
+        console.log(userId)
         const orders = await Order.find({ user: userId }).lean();
 
         if (orders.length < 1) {
@@ -119,7 +119,7 @@ const getOrderDetails = async (req,res) => {
     try {
         const {orderId} = req.params
         const order = await Order.findById(orderId)
-
+         console.log(orderId)
         const userId = req.session.user
 
         if (!order) {

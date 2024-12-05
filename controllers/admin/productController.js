@@ -63,7 +63,7 @@ const addProducts = async (req, res) => {
         totalQuantity+=parseInt(products.quantityL)
 
       }
-     console.log(products)
+    //  console.log(products)
 
       if (products.sizes && Array.isArray(products.sizes)) {
         sizes = products.sizes.map((size, index) => ({
