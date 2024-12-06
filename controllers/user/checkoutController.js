@@ -229,7 +229,7 @@ const orderConfirmation = async (req,res) => {
     
     try {
         const userId = req.session.user
-
+        const userData = await User.findById(userId);
         const orderId = String(req.params.orderId);
         console.log(orderId);
         
@@ -256,7 +256,8 @@ const orderConfirmation = async (req,res) => {
             order,
             orderedItems: order.orderedItems || [],
             totalPrice: order.totalprice,
-            specificAddress
+            specificAddress,
+            user: userData
         });
     } catch (error) {
         console.error('Error fetching order or rendering:', error);
