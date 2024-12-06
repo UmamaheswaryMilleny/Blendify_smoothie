@@ -84,7 +84,7 @@
                                     <i class="fa fa-heart"></i> 
                                   </a>
                                   </li>
-                                <div class="product__item__text">
+                                  <div class="product__item__text">
                                     <h6><%=product[i].productName%></h6>
                                     <div class="rating">
                                         <i class="fa fa-star"></i>
@@ -93,7 +93,10 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star-o"></i>
                                     </div>
-                                    <h5>₹ <%=product[i].salePrice%></h5>
+                                    <% if (product[i].salePrice) { %>
+                                        <h6 style="color: rgb(255, 0, 0);">Sale Price: ₹ <%=product[i].salePrice%></h6>
+                                    <% } %>
+                                    <h6 style="color: rgb(123, 123, 123);">Price: ₹ <%=product[i].regularPrice%></h6>
                                     <div class="product__color__select">
                                         <label for="pc-34">
                                             <input type="radio" id="pc-34">
@@ -106,6 +109,7 @@
                                         </label>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                         <%}%>

@@ -120,12 +120,22 @@
                     Product Offer : <%=product.productOffer ?
                     product.productOffer : 0%>%
                   </div>
-                  <h3 style="text-align: left">
-                    <%= product.salePrice %><span
-                      >₹<%= product.regularPrice %></span
-                    >
-                  </h3>
-                  <p style="text-align: left"><%= product.description %></p>
+                  <!-- <img src="/images/userImg/icon/sale.gif" alt=""> -->
+              <!-- Sale Price -->
+<% if (product.salePrice) { %>
+  <h6 style="text-align: left; color: rgb(255, 0, 0); margin-top: -8px;">
+    SalePrice: <b>₹<%= product.salePrice %></b>
+    <span style="margin-left: 20px; color: rgb(71, 60, 60);">
+      Price: ₹<%= product.regularPrice %>
+    </span>
+  </h6>
+<% } else { %>
+  <h6 style="text-align: left; color: rgb(71, 60, 60); margin-top: -8px;">
+    Price: ₹<%= product.regularPrice %>
+  </h6>
+<% } %>
+
+                  <p style="text-align: left;margin-top: 20px;" ><%= product.description %></p>
                   <div
                     class="product__details__option"
                     style="text-align: left"
@@ -211,10 +221,10 @@
                     class="product__details__last__option"
                     style="text-align: left"
                   >
-                    <img
+                    <!-- <img
                       src="img/shop-details/details-payment.png"
                       alt="image"
-                    />
+                    /> -->
                     <ul style="padding-top: 0">
                       <li><span>Categories:</span> <%= cat.name %></li>
                       <li>
@@ -275,7 +285,14 @@
               <i class="fa fa-star"></i>
               <i class="fa fa-star-o"></i>
             </div>
-            <h5>₹<%=product.salePrice%></h5>
+            <h5>
+              <% if (product.salePrice) { %>
+                ₹<%= product.salePrice %>
+              <% } else { %>
+                ₹<%= product.regularPrice %>
+              <% } %>
+            </h5>
+            
             <div class="product__color__select">
               <label for="pc-34">
                 <input type="radio" id="pc-34" />
