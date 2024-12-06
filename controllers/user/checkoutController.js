@@ -116,7 +116,7 @@ const placeOrder = async (req, res) => {
       if (!cart || cart.items.length === 0) {
           return res.status(400).json({ success: false, message: "Your cart is empty" });
       }
-
+      
       let totalPrice = cart.items.reduce((total, item) => total + item.productId.salePrice * item.quantity, 0);
 
       // Apply any existing discounts
@@ -161,6 +161,27 @@ const placeOrder = async (req, res) => {
       })
 
 
+      if (paymentMethod === 'Online Payment') {
+        const options = {
+            amount: finalAmount * 100,
+            currency: "INR",
+            receipt: `${newOrder._id}`,
+            payment_capture: 1
+        };
+        
+        const razorpayOrder = await razorpayInstance.orders.create(options);
+
+        newOrder.razorpayOrderId = razorpayOrder.id;
+        await newOrder.save(); 
+
+        return res.json({
+            success: true,
+            orderId: razorpayOrder.id, 
+            finalAmount: newOrder.finalAmount,
+            razorpayKey: process.env.RAZORPAY_KEY_ID,
+            message: newOrder.orderId 
+        });
+    }
       // Wallet Payment Logic
       if (paymentMethod === "Wallet") {
           const wallet = await Wallet.findOne({ user_id: userId });
