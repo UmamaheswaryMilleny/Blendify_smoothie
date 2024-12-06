@@ -4,7 +4,7 @@
         <h2>Coupons</h2>
         <div class="row">
             <!-- Form to add a coupon -->
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <form id="couponForm" enctype="multipart/form-data" onsubmit="validateForm(event)">
                     <div class="mb-3">
                         <label for="name" class="form-label">Coupon Name</label>
@@ -35,13 +35,13 @@
                         <label for="couponImage" class="form-label">Coupon Image</label>
                         <input type="file" class="form-control" id="couponImage" name="couponImage">
                         <div class="text-danger" id="couponImageError"></div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Coupon</button>
+                    </div >
+                    <button type="submit" class="btn btn-primary" style="background-color: #bf3320;color: white;">Add Coupon</button>
                 </form>                             
             </div>
 
             <!-- Table to display coupons -->
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <table class="table table-bordered mt-4">
                     <thead>
                         <tr>
