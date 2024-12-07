@@ -113,8 +113,29 @@ const placeOrder = async (req, res) => {
         });
         
         cart.items = [];
-        await cart.save();        
+        await cart.save();   
+        //code     
+cart.items.forEach(async item=>{
+    const size = item.size;
+    if(item.productId.sizes && item.productId.sizes.length>0){
+        item.productId.sizes.forEach(el=>{
+            if(el.size===size){
+                el.quantity-=item.quantity
+            }
+        });
+        try{
+            await Product.updateOne({_id:item.productId._id},{
+                $set:{sizes:item.productId.sizes}
+            })
+        }catch(error){
+                console.log(error)
+            }
+    }
+}
 
+)
+
+//mew
         if (paymentMethod === 'Online Payment') {
             const options = {
                 amount: finalAmount * 100,
