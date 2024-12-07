@@ -24,7 +24,10 @@
       <div class="col-lg-7 col-md-6">
         <div class="checkout__address" style="margin-top: 31px">
           <h4 class="order__title"><b>Select Address</b></h4>
-          <div class="checkout__address__list" style="margin-top: 10px">
+          <a href="/manage-addresses/add-address" class="btn btn-primary mb-3" style="margin-top: 11px;"
+          >Add New Address</a
+        >
+          <div class="checkout__address__list" >
             <% if (addresses && addresses.address.length > 0) { %>
             <select name="selectedAddress" class="form-control" required>
               <% addresses.address.forEach((address) => { %>
@@ -136,8 +139,8 @@
             <% cartItems.forEach((item, index) => { %>
             <li>
               <%= index + 1 %>. <%= item.productId.productName %>
-              <span style="left: 10px;">Size : <%=item.size%></span>
-              <span style="left: 20px;">Qty : <%=item.quantity%></span>
+              <span style="margin-left: 15px;">Size : <%=item.size%></span>
+              <span style="margin-left:  25px;">Qty : <%=item.quantity%></span>
               <span><%= item.totalPrice.toFixed(2) %></span>
             </li>
             <% }) %>
