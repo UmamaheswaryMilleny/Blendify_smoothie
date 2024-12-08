@@ -1,7 +1,9 @@
+const Wallet = require("../../models/walletSchema")
 const env=require("dotenv").config()
 const nodemailer = require("nodemailer")
 const bcrypt = require("bcrypt")
 const User = require("../../models/userSchema")
+const { use } = require("passport")
 
 
 const pageNotFound = async(req,res)=>{
@@ -78,7 +80,7 @@ async function sendVerificationEmail(email,otp){
 
 const signup=async (req,res)=>{
     try{
-        const {name,email,phone,password,cPassword}=req.body
+        const {name,email,phone,password,cPassword,cReferral}=req.body
         if(password!==cPassword){
             return res.render("signup",{message:"Password not match"})
         }
@@ -93,7 +95,7 @@ const signup=async (req,res)=>{
             return res.json("email-error")
         }
         req.session.userOtp=otp;
-        req.session.userData={name,phone,email,password}
+        req.session.userData={name,phone,email,password,cReferral}
         res.render("verify-otp")
         console.log("OTP Sent otp",otp)
     }catch(error){
@@ -101,6 +103,16 @@ const signup=async (req,res)=>{
         res.redirect("/pageNotFound")
 
     }
+}
+
+function generateReferralCode(length=8){
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWYZabcdefghijklmnopqrstuvwyz0123456789"
+    let referralCode=''
+    for(let i=0;i<length;i++){
+        const randomIndex = Math.floor(Math.random()*characters.length)
+        referralCode+=characters[randomIndex]
+    }
+    return referralCode
 }
 
 const securePassword = async(password)=>{
@@ -112,34 +124,70 @@ const securePassword = async(password)=>{
     } catch (error) {
         
     }
+
+
 }
 
-const verifyOtp=async (req,res)=>{
-    try{
-        const {otp}=req.body;
-        console.log(otp)
-        if(otp===req.session.userOtp){
-            const user = req.session.userData
-            const passwordHash=await securePassword(user.password)
-            const saveUserData=new User({
-                name:user.name,
-                email:user.email,
-                phone:user.phone,
-                password:passwordHash
-            })
+
+
+const verifyOtp = async (req, res) => {
+    try {
+        const { otp } = req.body;
+        console.log(otp);
+        if (otp === req.session.userOtp) {
+            const user = req.session.userData;
+            const userReferral = user.cReferral;
+            let walletAmount = 0;
+            const passwordHash = await securePassword(user.password);
+            const referralCode = generateReferralCode();
+
+            if (userReferral) {
+                // Check for the referral code only if it exists
+                const findUser = await User.findOne({ referalCode: userReferral });
+                if (findUser) {
+                    walletAmount = 100; // Add 100 to the wallet if referral code is valid
+                    await User.findByIdAndUpdate(findUser._id, {
+                        wallet: findUser.wallet + 100,
+                    }, { new: true });
+                }
+            }
+
+            const saveUserData = new User({
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                password: passwordHash,
+                referalCode: referralCode,
+                wallet: walletAmount,
+            });
 
             await saveUserData.save();
-            req.session.user=saveUserData._id
-            res.json({success:true,redirectUrl:"/"})
-        }else{
-            res.status(400).json({success:false,message:"Invalid OTP,Please try again"})
-        }
-    }catch(error){
-        console.error("Error Verifying OTP",error)
-        res.status(500).json({success:false,message:"An error occured"})
+            req.session.user = saveUserData._id;
+            console.log(req.session.user._id);
 
+            if (walletAmount > 0) {
+                let wallet = await Wallet.findOne({ user_id: req.session.user });
+                console.log(wallet);
+                if (!wallet) {
+                    wallet = new Wallet({
+                        user_id: req.session.user,
+                        balance: walletAmount,
+                        transactions: [],
+                    });
+                    await wallet.save();
+                }
+            }
+
+            res.json({ success: true, redirectUrl: "/" });
+        } else {
+            res.status(400).json({ success: false, message: "Invalid OTP, Please try again" });
+        }
+    } catch (error) {
+        console.error("Error Verifying OTP", error);
+        res.status(500).json({ success: false, message: "An error occurred" });
     }
-}
+};
+
 
 const resendOTP = async(req,res)=>{
     try{

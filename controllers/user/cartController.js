@@ -207,7 +207,15 @@ const updateCart = async (req, res) => {
           { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * (product.salePrice || 0) } } 
       );
 
-      res.json({ success: true, message: 'Quantity updated successfully' ,totalPrice:quantity * (product.salePrice || 0)});
+      const userId=req.session.user;
+      const cart = await Cart.findOne({userId})
+      let finalPrice = 0;
+      cart.items.forEach((item)=>{
+        finalPrice+=item.totalPrice
+      });
+      console.log(finalPrice)
+
+      res.json({ success: true, message: 'Quantity updated successfully' ,itemPrice:quantity * (product.salePrice || 0),totalPrice:finalPrice});
   } catch (error) {
       console.error('Error updating quantity:', error);
       res.status(500).json({ success: false, message: 'Error updating quantity' });

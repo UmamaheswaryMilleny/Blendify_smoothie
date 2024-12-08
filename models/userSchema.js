@@ -60,13 +60,7 @@ const userSchema = new Schema({
     referalCode:{
         type:String
     },
-    redeemed:{
-        type:Boolean
-    },
-    redeemedUsers:{
-        type:Schema.Types.ObjectId,
-        ref:"User"
-    },
+
     searchHistory:[{
         category:{
             type:Schema.Types.ObjectId,

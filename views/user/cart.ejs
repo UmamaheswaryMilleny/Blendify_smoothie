@@ -197,7 +197,7 @@
     }).then(response => response.json())
     .then(data => {
         if (data.success) {
-            document.getElementById("totalPrice").innerHTML=data.totalPrice;
+            document.getElementById("totalPrice").innerHTML=data.itemPrice;
             document.getElementById("cartTotal").innerHTML=data.totalPrice;
             Swal.fire({
                 title: "Success!",
