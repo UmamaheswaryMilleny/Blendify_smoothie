@@ -202,7 +202,7 @@ document.getElementById('couponForm').addEventListener('submit', async function 
 
         // Check if the deletion was successful
         if (result.success) {
-            window.location.reload();
+            window.location.reload(); // Refresh the page if successful
         } else {
             alert(result.error || "Failed to delete the coupon."); // Show error message
         }

@@ -1,6 +1,10 @@
 <%- include("../../views/partials/admin/header") %>
 
-
+<style>
+    .btn-primary:hover{
+        color: rgb(255, 255, 255);
+    }
+</style>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Sales Report</h2>
 
@@ -16,7 +20,6 @@
                 
                     <label for="endDate">End Date:</label>
                     <input type="date" id="endDate" name="endDate">
-                
                     <label for="filter">Filter:</label>
                     <div class="btn-group mb-3" role="group">
                         <button type="button" class="btn btn-primary">1 Day</button>

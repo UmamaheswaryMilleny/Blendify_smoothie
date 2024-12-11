@@ -61,17 +61,6 @@ const userSchema = new Schema({
         type:String
     },
 
-    searchHistory:[{
-        category:{
-            type:Schema.Types.ObjectId,
-            ref:"Category"
-        },
-   
-        searchOn:{
-            type:Date,
-            default:Date.now
-        }
-    }]
 },{ timestamps: true })
 
 

@@ -16,7 +16,7 @@
             <div class="card shadow-sm text-center border-0">
                 <div class="card-body">
                     <h5 class="card-title text-success mb-2">Overall Order Amount</h5>
-                    <p id="overallOrderAmount" class="display-6 text-secondary">INR <%= overallOrderAmount ? overallOrderAmount.toFixed(2) : '0.00' %></p>
+                    <p id="overallOrderAmount" class="display-6 text-secondary">₹ <%= overallOrderAmount ? overallOrderAmount.toFixed(2) : '0.00' %></p>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
             <div class="card shadow-sm text-center border-0">
                 <div class="card-body">
                     <h5 class="card-title text-danger mb-2">Overall Discount</h5>
-                    <p id="overallDiscount" class="display-6 text-secondary">INR <%= overallDiscount ? overallDiscount.toFixed(2) : '0.00' %></p>
+                    <p id="overallDiscount" class="display-6 text-secondary">₹ <%= overallDiscount ? overallDiscount.toFixed(2) : '0.00' %></p>
                 </div>
             </div>
         </div>
@@ -55,15 +55,20 @@
                             <ul class="list-unstyled">
                                 <% order.orderedItems.forEach(item => { %>
                                     <li>
-                                        Product: <%= item.product.productName %><br>
-                                        Size: <%= item.size %>, Quantity: <%= item.quantity %>, Price: INR <%= item.price.toFixed(2) %>
+                                        <% if (item.product) { %>
+                                            Product: <%= item.product.productName %><br>
+                                        <% } else { %>
+                                            Product: [Product information not available]<br>
+                                        <% } %>
+                                        
+                                        Size: <%= item.size %>, Quantity: <%= item.quantity %>, Price: ₹ <%= item.price.toFixed(2) %>
                                     </li>
                                 <% }) %>
                             </ul>
                         </td>
-                        <td>INR <%= order.totalprice.toFixed(2) %></td>
-                        <td>INR <%= order.discount.toFixed(2) %></td>
-                        <td>INR <%= order.finalAmount.toFixed(2) %></td>
+                        <td>₹ <%= order.totalprice.toFixed(2) %></td>
+                        <td>₹ <%= order.discount.toFixed(2) %></td>
+                        <td>₹ <%= order.finalAmount.toFixed(2) %></td>
                         <td><%= order.status %></td>
                         <td><%= order.paymentMethod %></td>
                         <td><%= order.createdOn %></td>

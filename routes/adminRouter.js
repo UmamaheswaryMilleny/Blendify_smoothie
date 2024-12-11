@@ -49,13 +49,13 @@ router.post("/removeProductOffer",adminAuth,productController.removeProductOffer
 
 router.get('/orderList', adminAuth, orderController.getOrderList);
 router.post('/change-order-status/:orderId', adminAuth, orderController.changeOrderStatus);
-//Coupon Management
 
-//Coupon Management
+
 router.get("/coupon",adminAuth,couponContrller.getCouponPage)
 router.post("/addCoupon",adminAuth,uploads.single("couponImage"),couponContrller.addCoupon)
 router.post("/deleteCoupon",adminAuth,couponContrller.deleteCoupon)
-//Sales Report
+
+
 router.get("/salesReport",adminAuth,salesReportController.getSalesReport)
 router.post("/generateSalesReport",adminAuth,salesReportController.generateSalesReport)
 router.get("/salesReportDownload",adminAuth,salesReportController.salesReportDownload)

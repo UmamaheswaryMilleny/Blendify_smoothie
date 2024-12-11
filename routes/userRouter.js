@@ -71,18 +71,17 @@ router.get("/orders",userAuth,orderController.getMyOrders)
 router.post("/cancel-order/:orderId",userAuth,orderController.cancelOrder)
 router.post("/return-order/:orderId",userAuth,orderController.returnOrder)
 router.get("/orderDetails/:orderId",userAuth,orderController.getOrderDetails)
-//Coupon Management
+//Coupon
 router.get("/coupons",userAuth,couponController.getCouponPage)
 router.post("/addCoupon",userAuth,couponController.addCoupon)
 router.post("/removeCoupon",userAuth,couponController.removeCoupon)
-//Wallet Management
+//Wallet
 router.get("/wallet",userAuth,walletController.getWalletPage)
-//Wishlist Management
+//Wishlist
 router.get("/wishlist",userAuth,wishlistController.getWishlistPage)
 router.post("/addToWishlist",userAuth,wishlistController.addToWishlist)
 router.post("/removeFromWishlist/:productId", userAuth, wishlistController.removeFromWishlist);
-
-
+//cart
 router.get("/cart",userAuth,cartController.getCartPage)
 router.post("/addToCart",userAuth,cartController.addToCart)
 router.post("/removeFromCart",userAuth,cartController.removeFromCart)
