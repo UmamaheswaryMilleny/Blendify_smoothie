@@ -60,6 +60,7 @@ async function sendVerificationEmail(email,otp){
                 pass:process.env.NODEMAILER_PASSWORD
             }
         })
+        console.log('Sending email to:', email);
         const info = await transporter.sendMail({
             from:process.env.NODEMAILER_EMAIL,
             to:email,
@@ -67,7 +68,7 @@ async function sendVerificationEmail(email,otp){
             text:`Your OTP is ${otp}`,
             html:`<b>Your OTP: ${otp}</b>`
         })
-
+        console.log('Email sent:', info); // Added log
         return info.accepted.length>0
     }catch(error){
         console.error("Error sending email",error)
@@ -80,11 +81,14 @@ async function sendVerificationEmail(email,otp){
 
 const signup=async (req,res)=>{
     try{
+        console.log("Request received") 
         const {name,email,phone,password,cPassword,cReferral}=req.body
+        ; console.log({ name, email, phone, password, cPassword, cReferral }); // Added log
         if(password!==cPassword){
             return res.render("signup",{message:"Password not match"})
         }
         const findUser=await User.findOne({email});
+        console.log(findUser)
         if(findUser){
             return res.render("signup",{message:"User with this email already exists"})
         }
