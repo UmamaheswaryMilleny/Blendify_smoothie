@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Verification - Blendify</title>
+    <title>Forgot Password - Blendify</title>
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
@@ -66,129 +66,52 @@
 </head>
 <body>
     <div class="container">
-        <h3 class="text-center">Email Verification</h3>
-        <form action="/verify-otp" method="post" id="otpForm"  onsubmit="return validateOTPForm()" novalidate>
-
+        <h3 class="text-center">Forgot Your Password?</h3>
+        <form method="post" action="/forgot-email-valid" onsubmit="return validateLoginForm()"novalidate>
+            <!-- <%if(locals.message && message.length>0){%>
+            <div class="alert alert-danger" role="alert"><%=message%></div>
+            <%}%> -->
             <div class="mb-3">
                 <input
-                    type="text"
+                    type="email"
                     class="form-control"
-                    id="otp"
-                    name="otp"
-                    placeholder="Enter OTP"
+                    id="email"
+                    name="email"
+                    placeholder="Email Address"
                     required
-                    maxlength="6"
-                    pattern="\d*"
                     autocomplete="off"
                 />
-                <i id="error1" class="error-message"></i>
+                <!-- <i id="error1" class="error-message"></i> -->
             </div>
-            <button type="submit" class="btn btn-primary w-100">Verify Email</button>
-            <div class="text-center mt-3  id="otpTimer" class="otp-timer">
-                <span id="timer">Time left: <span id="timerValue">60</span> seconds</span>
-            </div>
+            <button type="submit" class="btn btn-primary w-100">Send Reset Link</button>
             <div class="text-center mt-3">
-                <button type="button" class="btn btn-outline-light w-100" onclick="resendOtp()"   id="resendOtpBtn">Resend OTP</button>
-            </div>
-            <% if (locals.message && message.length > 0) { %>
-                <div class="alert alert-danger"><%= message %></div>
-                <% } %>
-            <div class="text-center mt-3">
-                <a href="/login" class="acc" style="color: #fff; font-size: smaller">Already verified? Login now</a>
+                <a href="/signup" class="acc" style="color: #fff; font-size: smaller">Don't have an account? Register</a>
             </div>
         </form>
     </div>
-    <script>
-        document.getElementById("otp").focus();
-
-let timer = 60;
-let timerInterval;
-
-function startTimer() {
-  timerInterval = setInterval(() => {
-    timer--;
-    document.getElementById("timerValue").textContent = timer;
-    if (timer <= 0) {
-      clearInterval(timerInterval);
-      document.getElementById("timerValue").classList.add("expired");
-      document.getElementById("timerValue").textContent = "Expired";
-      document.getElementById("otp").disabled = true;
-      document.getElementById("resendOtpBtn").disabled = false;
-    }
-  }, 1000);
-}
-
-function validateOTPForm() {
-  const otpInput = document.getElementById("otp").value;
-
-  $.ajax({
-    type: "POST",
-    url: "verify-otp",
-    data: { otp: otpInput },
-    success: function (response) {
-      if (response.success) {
-        Swal.fire({
-          icon: "success",
-          title: "OTP Verifies Successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        }).then(() => {
-          window.location.href = response.redirectUrl;
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: Error,
-          text: response.message,
-        });
-      }
-    },
-    error: function () {
-      Swal.fire({
-        icon: "error",
-        title: "Invalid OTP",
-        text: "Please try again",
-      });
-    },
-  });
-
-  return false;
-}
-
-function resendOTP() {
-  clearInterval(timerInterval);
-  timer = 60;
-  document.getElementById("otp").disabled = false;
-  document.getElementById("timerValue").classList.remove("expiresd");
-  document.getElementById("timerValue").textContent = timer;
-  document.getElementById("resendOtpBtn").disabled = true;
-  startTimer();
-
-  $.ajax({
-    type: "POST",
-    url: "resend-otp",
-    success: function (response) {
-      if (response.success) {
-        Swal.fire({
-          icon: "success",
-          title: "OTP Resend Successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } else {
-        Swal.fire({
-          icon: "erroR",
-          title: "Error",
-          text: "An error occured while resending OTP,Please try again",
-        });
-      }
-    },
-  });
-  return false;
-}
-
-startTimer();
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function validateLoginForm() {
+          const emailInput = document.getElementById('email');
+          const emailError = document.getElementById('email-error');
+          const emailValue = emailInput.value.trim();
+          const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+   
+   
+          if (emailValue === '') {
+              emailError.textContent = 'Please enter your email.';
+              emailInput.classList.add('is-invalid');
+              return false;
+          } else if (!emailValue.match(emailPattern)) {
+              emailError.textContent = 'Please enter a valid email address.';
+              emailInput.classList.add('is-invalid');
+              return false;
+          } else {
+              emailError.textContent = '';
+              emailInput.classList.remove('is-invalid');
+              return true;
+          }
+      }
+   </script>
 </body>
 </html>

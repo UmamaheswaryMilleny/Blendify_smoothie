@@ -9,8 +9,9 @@ const path = require("path")
 const userRouter=require("./routes/userRouter")
 const adminRouter=require('./routes/adminRouter')
 const passport=require("./config/passport")
+const flash = require('connect-flash');
 db()
-
+app.use(flash());
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(nocache())
