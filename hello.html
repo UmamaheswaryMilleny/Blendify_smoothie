@@ -22,7 +22,7 @@
       }
 
       .acc:hover {
-        color: #bf3320 !important ;
+        color: rgba(139, 0, 0) !important ;
         text-decoration: underline;
       }
     </style>
@@ -268,7 +268,6 @@
   </body>
 </html>
 
-
 <!-- verifyotp.ejs -->
 <!DOCTYPE html>
 <html lang="en">
@@ -363,7 +362,7 @@
         color: red;
       }
       .btn-primary {
-        background-color: #bf3320;
+        background-color: rgba(139, 0, 0);
         border: none;
         color: white;
         height: 33px;
@@ -451,7 +450,7 @@
           </form>
           <div class="text-muted text-center pt-25">
             Already verified?
-            <a href="/login" style="color: #bf3320">Login now</a>
+            <a href="/login" style="color: rgba(139, 0, 0)">Login now</a>
           </div>
         </div>
       </div>
@@ -552,7 +551,6 @@
   </body>
 </html>
 
-
 <!-- login -->
 <!DOCTYPE html>
 <html>
@@ -577,16 +575,15 @@
         color: rgb(118, 118, 118) !important; /* Set placeholder text color */
       }
       .acc:hover {
-        color: #bf3320 !important ;
+        color: rgba(139, 0, 0) !important ;
         text-decoration: underline;
-  
       }
-      #pass-icon{
-          width: 15px;
-    position: relative;
-    left: 295px;
-    top: -47px;
-        }
+      #pass-icon {
+        width: 15px;
+        position: relative;
+        left: 295px;
+        top: -47px;
+      }
     </style>
   </head>
 
@@ -632,7 +629,13 @@
               name="password"
             />
             <i class="zmdi zmdi-lock"></i>
-            <img src="/images/userImg/icon/closed2.png" onclick="togglePassword()" alt="Toggle Password Visibility" class="pass-icon" id="pass-icon">
+            <img
+              src="/images/userImg/icon/closed2.png"
+              onclick="togglePassword()"
+              alt="Toggle Password Visibility"
+              class="pass-icon"
+              id="pass-icon"
+            />
             <div id="error2" class="error-message"></div>
           </div>
 
@@ -640,7 +643,7 @@
             <a
               href="/forgot-password"
               class="forgot-password-link ms-auto"
-              style="color: #bf3320; position: relative; top: -16px"
+              style="color: rgba(139, 0, 0); position: relative; top: -16px"
             >
               <i class="fa fa-key"></i> Forgot Password?
             </a>
@@ -724,21 +727,490 @@
       let isPasswordVisible = false;
 
       function togglePassword() {
-          // Get references to elements
-          const passwordField = document.getElementById('password');
-          const passIcon = document.getElementById('pass-icon');
+        // Get references to elements
+        const passwordField = document.getElementById("password");
+        const passIcon = document.getElementById("pass-icon");
 
-          if (isPasswordVisible) {
-              passwordField.type = 'password';
-              passIcon.src = '/images/userImg/icon/closed2.png'; // Closed-eye icon
-          } else {
-              passwordField.type = 'text';
-              passIcon.src = '/images/userImg/icon/open.png'; // Open-eye icon
-          }
+        if (isPasswordVisible) {
+          passwordField.type = "password";
+          passIcon.src = "/images/userImg/icon/closed2.png"; // Closed-eye icon
+        } else {
+          passwordField.type = "text";
+          passIcon.src = "/images/userImg/icon/open.png"; // Open-eye icon
+        }
 
-          // Toggle state
-          isPasswordVisible = !isPasswordVisible;
+        // Toggle state
+        isPasswordVisible = !isPasswordVisible;
       }
     </script>
   </body>
 </html>
+
+<!-- product details page -->
+<%-include("../../views/partials/user/header")%>
+<!-- Shop Details Section Begin -->
+<style>
+  .nice-select {
+    margin-right: 15px;
+    position: relative;
+    bottom: -14px;
+  }
+</style>
+<section class="shop-details">
+  <div class="product__details__pic">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="product__details__breadcrumb">
+            <a href="/">Home</a>
+            <a href="/shop">Shop</a>
+            <span>Product Details</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Thumbnails -->
+        <div class="col-lg-1 col-md-1">
+          <ul class="nav nav-tabs">
+            <% for(let i = 0; i < product.productImage.length; i++) { %>
+            <li class="nav-item">
+              <a
+                class="nav-link thumbnail-link"
+                data-image-src="/uploads/product-images/<%= product.productImage[i] %>"
+                role="tab"
+              >
+                <div class="product__thumb__pic">
+                  <img
+                    src="/uploads/product-images/<%= product.productImage[i] %>"
+                    alt="Product Image <%= i+1 %>"
+                  />
+                </div>
+              </a>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+
+        <!-- Main Image Display -->
+        <div class="col-lg-4 col-md-8">
+          <div
+            class="product__details__pic__item"
+            style="position: relative; margin: 64px -6px; left: 76px"
+          >
+            <img
+              id="main-product-image"
+              src="/uploads/product-images/<%= product.productImage[0] %>"
+              alt="Main Product Image"
+              style="width: 100%"
+            />
+            <!-- Zoom Icon -->
+            <div
+              class="zoom-icon"
+              style="
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+              "
+            >
+              <img
+                src="/images/userImg/icon/search.png"
+                alt="Zoom Icon"
+                width="30"
+                height="30"
+                onclick="openZoomModal()"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for zoomed image -->
+        <div
+          id="zoomModal"
+          class="modal"
+          style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <span
+            class="close"
+            style="
+              position: absolute;
+              top: 10px;
+              right: 20px;
+              font-size: 40px;
+              color: white;
+              cursor: pointer;
+            "
+            onclick="closeZoomModal()"
+            >&times;</span
+          >
+          <img
+            id="zoomedImage"
+            src="/uploads/product-images/<%= product.productImage[0] %>"
+            style="max-width: 90%; max-height: 90%"
+          />
+        </div>
+        <div class="col-lg-6 col-md-8">
+          <div class="container" style="margin-left: 140px">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="product__details__text">
+                  <h4 style="text-align: left"><%= product.productName %></h4>
+                  <div class="rating" style="text-align: left">
+                    Product Offer : <%=product.productOffer ?
+                    product.productOffer : 0%>%
+                  </div>
+                  <!-- <img src="/images/userImg/icon/sale.gif" alt=""> -->
+                  <!-- Sale Price -->
+                  <% if (product.salePrice) { %>
+                  <h6
+                    style="
+                      text-align: left;
+                      color: rgb(255, 0, 0);
+                      margin-top: -8px;
+                    "
+                  >
+                    SalePrice: <b>₹<%= product.salePrice %></b>
+                    <span style="margin-left: 20px; color: rgb(71, 60, 60)">
+                      Price: ₹<%= product.regularPrice %>
+                    </span>
+                  </h6>
+                  <% } else { %>
+                  <h6
+                    style="
+                      text-align: left;
+                      color: rgb(71, 60, 60);
+                      margin-top: -8px;
+                    "
+                  >
+                    Price: ₹<%= product.regularPrice %>
+                  </h6>
+                  <% } %>
+
+                  <p style="text-align: left; margin-top: 20px">
+                    <%= product.description %>
+                  </p>
+                  <div
+                    class="product__details__option"
+                    style="text-align: left"
+                  >
+                    <div class="product__details__option__size">
+                      <span>Size:</span>
+                      <% if (availableSizes && availableSizes.length > 0) { %>
+                      <% availableSizes.forEach(sizeObj => { %>
+                      <label
+                        for="<%= sizeObj.size %>"
+                        class="<%= sizeObj.quantity > 0 ? '' : 'out-of-stock' %>"
+                      >
+                        <%= sizeObj.size %> <% if (sizeObj.quantity === 0) { %>
+                        <!-- Check if the size is out of stock -->
+                        (Out of Stock)
+                        <input
+                          type="radio"
+                          id="<%= sizeObj.size %>"
+                          name="size"
+                          value="<%= sizeObj.size %>"
+                          disabled
+                        />
+                        <% } else { %>
+                        <input
+                          type="radio"
+                          id="<%= sizeObj.size %>"
+                          name="size"
+                          value="<%= sizeObj.size %>"
+                        />
+                        <% } %>
+                      </label>
+                      <% }) %> <% } else { %>
+                      <p>No sizes available</p>
+                      <% } %>
+                    </div>
+                  </div>
+
+                  <% if (product.quantity < 1) { %>
+                  <div class="product__details__stock">
+                    <span class="out-of-stock text-danger">Out of Stock</span>
+                  </div>
+                  <% } else { %>
+
+                  <div
+                    class="product__details__cart__option"
+                    style="text-align: left"
+                  >
+                    <label for="quantity">Quantity:</label>
+                    <div class="quantity">
+                      <select id="quantity" name="quantity">
+                        <% for (let i = 1; i <= 5; i++) { %>
+                        <option value="<%= i %>"><%= i %></option>
+                        <% } %>
+                      </select>
+                    </div>
+                    <a href="#" class="primary-btn" id="addToCartButton"
+                      >Add to Cart</a
+                    >
+                  </div>
+                  <% } %>
+
+                  <div
+                    class="product__details__btns__option"
+                    style="text-align: left"
+                  >
+                    <a
+                      href="javascript:void(0);"
+                      onclick="addToWishlist('<%= product._id %>')"
+                      style="
+                        background-color: #dc3545;
+                        color: white;
+                        height: 42px;
+                        width: 200px;
+                        text-align: center;
+                        padding: 12px;
+                      "
+                    >
+                      <i class="fa fa-heart"></i> add to wishlist
+                    </a>
+                  </div>
+
+                  <div
+                    class="product__details__last__option"
+                    style="text-align: left"
+                  >
+                    <!-- <img
+                      src="img/shop-details/details-payment.png"
+                      alt="image"
+                    /> -->
+                    <ul style="padding-top: 0">
+                      <li><span>Categories:</span> <%= cat.name %></li>
+                      <li>
+                        Category Offer : <%=cat.categoryOffer ?
+                        cat.categoryOffer : 0%>%
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Related Section Begin -->
+<section class="related spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3 class="related-title">Related Product</h3>
+      </div>
+    </div>
+    <div class="row">
+      <% relatedProducts.forEach(product => { %>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="product__item sale">
+          <div
+            class="product__item__pic set-bg"
+            data-setbg="/uploads/product-images/<%= product.productImage[0] %>"
+          >
+            <span class="label"
+              ><a
+                href="/productDetails?id=<%=product._id%>"
+                style="color: white"
+                >For More Details</a
+              ></span
+            >
+            <ul class="product__hover">
+              <li>
+                <a href="#"
+                  ><img src="/images/userImg/icon/heart.png" alt=""
+                /></a>
+              </li>
+            </ul>
+          </div>
+          <div class="product__item__text">
+            <h6><%=product.productName%></h6>
+            <a href="/addToCart/<%=product._id%>" class="add-cart"
+              >+ Add To Cart</a
+            >
+            <div class="rating">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-o"></i>
+            </div>
+            <h5>
+              <% if (product.salePrice) { %> ₹<%= product.salePrice %> <% } else
+              { %> ₹<%= product.regularPrice %> <% } %>
+            </h5>
+
+            <div class="product__color__select">
+              <label for="pc-34">
+                <input type="radio" id="pc-34" />
+              </label>
+              <label class="active black" for="pc-35">
+                <input type="radio" id="pc-35" />
+              </label>
+              <label class="grey" for="pc-36">
+                <input type="radio" id="pc-36" />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<!-- Related Section End -->
+
+<script>
+  document.querySelectorAll(".thumbnail-link").forEach((item) => {
+    item.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent the default link behavior
+
+      // Get the main image element
+      const mainImage = document.getElementById("main-product-image");
+      const zoomedImage = document.getElementById("zoomedImage"); // Get the zoomed image element
+
+      // Get the new image source from the clicked thumbnail
+      const newImageSrc = this.getAttribute("data-image-src");
+
+      // Update the main image's src attribute
+      mainImage.src = newImageSrc;
+
+      // Update the zoomed image's src attribute
+      zoomedImage.src = newImageSrc;
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get the add to cart button
+    var addToCartButton = document.getElementById("addToCartButton");
+
+    // Add click event listener
+    addToCartButton.addEventListener("click", function (e) {
+      e.preventDefault(); // Prevent default action
+
+      // Get selected quantity and product ID
+      var quantity = parseInt(document.getElementById("quantity").value, 10);
+      var productId = "<%= product._id %>"; // Ensure this is correctly rendered
+
+      // Get the selected size
+      var selectedSize = document.querySelector('input[name="size"]:checked');
+      var size = selectedSize ? selectedSize.value : null; // Get size value if selected
+
+      // Ensure a size is selected
+      if (!size) {
+        Swal.fire({
+          title: "Error!",
+          text: "Please select a size before adding to cart",
+          icon: "error",
+          button: "OK",
+        });
+        return; // Stop if no size is selected
+      }
+
+      // Send a POST request using fetch
+      fetch("/addToCart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: productId,
+          quantity: quantity,
+          size: size,
+        }),
+      })
+        .then((response) => response.json()) // Parse the JSON response
+        .then((data) => {
+          if (data.success) {
+            // Show success message using SweetAlert
+            Swal.fire({
+              title: "Success!",
+              text: "Product added to cart successfully!",
+              icon: "success",
+              button: "OK",
+            });
+          } else {
+            // Show error message
+            Swal.fire({
+              title: "Error!",
+              text: data.message || "Failed to add product to cart",
+              icon: "error",
+              button: "OK",
+            });
+          }
+        })
+        .catch((error) => {
+          // Log the error and show an error alert
+          console.error("Error:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "An unexpected error occurred",
+            icon: "error",
+            button: "OK",
+          });
+        });
+    });
+  });
+
+  // Open the modal
+  function openZoomModal() {
+    document.getElementById("zoomModal").style.display = "flex";
+  }
+
+  // Close the modal
+  function closeZoomModal() {
+    document.getElementById("zoomModal").style.display = "none";
+  }
+
+  function addToWishlist(productId) {
+    fetch("/addToWishlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId: productId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          Swal.fire({
+            title: "Success!",
+            text: "Product added to Wishlist successfully!",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: data.message || "Failed to add product to Wishlist",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "An unexpected error occurred",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      });
+  }
+</script>
+
+<%-include("../../views/partials/user/footer")%>

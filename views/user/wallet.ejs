@@ -16,21 +16,26 @@
         <div class="card-body">
           <h4 class="card-title">Balance</h4>
           <!-- //The .toFixed(2) ensures the balance is always displayed with two decimal points -->
-          <p class="card-text display-4" id="balance">INR <%= wallet.balance.toFixed(2) %></p>
+          <p class="card-text display-4" id="balance">
+            INR <%= wallet.balance.toFixed(2) %>
+          </p>
         </div>
       </div>
 
       <!-- Transaction History Table -->
       <p class="card-text">
         <b>Your Referral Code :</b>
-        <span id="referral-code" class="font-weight-bold " style="color: #bf3320 ;"><%= user.referalCode %></span>
+        <span
+          id="referral-code"
+          class="font-weight-bold"
+          style="color: rgba(139, 0, 0)"
+          ><%= user.referalCode %></span
+        >
       </p>
       <div class="card">
         <div class="card-body">
-       
-         
           <h4 class="card-title">Transaction History</h4>
-          
+
           <table class="table table-striped">
             <thead>
               <tr>
@@ -42,20 +47,22 @@
               </tr>
             </thead>
             <tbody id="transaction-history">
-              <% if (wallet.transactions.length > 0) { %>
-                <% wallet.transactions.forEach(transaction => { %>
-                  <tr>
-                    <td><%= new Date(transaction.date).toLocaleDateString() %></td>
-                    <td><%= transaction.transaction_id %></td>
-                    <td><%= transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1) %></td>
-                    <td>INR <%= transaction.amount.toFixed(2) %></td>
-                    <td><%= transaction.description || 'N/A' %></td>
-                  </tr>
-                <% }) %>
-              <% } else { %>
-                <tr>
-                  <td colspan="5" class="text-center">No transactions found</td>
-                </tr>
+              <% if (wallet.transactions.length > 0) { %> <%
+              wallet.transactions.forEach(transaction => { %>
+              <tr>
+                <td><%= new Date(transaction.date).toLocaleDateString() %></td>
+                <td><%= transaction.transaction_id %></td>
+                <td>
+                  <%= transaction.type.charAt(0).toUpperCase() +
+                  transaction.type.slice(1) %>
+                </td>
+                <td>INR <%= transaction.amount.toFixed(2) %></td>
+                <td><%= transaction.description || 'N/A' %></td>
+              </tr>
+              <% }) %> <% } else { %>
+              <tr>
+                <td colspan="5" class="text-center">No transactions found</td>
+              </tr>
               <% } %>
             </tbody>
           </table>

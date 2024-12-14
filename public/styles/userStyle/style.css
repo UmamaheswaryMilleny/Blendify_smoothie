@@ -93,10 +93,10 @@ textarea:focus {
   outline: none;
 }
 .person:hover {
-  background-color: #bf3320;
+  background-color: rgba(139, 0, 0);
 }
 .lets-go:hover {
-  background-color: #bf3320;
+  background-color: rgba(139, 0, 0);
 }
 
 a:hover,
@@ -2070,19 +2070,19 @@ ol {
 -----------------------*/
 
 .breadcrumb-option {
-  background: #f3f2ee;
-  padding: 40px 0;
+  background: #fa8a00;
+  padding: 15px 0;
 }
 
 .breadcrumb__text h4 {
-  color: #111111;
+  color: #ffffff;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
 .breadcrumb__links a {
   font-size: 15px;
-  color: #111111;
+  color: #ffffff;
   margin-right: 18px;
   display: inline-block;
   position: relative;

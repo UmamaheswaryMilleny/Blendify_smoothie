@@ -6,7 +6,7 @@
   color: #0d0d0d;
 }
 .wrapper {
-  background: #bf3320;
+  background: rgba(139, 0, 0);
   padding: 0 20px 0 20px;
 }
 .main {
@@ -100,7 +100,7 @@ img {
 }
 .input-field .input:focus,
 .input-field .input:valid {
-  border-bottom: 1px solid #bf3320;
+  border-bottom: 1px solid rgba(139, 0, 0);
 }
 .submit {
   border: none;
@@ -111,7 +111,7 @@ img {
   transition: 0.4s;
 }
 .submit:hover {
-  background: #bf3320;
+  background: rgba(139, 0, 0);
   color: #fff;
 }
 .signin {
@@ -122,7 +122,7 @@ img {
 span a {
   text-decoration: none;
   font-weight: 700;
-  color: #bf3320;
+  color: rgba(139, 0, 0);
   transition: 0.5s;
 }
 span a:hover {

@@ -1,42 +1,63 @@
 <%- include("../../views/partials/user/header") %>
 
 <style>
+  body{
+
+  background: url("/images/userImg/home/img2_1.png") no-repeat center
+          center fixed;
+        background-size: cover;
+        color: #fff;
+     
+  }
   .forgot-password-link {
     font-size: 0.875rem;
     text-decoration: none;
-    color: #bf3320;
+    color: rgba(139, 0, 0);
   }
   .forgot-password-link:hover {
-    color: #bf3320;
+    color: rgba(139, 0, 0);
     text-decoration: underline;
   }
   .list-group-item.active {
-    background-color: #bf3320;
-    border-color: #bf3320;
+    background-color: rgba(139, 0, 0);
+    border-color: rgba(139, 0, 0);
   }
   h5 {
+    color: #fff;
     padding: 2px;
   }
   .btn {
     width: 184px;
     margin: 15px 0px;
-    background-color: #bf3320;
+    background-color: #fa8a00;
     color: white;
   }
   .profile-page {
     height: 70vh;
   }
-  .row {
-    /* height: 70vh; */
+  .form-control {
+    width: 50% !important;
   }
   button {
     width: 184px;
-    background-color: #bf3320;
+    background-color: rgba(139, 0, 0);
     color: white !important;
   }
   button:hover {
     color: white !important;
   }
+  #profileCard{
+    background: rgba(139, 0, 0, 0.85);
+    font-family: "Poppins-Regular" !important; 
+  }
+  .btn-primary:hover {
+        background-color: rgb(210 118 48);
+        border-color: rgba(139, 0, 0);
+      }
+      .btn-primary:focus {
+        background-color: #fa8a00 !important;
+        border-color: rgba(139, 0, 0);
+      }
 </style>
 
 <div class="container mt-5 profile-page">
@@ -88,12 +109,12 @@
             style="display: none"
           ></small>
         </div>
-        <div class="form-group d-flex justify-content-end">
+        <div class="form-group d-flex">
           <a href="/forgot-password" class="forgot-password-link ms-auto">
             <i class="fa fa-key"></i> Forgot Password?
           </a>
         </div>
-        <div class="text-center">
+        <div>
           <button
             type="button"
             class="btn btn-secondary cancel-btn"
@@ -104,7 +125,7 @@
           <button
             type="button"
             class="btn save-btn"
-            style="background-color: #bf3320"
+            style="background-color: rgba(139, 0, 0)"
           >
             Save
           </button>

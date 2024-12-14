@@ -1,6 +1,6 @@
 <%- include("../../views/partials/user/header") %>
 
-<section class="breadcrumb-option" style="padding: 16px 0">
+<section class="breadcrumb-option" style="padding: 15px 0">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
@@ -24,10 +24,13 @@
       <div class="col-lg-7 col-md-6">
         <div class="checkout__address" style="margin-top: 31px">
           <h4 class="order__title"><b>Select Address</b></h4>
-          <a href="/manage-addresses/add-address" class="btn btn-primary mb-3" style="margin-top: 11px;"
-          >Add New Address</a
-        >
-          <div class="checkout__address__list" >
+          <a
+            href="/manage-addresses/add-address"
+            class="btn btn-primary mb-3"
+            style="margin-top: 11px"
+            >Add New Address</a
+          >
+          <div class="checkout__address__list">
             <% if (addresses && addresses.address.length > 0) { %>
             <select name="selectedAddress" class="form-control" required>
               <% addresses.address.forEach((address) => { %>
@@ -101,13 +104,12 @@
               id="removeCoupon"
               type="submit"
               style="
-             background-color: #dc3545;
-    position: relative;
-    top: 0px;
-    padding: 11px 7px;
-    font-size: 12px;
-    border-radius: 5px;
- 
+                background-color: #dc3545;
+                position: relative;
+                top: 0px;
+                padding: 11px 7px;
+                font-size: 12px;
+                border-radius: 5px;
               "
             >
               Remove Coupon
@@ -139,8 +141,8 @@
             <% cartItems.forEach((item, index) => { %>
             <li>
               <%= index + 1 %>. <%= item.productId.productName %>
-              <span style="margin-left: 15px;">Size : <%=item.size%></span>
-              <span style="margin-left:  25px;">Qty : <%=item.quantity%></span>
+              <span style="margin-left: 15px">Size : <%=item.size%></span>
+              <span style="margin-left: 25px">Qty : <%=item.quantity%></span>
               <span><%= item.totalPrice.toFixed(2) %></span>
             </li>
             <% }) %>
@@ -310,7 +312,7 @@
               contact: "9999999999",
             },
             theme: {
-              color: "#bf3320",
+              color: "rgba(139, 0, 0)",
             },
           };
 

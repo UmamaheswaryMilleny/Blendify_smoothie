@@ -6,7 +6,7 @@
     box-sizing: border-box;
   }
   body {
-    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-family: "Poppins-Regular";
   }
   .formbold-mb-5 {
     margin-bottom: 20px;
@@ -31,7 +31,7 @@
     display: block;
     font-weight: 500;
     font-size: 16px;
-    color: #07074d;
+    color: hsl(0, 0%, 100%);
     margin-bottom: 12px;
   }
   .formbold-form-label-2 {
@@ -42,37 +42,48 @@
 
   .formbold-form-input {
     width: 100%;
-    padding: 12px 24px;
-    border-radius: 6px;
-    border: 1px solid #e0e0e0;
-    background: white;
-    font-weight: 500;
-    font-size: 16px;
-    color: #6b7280;
-    outline: none;
-    resize: none;
-  }
-  .formbold-form-input:focus {
-    border-color: #6a64f1;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 7px !important;
+    padding: 0.375rem 0.75rem;
+    box-shadow: none !important;
+    border-color: rgb(157 51 51 / 70%);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
   }
 
   .formbold-btn {
     text-align: center;
     font-size: 16px;
     border-radius: 6px;
-    padding: 14px 32px;
+    padding: 10px 32px;
     border: none;
     font-weight: 600;
-    background-color: #6a64f1;
     color: white;
     width: 100%;
     cursor: pointer;
   }
-  .formbold-btn:hover {
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+  input::placeholder {
+    color: rgb(255, 255, 255) !important;
   }
-
+  input:focus {
+    background-color: #a23730 !important;
+    color: #ffffff !important;
+  }
+  input:focus::placeholder {
+    color: #ffd4d5 !important;
+  }
+  .btn-primary {
+    background-color: #fa8a00;
+    border: none;
+  }
+  .btn-primary:hover {
+    background-color: rgb(210 118 48);
+    border-color: rgba(139, 0, 0);
+  }
+  .btn-primary:focus {
+    background-color: #fa8a00 !important;
+    border-color: rgba(139, 0, 0);
+  }
   .formbold--mx-3 {
     margin-left: -12px;
     margin-right: -12px;
@@ -98,12 +109,16 @@
   .error-message {
     display: block;
     color: #ff0000;
-    font-size: 11px;
+    font-size: smaller !important;
     position: relative;
     top: -15px;
   }
+  .formbold-form-wrapper {
+    background: rgba(139, 0, 0, 0.85);
+    color: white;
+  }
 </style>
-<section class="breadcrumb-option" style="    padding: 25px 0;">
+<section class="breadcrumb-option mb-5" style="padding: 15px 0">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
@@ -122,8 +137,16 @@
 </section>
 <!-- Breadcrumb Section End -->
 
-<div  style="padding: 30px;background-position: center;background-image: url(/images/userImg/home/img2_1.png);
-    background-size: cover;    background-color: #f3cfb5;">
+<div
+  style="
+    padding: 30px;
+    margin-top: -50px;
+    background-position: center;
+    background-image: url(/images/userImg/home/img2_1.png);
+    background-size: cover;
+    background-color: #f3cfb5;
+  "
+>
   <h3 class="mb-4" style="text-align: center"><b>Add New Address</b></h3>
   <form
     id="addressform"
@@ -131,110 +154,107 @@
     action="/manage-addresses/add-address"
     novalidate
   >
-    <div class="formbold-main-wrapper" style="padding: 17px;">
+    <div class="formbold-main-wrapper" style="padding: 0">
       <!-- Author: FormBold Team -->
       <!-- Learn More: https://formbold.com -->
-      <div class="formbold-form-wrapper" >
-     
-          <div class="formbold-mb-5" style="padding: 35px 35px 0px 35px;">
-            <label for="name" class="formbold-form-label"> Full Name </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Full Name"
-              class="formbold-form-input"
-            />
-            <div id="error1" class="error-message" style="top: 4px"></div>
-          </div>
-          <div class="formbold-mb-5" style="padding: 0px 35px 0px 35px;">
-            <label for="phone" class="formbold-form-label">
-              Phone Number
-            </label>
-            <input
-              type="text"
-              id="mobile"
-              name="mobile"
-              placeholder="Enter your phone number"
-              class="formbold-form-input"
-            />
-            <div id="error7" class="error-message" style="top: 4px"></div>
-          </div>
+      <div class="formbold-form-wrapper">
+        <div class="formbold-mb-5" style="padding: 35px 35px 0px 35px">
+          <label for="name" class="formbold-form-label"> Full Name </label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Full Name"
+            class="formbold-form-input"
+          />
+          <div id="error1" class="error-message" style="top: 4px"></div>
+        </div>
+        <div class="formbold-mb-5" style="padding: 0px 35px 0px 35px">
+          <label for="phone" class="formbold-form-label"> Phone Number </label>
+          <input
+            type="text"
+            id="mobile"
+            name="mobile"
+            placeholder="Enter your phone number"
+            class="formbold-form-input"
+          />
+          <div id="error7" class="error-message" style="top: 4px"></div>
+        </div>
 
-          <div class="formbold-mb-5 formbold-pt-3" style="padding: 0px 35px 0px 35px;">
-            <label class="formbold-form-label formbold-form-label-2">
-              Address Details
-            </label>
-            <div class="flex flex-wrap formbold--mx-3">
-              <div class="w-full sm:w-half formbold-px-3">
-                <div class="formbold-mb-5">
-                  <input
-                    type="text"
-                    id="houseName"
-                    name="houseName"
-                    placeholder="Enter housename"
-                    class="formbold-form-input"
-                  />
-                </div>
-                <div id="error2" class="error-message"></div>
+        <div
+          class="formbold-mb-5 formbold-pt-3"
+          style="padding: 0px 35px 0px 35px"
+        >
+          <label class="formbold-form-label formbold-form-label-2">
+            Address Details
+          </label>
+          <div class="flex flex-wrap formbold--mx-3">
+            <div class="w-full sm:w-half formbold-px-3">
+              <div class="formbold-mb-5">
+                <input
+                  type="text"
+                  id="houseName"
+                  name="houseName"
+                  placeholder="Enter housename"
+                  class="formbold-form-input"
+                />
               </div>
-              <div class="w-full sm:w-half formbold-px-3">
-                <div class="formbold-mb-5">
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    placeholder="Enter city"
-                    class="formbold-form-input"
-                  />
-                  <div id="error4" class="error-message" style="top: 5px"></div>
-                </div>
-              </div>
-              <div class="w-full sm:w-half formbold-px-3">
-                <div class="formbold-mb-5">
-                  <input
-                    type="text"
-                    name="street"
-                    id="street"
-                    placeholder="Enter street"
-                    class="formbold-form-input"
-                  />
-                </div>
-                <div id="error3" class="error-message"></div>
-              </div>
-              <div class="w-full sm:w-half formbold-px-3">
-                <div class="formbold-mb-5">
-                  <input
-                    type="text"
-                    id="state"
-                    name="state"
-                    placeholder="Enter state"
-                    class="formbold-form-input"
-                  />
-                </div>
-                <div id="error5" class="error-message"></div>
-              </div>
-              <div class="w-full sm:w-half formbold-px-3">
-                <div class="formbold-mb-5">
-                  <input
-                    type="text"
-                    id="pincode"
-                    name="pincode"
-                    placeholder="Pin Code"
-                    class="formbold-form-input"
-                  />
-                </div>
-                <div id="error6" class="error-message"></div>
+              <div id="error2" class="error-message"></div>
+            </div>
+            <div class="w-full sm:w-half formbold-px-3">
+              <div class="formbold-mb-5">
+                <input
+                  type="text"
+                  name="city"
+                  id="city"
+                  placeholder="Enter city"
+                  class="formbold-form-input"
+                />
+                <div id="error4" class="error-message" style="top: 5px"></div>
               </div>
             </div>
+            <div class="w-full sm:w-half formbold-px-3">
+              <div class="formbold-mb-5">
+                <input
+                  type="text"
+                  name="street"
+                  id="street"
+                  placeholder="Enter street"
+                  class="formbold-form-input"
+                />
+              </div>
+              <div id="error3" class="error-message"></div>
+            </div>
+            <div class="w-full sm:w-half formbold-px-3">
+              <div class="formbold-mb-5">
+                <input
+                  type="text"
+                  id="state"
+                  name="state"
+                  placeholder="Enter state"
+                  class="formbold-form-input"
+                />
+              </div>
+              <div id="error5" class="error-message"></div>
+            </div>
+            <div class="w-full sm:w-half formbold-px-3">
+              <div class="formbold-mb-5">
+                <input
+                  type="text"
+                  id="pincode"
+                  name="pincode"
+                  placeholder="Pin Code"
+                  class="formbold-form-input"
+                />
+              </div>
+              <div id="error6" class="error-message"></div>
+            </div>
           </div>
+        </div>
 
-          <div style="padding: 0px 35px 30px 35px;">
-            <button class="formbold-btn" style="background-color: #bf3320">
-              Add Address
-            </button>
-          </div>
-   
+        <div style="padding: 0px 35px 30px 35px">
+          <button class="formbold-btn btn-primary">Add Address</button>
+        </div>
       </div>
     </div>
   </form>

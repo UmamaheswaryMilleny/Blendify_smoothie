@@ -37,7 +37,7 @@
           </div>
           <div class="col-md-6 right">
             <div class="input-box">
-              <header style="color: #bf3320; font-size: larger">
+              <header style="color: rgba(139, 0, 0); font-size: larger">
                 Admin Signin
               </header>
               <!-- <div class="input-field">
@@ -51,7 +51,9 @@
                 <label for="fullname">Full name</label>
               </div> -->
               <% if (message) { %>
-              <div class="alert alert-danger text-center" style="color: black;"><%= message %></div>
+              <div class="alert alert-danger text-center" style="color: black">
+                <%= message %>
+              </div>
               <% } %>
 
               <form id="adminLoginForm" method="post" action="/admin/login">

@@ -59,7 +59,7 @@ html {
   color: red;
 }
 .btn-primary {
-  background-color: #bf3320;
+  background-color: rgba(139, 0, 0);
   border: none;
   color: white;
   height: 33px;

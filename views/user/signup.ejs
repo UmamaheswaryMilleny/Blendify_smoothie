@@ -14,6 +14,7 @@
     />
     <style>
       body {
+        font-family: "Poppins-Regular";
         background: url("/images/userImg/home/img2_1.png") no-repeat center
           center fixed;
         background-size: cover;
@@ -34,20 +35,20 @@
         color: rgb(255, 255, 255) !important;
       }
       input:focus {
-            background-color: #a23730 !important;
-            color: #ffffff !important;
-        }
-        input:focus::placeholder {
-            color: #ffd4d5 !important;
-        }
-        .btn-primary {
-            background-color: #fa8a00;
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: rgb(210 118 48);
-            border-color: #bf3320;
-        }
+        background-color: #a23730 !important;
+        color: #ffffff !important;
+      }
+      input:focus::placeholder {
+        color: #ffd4d5 !important;
+      }
+      .btn-primary {
+        background-color: #fa8a00;
+        border: none;
+      }
+      .btn-primary:hover {
+        background-color: rgb(210 118 48);
+        border-color: rgba(139, 0, 0);
+      }
       .image-holder img {
         width: 100%;
         height: auto;
@@ -66,8 +67,8 @@
         background: rgba(255, 255, 255, 0.2);
       }
       button:active {
-            background-color: #fa8a00 !important;
-        }
+        background-color: #fa8a00 !important;
+      }
       #error4,
       #error5 {
         position: relative;
@@ -79,21 +80,22 @@
         }
       }
       .error-message {
-            font-style: normal !important;
-            color: red !important;
-            font-family: "Poppins-Regular";
-        }
-        .form-control.is-invalid, .was-validated .form-control:invalid {
-            border-color: red;
-        }
-        .btn-outline-light:hover .fa-google {
-            color: red !important;
-        }
-        .alert-danger {
-            padding: 10px;
-            color: red;
-            text-align: center;
-        }
+        font-style: normal !important;
+        color: red !important;
+        font-family: "Poppins-Regular";
+      }
+      .form-control.is-invalid,
+      .was-validated .form-control:invalid {
+        border-color: red;
+      }
+      .btn-outline-light:hover .fa-google {
+        color: red !important;
+      }
+      .alert-danger {
+        padding: 10px;
+        color: red;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -137,7 +139,7 @@
             <div class="mb-3">
               <input
                 type="text"
-                class="form-control "
+                class="form-control"
                 id="phone"
                 name="phone"
                 placeholder="Phone Number"
@@ -149,7 +151,7 @@
             <div class="mb-3 input-group">
               <input
                 type="password"
-                class="form-control "
+                class="form-control"
                 id="password"
                 name="password"
                 placeholder="Password"
@@ -166,7 +168,7 @@
             <div class="mb-3 input-group">
               <input
                 type="password"
-                class="form-control "
+                class="form-control"
                 id="confirm-password"
                 name="cPassword"
                 placeholder="Confirm Password"
@@ -179,7 +181,7 @@
                 <i class="fas fa-eye"></i>
               </span>
             </div>
-            
+
             <i id="error5" class="error-message"></i>
             <div class="mb-3">
               <input
@@ -213,7 +215,6 @@
       </div>
     </div>
     <script>
-      
       function togglePasswordVisibility(id) {
         const passwordField = document.getElementById(id);
         const icon = passwordField.nextElementSibling.querySelector("i");
