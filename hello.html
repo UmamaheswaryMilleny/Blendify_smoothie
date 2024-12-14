@@ -553,4 +553,192 @@
 </html>
 
 
-<!-- forgot passw -->
+<!-- login -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Login - blendify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+      integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/styles/userStyle/style1.css" />
+    <style>
+      input::placeholder {
+        color: rgb(118, 118, 118) !important; /* Set placeholder text color */
+      }
+      .acc:hover {
+        color: #bf3320 !important ;
+        text-decoration: underline;
+  
+      }
+      #pass-icon{
+          width: 15px;
+    position: relative;
+    left: 295px;
+    top: -47px;
+        }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="inner">
+        <div class="image-holder">
+          <img
+            src="/images/userImg/home/img1.jpg"
+            alt=""
+            width="405"
+            height="530"
+          />
+        </div>
+        <form id="loginform" method="post" action="/login">
+          <h3>Welcome Back! Ready to Blend?</h3>
+          <%if(locals.message && message.length>0){%>
+          <div class="alert alert-danger" role="alert"><%=message%></div>
+          <%}%>
+          <div class="form-wrapper">
+            <input
+              style="border-radius: 0; box-shadow: none; border-color: black"
+              type="text"
+              placeholder="Email Address"
+              class="form-control"
+              id="email"
+              name="email"
+              required=""
+              autocomplete="off"
+            />
+            <i class="zmdi zmdi-email"></i>
+            <div id="error1" class="error-message"></div>
+          </div>
+
+          <div class="form-wrapper">
+            <input
+              style="border-radius: 0; box-shadow: none; border-color: black"
+              type="password"
+              placeholder="Password"
+              class="form-control"
+              id="password"
+              required=""
+              name="password"
+            />
+            <i class="zmdi zmdi-lock"></i>
+            <img src="/images/userImg/icon/closed2.png" onclick="togglePassword()" alt="Toggle Password Visibility" class="pass-icon" id="pass-icon">
+            <div id="error2" class="error-message"></div>
+          </div>
+
+          <div class="form-group d-flex justify-content-end">
+            <a
+              href="/forgot-password"
+              class="forgot-password-link ms-auto"
+              style="color: #bf3320; position: relative; top: -16px"
+            >
+              <i class="fa fa-key"></i> Forgot Password?
+            </a>
+          </div>
+          <button style="margin-top: 15px">
+            Login
+            <i class="zmdi zmdi-arrow-right"></i>
+          </button>
+          <h6 style="margin: 2px 144px">OR</h6>
+          <div class="form-wrapper">
+            <a href="/auth/google" class="button" style="text-decoration: none"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-google"
+                viewBox="0 0 16 16"
+                style="margin: 0px 6px"
+              >
+                <path
+                  d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"
+                /></svg
+              >Sign Up with Google</a
+            >
+          </div>
+
+          <a href="/signup" style="color: black" class="acc"
+            >Dont have an account?</a
+          >
+        </form>
+      </div>
+    </div>
+    <script>
+      const emailid = document.getElementById("email");
+      const passid = document.getElementById("password");
+      const error1 = document.getElementById("error1");
+      const error2 = document.getElementById("error2");
+      const loginform = document.getElementById("loginform");
+
+      function emailValidateChecking(e) {
+        const emailval = emailid.value;
+        const emailpattern =
+          /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,4})$/;
+
+        if (!emailpattern.test(emailval)) {
+          error1.style.display = "block";
+          error1.innerHTML = "Invalid Format";
+        } else {
+          error1.style.display = "none";
+          error1.innerHTML = "";
+        }
+      }
+
+      function passValidateChecking(e) {
+        const passval = passid.value;
+        if (passval.length < 8) {
+          error2.style.display = "block";
+          error2.innerHTML = "Should contain at least 8 characters";
+        } else {
+          error2.style.display = "none";
+          error2.innerHTML = "";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loginform.addEventListener("submit", function (e) {
+          emailValidateChecking();
+          passValidateChecking();
+
+          if (!emailid || !passid || !error1 || !error2 || !loginform) {
+            console.error("One or more elements not found");
+          }
+
+          if (error1.innerHTML || error2.innerHTML) {
+            e.preventDefault();
+          }
+        });
+      });
+
+      let isPasswordVisible = false;
+
+      function togglePassword() {
+          // Get references to elements
+          const passwordField = document.getElementById('password');
+          const passIcon = document.getElementById('pass-icon');
+
+          if (isPasswordVisible) {
+              passwordField.type = 'password';
+              passIcon.src = '/images/userImg/icon/closed2.png'; // Closed-eye icon
+          } else {
+              passwordField.type = 'text';
+              passIcon.src = '/images/userImg/icon/open.png'; // Open-eye icon
+          }
+
+          // Toggle state
+          isPasswordVisible = !isPasswordVisible;
+      }
+    </script>
+  </body>
+</html>
