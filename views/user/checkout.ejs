@@ -98,6 +98,7 @@
           style="margin-top: 45px; margin-bottom: 40px"
         >
           <h6 style="margin-bottom: 10px">Discount codes</h6>
+          <a href="/coupons">Available coupons</a>
           <% if (discount && discount > 0) { %>
           <form id="removeCouponForm" method="post">
             <button
@@ -130,7 +131,7 @@
           <% } %>
         </div>
 
-        <div class="checkout__order" style="margin-bottom: 5px; width: 400px">
+        <div class="checkout__order" style="margin-bottom: 5px; width: 470px">
           <h4 class="order__title">Your order</h4>
           <div class="checkout__order__products">
             Product <span>Total</span>
@@ -145,6 +146,7 @@
               <span style="margin-left: 25px">Qty : <%=item.quantity%></span>
               <span><%= item.totalPrice.toFixed(2) %></span>
             </li>
+            
             <% }) %>
           </ul>
 
@@ -159,10 +161,15 @@
               Discount
               <span>- <%= discount.toFixed(2) %></span>
             </li>
+           
             <% } %>
             <li>
+              Delivery Charge
+              <span>50.00</span>
+            </li>
+            <li>
               Total
-              <span><%= (totalPrice - (discount || 0)).toFixed(2) %></span>
+              <span><%= (totalPrice - (discount || 0)+50).toFixed(2) %></span>
             </li>
           </ul>
 

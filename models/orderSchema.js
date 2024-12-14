@@ -48,6 +48,10 @@ const orderSchema = new Schema({
         type:Number,
         required:true
     },
+    deliveryCharge: { // Add the deliveryFee field here
+        type: Number,
+        default: 0
+    },
     address:{
         type:Schema.Types.ObjectId,
         ref:"Address",

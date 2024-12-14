@@ -1,5 +1,20 @@
 <%- include("../../views/partials/user/header") %>
+<style>  body{
 
+  background: url("/images/userImg/home/img2_1.png") no-repeat center
+          center fixed;
+        background-size: cover;
+        color: #fff;
+     
+        color: white !important;
+  }
+  .card{
+    background: rgba(139, 0, 0, 0.85);
+  }
+  tr{
+    color: white;
+  }
+  </style>
 <div class="container my-5">
   <div class="row">
     <!-- Sidebar Column -->
@@ -9,32 +24,33 @@
 
     <!-- Wallet Content Column -->
     <div class="col-md-9">
-      <h2 class="mb-4">Wallet</h2>
+      <h2 class="mb-4" ><b>Wallet</b></h2>
 
       <!-- Balance Section -->
       <div class="card mb-4">
         <div class="card-body">
-          <h4 class="card-title">Balance</h4>
+          <h4 class="card-title" style="color: white;">Balance</h4>
           <!-- //The .toFixed(2) ensures the balance is always displayed with two decimal points -->
-          <p class="card-text display-4" id="balance">
+          <p class="card-text display-4" id="balance" style="color: white;">
             INR <%= wallet.balance.toFixed(2) %>
           </p>
         </div>
+        <p class="card-text" style="color: white; padding: 6px 17px">
+          <b>Your Referral Code :</b>
+          <span
+            id="referral-code"
+            class="font-weight-bold"
+            style="color:  #fa8a00"
+            ><%= user.referalCode %></span
+          >
+        </p>
       </div>
 
       <!-- Transaction History Table -->
-      <p class="card-text">
-        <b>Your Referral Code :</b>
-        <span
-          id="referral-code"
-          class="font-weight-bold"
-          style="color: rgba(139, 0, 0)"
-          ><%= user.referalCode %></span
-        >
-      </p>
+ 
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Transaction History</h4>
+          <h4 class="card-title" style="color: white;">Transaction History</h4>
 
           <table class="table table-striped">
             <thead>

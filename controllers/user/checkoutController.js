@@ -28,6 +28,8 @@ const razorpayInstance = new Razorpay({
 
         const cartItems = cart ? cart.items : [];
         const totalPrice = cartItems.reduce((total, item) => total + item.totalPrice, 0);
+   // Calculate delivery charge
+   const deliveryCharge = totalPrice >= 500 ? 0 : 50; // Example: Free delivery for orders >= 500
 
         let appliedCouponCode = '';
         if (cart && cart.couponApplied) {
@@ -41,6 +43,7 @@ const razorpayInstance = new Razorpay({
             addresses,
             cartItems,
             totalPrice,
+            deliveryCharge, // Add delivery charge to the view
             user: userData,
             discount: cart ? cart.discount : 0,
             appliedCouponCode,
@@ -90,7 +93,11 @@ const placeOrder = async (req, res) => {
 
         const discount = cart.discount;
         const couponApplied = cart.couponApplied
-        let finalAmount = totalPrice - discount
+              // Calculate delivery charge
+              const deliveryCharge = totalPrice >= 500 ? 0 : 50; // Example: Free delivery for orders >= 500
+
+              // Calculate final amount
+              let finalAmount = totalPrice - discount + deliveryCharge;
 
         
         const newOrder = new Order({
@@ -109,9 +116,14 @@ const placeOrder = async (req, res) => {
             status: 'Pending',
             couponApplied: couponApplied ? couponApplied._id : null,
             paymentMethod: paymentMethod,
-            discount: totalPrice - finalAmount
+            discount: totalPrice - finalAmount,
+            deliveryCharge: deliveryCharge // Save delivery charge in orde
         });
-        
+        console.log("Total Price:", totalPrice);
+console.log("Discount:", discount);
+console.log("Delivery Fee:", deliveryCharge);
+console.log("Final Amount:", finalAmount);
+
         cart.items = [];
         await cart.save();   
         //code     
@@ -270,6 +282,13 @@ const orderConfirmation = async (req,res) => {
             return res.redirect('/pageNotFound');
         }
 
+           // Calculate `finalAmount` if not already calculated
+           if (!order.finalAmount) {
+            order.finalAmount =
+                order.totalprice + (order.deliveryCharge || 0) - (order.discount || 0);
+            await order.save(); // Save the updated finalAmount to the database
+        }
+
         const addressIdToCheck = order.address;
         const specificAddress = addressDoc.address.find(addr => addr._id.equals(addressIdToCheck));
         
@@ -288,9 +307,11 @@ const orderConfirmation = async (req,res) => {
 
 const paymentFailed = async (req, res) => {
     try {
+        const userId = req.session.user;
+        const userData=await User.findById(userId)
         const { orderId } = req.params;
 
-        res.render("payment-failed", { orderId });
+        res.render("payment-failed", { orderId,user:userData });
     } catch (error) {
         console.error("Error loading payment failed page:", error);
         res.status(500).send("An error occurred");

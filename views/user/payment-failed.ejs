@@ -1,5 +1,9 @@
 <%-include("../../views/partials/user/header")%>
-
+<style>
+       footer{
+    margin-top: 30px;
+  }
+</style>
 
     <div class="container text-center mt-5">
         <h1 class="text-danger">Payment Failed</h1>
@@ -9,6 +13,7 @@
         <form onsubmit="event.preventDefault();">
             <button id="retry-payment" type="button" class="btn btn-primary">Retry Payment</button>
         </form>        
+        <a href="/shop" class="btn btn-primary">Shop</a>
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
