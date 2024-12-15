@@ -29,7 +29,7 @@
   .btn {
     width: 184px;
     margin: 15px 0px;
-    background-color: #fa8a00;
+    background-color: #fa8a00 !important;
     color: white;
   }
   .profile-page {
@@ -58,6 +58,10 @@
         background-color: #fa8a00 !important;
         border-color: rgba(139, 0, 0);
       }
+      input{
+        border: none;
+        padding-left: 10px;
+      }
 </style>
 
 <div class="container mt-5 profile-page">
@@ -80,7 +84,7 @@
       </div>
 
       <!-- Profile Edit Form -->
-      <form id="editProfileForm" style="display: none">
+      <form id="editProfileForm" style="display: none;background-color: rgba(139, 0, 0, 0.85); padding: 25px;">
         <div class="form-group mb-3">
           <label for="name">Name</label>
           <input
@@ -110,7 +114,7 @@
           ></small>
         </div>
         <div class="form-group d-flex">
-          <a href="/forgot-password" class="forgot-password-link ms-auto">
+          <a href="/forgot-password" class="forgot-password-link ms-auto" style="color: white;">
             <i class="fa fa-key"></i> Forgot Password?
           </a>
         </div>
@@ -118,13 +122,13 @@
           <button
             type="button"
             class="btn btn-secondary cancel-btn"
-            style="background-color: gray"
+            style="background-color: red !important ;border: none !important;"
           >
             Cancel
           </button>
           <button
             type="button"
-            class="btn save-btn"
+            class="btn save-btn btn-primary"
             style="background-color: rgba(139, 0, 0)"
           >
             Save
