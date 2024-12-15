@@ -3,6 +3,12 @@
        footer{
     margin-top: 30px;
   }
+  .buttons{
+    display: flex
+;
+    justify-content: center;
+    gap: 37px;
+  }
 </style>
 
     <div class="container text-center mt-5">
@@ -10,10 +16,12 @@
         <p class="mt-3">Unfortunately, your payment could not be completed. Please try again.</p>
 
         <!-- Retry Payment Button -->
+    <div class="buttons">
         <form onsubmit="event.preventDefault();">
             <button id="retry-payment" type="button" class="btn btn-primary">Retry Payment</button>
         </form>        
         <a href="/shop" class="btn btn-primary">Shop</a>
+    </div>
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
