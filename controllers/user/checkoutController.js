@@ -28,8 +28,9 @@ const razorpayInstance = new Razorpay({
 
         const cartItems = cart ? cart.items : [];
         const totalPrice = cartItems.reduce((total, item) => total + item.totalPrice, 0);
-
+        const deliveryCharge = 50; // Adding a delivery charge of 50 const grandTotal = totalPrice + deliveryCharge; // Calculate the grand total
         let appliedCouponCode = '';
+        const grandTotal = totalPrice + deliveryCharge;
         if (cart && cart.couponApplied) {
             const appliedCoupon = await Coupon.findById(cart.couponApplied);
             if (appliedCoupon) {
@@ -44,6 +45,8 @@ const razorpayInstance = new Razorpay({
             user: userData,
             discount: cart ? cart.discount : 0,
             appliedCouponCode,
+            deliveryCharge, // Pass delivery charge to the EJS file grandTotal,
+            grandTotal,
         });
     } catch (error) {
         console.error(error);
@@ -90,8 +93,9 @@ const placeOrder = async (req, res) => {
 
         const discount = cart.discount;
         const couponApplied = cart.couponApplied
-        let finalAmount = totalPrice - discount
-
+       
+        const deliveryCharge = 50
+        let finalAmount = totalPrice - discount + deliveryCharge;
         
         const newOrder = new Order({
             orderedItems: cart.items.map(item => ({
@@ -109,7 +113,8 @@ const placeOrder = async (req, res) => {
             status: 'Pending',
             couponApplied: couponApplied ? couponApplied._id : null,
             paymentMethod: paymentMethod,
-            discount: totalPrice - finalAmount
+            discount: totalPrice - finalAmount,
+            deliveryCharge
         });
         
         cart.items = [];
@@ -272,13 +277,18 @@ const orderConfirmation = async (req,res) => {
 
         const addressIdToCheck = order.address;
         const specificAddress = addressDoc.address.find(addr => addr._id.equals(addressIdToCheck));
-        
+        const deliveryCharge = order.deliveryCharge || 50;
+        const totalAmountWithDelivery = order.finalAmount + deliveryCharge;
         res.render('order-confirmation', {
             order,
             orderedItems: order.orderedItems || [],
             totalPrice: order.totalprice,
             specificAddress,
-            user: userData
+            user: userData,
+            deliveryCharge,
+            paymentMethod: order.paymentMethod,
+            totalAmountWithDelivery,
+            
         });
     } catch (error) {
         console.error('Error fetching order or rendering:', error);

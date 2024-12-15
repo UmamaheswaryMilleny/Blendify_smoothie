@@ -131,7 +131,7 @@
           <% } %>
         </div>
 
-        <div class="checkout__order" style="margin-bottom: 5px; width: 400px">
+        <div class="checkout__order" style="margin-bottom: 5px; width: 460px">
           <h4 class="order__title">Your order</h4>
           <div class="checkout__order__products">
             Product <span>Total</span>
@@ -161,9 +161,14 @@
               <span>- <%= discount.toFixed(2) %></span>
             </li>
             <% } %>
+            <!-- Delivery charge -->
+  <li>
+    Delivery Charge
+    <span><%= deliveryCharge %></span>
+  </li>
             <li>
               Total
-              <span><%= (totalPrice - (discount || 0)).toFixed(2) %></span>
+              <span><%= (totalPrice - (discount || 0) + deliveryCharge).toFixed(2) %></span>
             </li>
           </ul>
 

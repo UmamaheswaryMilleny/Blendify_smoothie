@@ -31,24 +31,26 @@
                         <td><%= item.productName %></td>
                         <td><%= item.quantity %></td>
                         <td>₹ <%= item.price %></td>
-                        <td>₹ <%=item.price %></td>
+                        <td>₹ <%= item.price %></td>
                     </tr>
                     <% }); %>
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-end">Discount :</td>
-                        <td><%=order.discount%></td>
+                    <% if (order.discount && order.discount > 0) { %> <tr> <td colspan="3" class="text-end">Discount :</td> <td>₹ <%= order.discount %></td> </tr> <% } %>
+                    <tr> 
+                        <td colspan="3" class="text-end">Delivery Charge :</td>
+                        <td>₹ <%= deliveryCharge %></td>
                     </tr>
                     <tr>         
                         <td colspan="3" class="text-end"><strong>Total Price:</strong></td>
-                        <td><strong>₹ <%= order.finalAmount %></strong></td>
+                        <td><strong>₹ <%= totalAmountWithDelivery %></strong></td>
                     </tr>
                 </tfoot>
             </table>
+            
         </div>
     </div>
-
+<!-- Payment Method --> <div class="card mt-4"> <div class="card-header"> <h4>Payment Method</h4> </div> <div class="card-body"> <p><strong><%= order.paymentMethod %></strong></p> </div> </div>
     <!-- Shipping Address -->
     <div class="card mt-4">
         <div class="card-header">
