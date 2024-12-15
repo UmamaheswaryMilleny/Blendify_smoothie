@@ -23,7 +23,7 @@ const getWalletPage = async (req, res) => {
             });
             await wallet.save(); // Save the new wallet to the database
         }
-
+        wallet.transactions.sort((a, b) => new Date(b.date) - new Date(a.date))
         // Render the wallet page
         res.render("wallet", { user: userData, wallet });
     } catch (error) {
