@@ -59,7 +59,7 @@ background: url("/images/userImg/home/img2_1.png") no-repeat center
                         <tr>
                             <td><%= order.orderId %></td>
                             <td><%= order.status %></td>
-                            <td>₹<%= order.totalprice %></td>
+                            <td>₹<%= order.totalAmountWithDelivery %></td>
                             <td>
                                 <%= order.addressDetails 
                                     ? `${order.addressDetails.houseName}, ${order.addressDetails.street}, ${order.addressDetails.city}, ${order.addressDetails.state}, ${order.addressDetails.pincode}` 

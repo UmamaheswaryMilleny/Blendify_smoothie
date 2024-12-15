@@ -39,6 +39,9 @@ const getMyOrders = async (req, res) => {
                 );
 
                 order.orderedItems = enrichedItems;
+                const deliveryCharge = order.deliveryCharge || 50;
+                order.totalAmountWithDelivery = order.finalAmount + deliveryCharge;
+                order.deliveryCharge = deliveryCharge;
                 return order;
             })
         );
@@ -117,10 +120,12 @@ const cancelOrder = async (req, res) => {
 
 const getOrderDetails = async (req,res) => {
     try {
+        const userId = req.session.user;
+        const userData=await User.findById(userId)
         const {orderId} = req.params
         const order = await Order.findById(orderId)
          console.log(orderId)
-        const userId = req.session.user
+       
 
         if (!order) {
             return res.redirect('/pageNotFound');
@@ -136,12 +141,16 @@ const getOrderDetails = async (req,res) => {
 
         const addressIdToCheck = order.address;
         const specificAddress = addressDoc.address.find(addr => addr._id.equals(addressIdToCheck));
-        
+        const deliveryCharge = order.deliveryCharge || 50;
+        const totalAmountWithDelivery = order.finalAmount + deliveryCharge;
         res.render('order-details', {
             order,
+            user:userData,
             orderedItems: order.orderedItems || [],
             totalPrice: order.totalprice,
-            specificAddress
+            specificAddress,
+            deliveryCharge,
+            totalAmountWithDelivery
         });
     } catch (error) {
         console.error(error)
