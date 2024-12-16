@@ -1,6 +1,13 @@
 <%-include("../../views/partials/user/header")%>
 <!-- Shop Details Section Begin -->
 <style>
+  .out-of-stock {
+  color: gray;
+  text-decoration: line-through;
+  cursor: not-allowed !important;
+  pointer-events: none !important; 
+}
+
       .zoom-container {
         top: 60px;
         left: 31px;
@@ -110,38 +117,26 @@
                     class="product__details__option"
                     style="text-align: left"
                   >
-                    <div class="product__details__option__size">
-                      <span>Size:</span>
-                      <% if (availableSizes && availableSizes.length > 0) { %>
+                  <div class="product__details__option__size">
+                    <span>Size:</span>
+                    <% if (availableSizes && availableSizes.length > 0) { %>
                       <% availableSizes.forEach(sizeObj => { %>
-                      <label
-                        for="<%= sizeObj.size %>"
-                        class="<%= sizeObj.quantity > 0 ? '' : 'out-of-stock' %>"
-                      >
-                        <%= sizeObj.size %> <% if (sizeObj.quantity === 0) { %>
-                        <!-- Check if the size is out of stock -->
-                        (Out of Stock)
-                        <input
-                          type="radio"
-                          id="<%= sizeObj.size %>"
-                          name="size"
-                          value="<%= sizeObj.size %>"
-                          disabled
-                        />
-                        <% } else { %>
-                        <input
-                          type="radio"
-                          id="<%= sizeObj.size %>"
-                          name="size"
-                          value="<%= sizeObj.size %>"
-                        />
-                        <% } %>
-                      </label>
-                      <% }) %> <% } else { %>
+                        <label for="<%= sizeObj.size %>" class="<%= sizeObj.quantity > 0 ? '' : 'out-of-stock' %>">
+                          <%= sizeObj.size %> 
+                          <% if (sizeObj.quantity === 0) { %>
+                            (Out of Stock)
+                            <input type="radio" id="<%= sizeObj.size %>" name="size" value="<%= sizeObj.size %>" disabled />
+                          <% } else { %>
+                            <input type="radio" id="<%= sizeObj.size %>" name="size" value="<%= sizeObj.size %>" />
+                          <% } %>
+                        </label>
+                      <% }) %>
+                    <% } else { %>
                       <p>No sizes available</p>
-                      <% } %>
-                    </div>
+                    <% } %>
                   </div>
+                  
+                  
 
                   <% if (product.quantity < 1) { %>
                   <div class="product__details__stock">

@@ -956,7 +956,7 @@ ol {
 
 .product__item.sale .product__item__pic .label {
   color: #ffffff;
-  background: #fa8a00;
+  background:#8b0000;
 }
 
 .product__item.sale .product__item__text .rating i {
@@ -2070,7 +2070,7 @@ ol {
 -----------------------*/
 
 .breadcrumb-option {
-  background: #fa8a00;
+  background: #e7dfd6;
   padding: 15px 0;
 }
 
@@ -2082,6 +2082,7 @@ ol {
 
 .breadcrumb__links a {
   font-size: 15px;
+  font-weight: 800;
   color: #ffffff;
   margin-right: 18px;
   display: inline-block;
@@ -2098,7 +2099,8 @@ ol {
 
 .breadcrumb__links span {
   font-size: 15px;
-  color: #b7b7b7;
+  font-weight: 800;
+  color:#8b0000;
   display: inline-block;
 }
 
