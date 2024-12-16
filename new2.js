@@ -15,7 +15,7 @@ const getSalesReport = async (req, res) => {
             const overallOrderAmount = orders.reduce((total, order) => total + order.totalprice, 0);
             const overallDiscount = orders.reduce((total, order) => total + order.discount, 0);
 
-            res.render("salesReport", {
+            res.render("salesReportDownload", {
                 overallSalesCount,
                 overallOrderAmount,
                 overallDiscount,
