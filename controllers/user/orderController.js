@@ -60,7 +60,13 @@ const getMyOrders = async (req, res) => {
 const cancelOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
-
+    const { reason } = req.body;
+    if (!reason) {
+      return res.status(400).json({
+        success: false,
+        message: "Cancellation reason is required.",
+      });
+    }
     const order = await Order.findById(orderId).populate(
       "orderedItems.product"
     );
@@ -119,7 +125,10 @@ const cancelOrder = async (req, res) => {
           "Order cancellation does not require refund to wallet as it was Cash on Delivery"
         );
       }
-
+    // Update order status to "Canceled" and save the cancellation reason
+    order.status = "Canceled";
+    order.cancellationReason = reason; // Store the reason for cancellation
+    await order.save();
       order.status = "Canceled";
       await order.save();
       return res.json({

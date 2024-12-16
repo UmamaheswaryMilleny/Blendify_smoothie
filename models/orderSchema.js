@@ -52,6 +52,9 @@ const orderSchema = new Schema({
         type: Number,
         default: 0
     },
+    cancellationReason: {
+        type: String, // Field to store the reason for cancellation
+      },
     address:{
         type:Schema.Types.ObjectId,
         ref:"Address",

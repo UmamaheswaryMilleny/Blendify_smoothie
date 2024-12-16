@@ -21,11 +21,7 @@ const generateSalesReport = async (req, res) => {
         const { startDate, endDate, filter } = req.body;
         console.log("Received Dates:", startDate, endDate, filter);
 
-        let query = {
-            status: { $ne: 'canceled' }, // Exclude canceled orders
-        };
-        console.log("Query Object:", query);
-
+        let query = {};
         const now = new Date();
 
         if (filter) {
