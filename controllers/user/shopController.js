@@ -9,7 +9,8 @@ const getShopPage = async (req,res) => {
         const category = await Category.find({isListed:true})
         const product = await Product.find({isBlocked:false})
         const user = req.session.user;
-        const sort = req.query.sort || 'priceAsc';
+        const selectedCategory = req.query.categoryId || null; // Get categoryId from query params
+        const selectedSort = req.query.sort || 'default'; // Get sort from query params or default value
         let userData = null
         
 
@@ -22,7 +23,8 @@ const getShopPage = async (req,res) => {
             cat:category,
             product:product,
             user:userData,
-            selectedSort: sort
+            selectedCategory,
+            selectedSort,
         })
     } catch (error) {
         console.error(error)
@@ -63,59 +65,59 @@ const getProductDetails = async (req,res) => {
     }
 }
 
-const sortProducts = async (req,res) => {
+const sortProducts = async (req, res) => {
     try {
-
-        const category = await Category.find()
-        const user = req.session.user;
-        let userData = null
-        const sort = req.query.sort || 'priceAsc';
+        const categoryId = req.query.categoryId; // Get category ID from query params
+        const sort = req.query.sort || 'priceAsc'; // Get sort option from query params
         let sortCriteria;
-        
-        
 
-        if (user) {
-            userData = await User.findOne({ _id: user});
-        }else {
-            return res.redirect("/login");
+        switch (sort) {
+            case 'priceAsc':
+                sortCriteria = { salePrice: 1 };
+                break;
+            case 'priceDesc':
+                sortCriteria = { salePrice: -1 };
+                break;
+            case 'newest':
+                sortCriteria = { createdAt: -1 };
+                break;
+            case 'oldest':
+                sortCriteria = { createdAt: 1 };
+                break;
+            case 'alphaAsc':
+                sortCriteria = { productName: 1 };
+                break;
+            case 'alphaDesc':
+                sortCriteria = { productName: -1 };
+                break;
+            default:
+                sortCriteria = {}; // Default case
         }
 
-    switch (sort) {
-        case 'priceAsc':
-            sortCriteria = { salePrice: 1 }; 
-            break;
-        case 'priceDesc':
-            sortCriteria = { salePrice: -1 };
-            break;
-        case 'newest':
-            sortCriteria = { createdAt: -1 }; 
-            break;
-        case 'oldest':
-            sortCriteria = { createdAt: 1 }; 
-            break;
-        case 'alphaAsc':
-            sortCriteria = { productName: 1 }; 
-            break;
-        case 'alphaDesc':
-            sortCriteria = { productName: -1 };
-            break;
-        default:
-            sortCriteria = {}; 
-    }
+        const category = await Category.find(); // Fetch all categories
+        const user = req.session.user ? await User.findById(req.session.user) : null;
 
-    const product = await Product.find().sort(sortCriteria);
+        // Filter products by category if categoryId is provided
+        let query = {};
+        if (categoryId) {
+            query.category = categoryId;
+        }
 
-    res.render("shop",{
-        cat:category,
-        product,
-        user:userData,
-        selectedSort: sort
-    })
+        const product = await Product.find(query).sort(sortCriteria); // Fetch and sort products
+
+        res.render("shop", {
+            cat: category,
+            product,
+            user,
+            selectedSort: sort,
+            selectedCategory: categoryId // Pass selected category for the view
+        });
     } catch (error) {
-        res.status(500).json({message:"Internal server error"})
+        res.status(500).json({ message: "Internal server error" });
         console.error(error);
     }
-}
+};
+
 
 const categoryFilter = async (req,res) => {
     try {

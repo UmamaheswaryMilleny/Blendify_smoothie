@@ -72,8 +72,14 @@
                                             <div class="shop__sidebar__categories">
                                                 <ul class="nice-scroll">
                                                     <% for(let i=0;i<cat.length;i++){ %>
-                                                    <li><a href="/categoryFilter?categoryId=<%=cat[i]._id%>"><%=cat[i].name%></a></li>
+                                                        <li>
+                                                            <a href="/products?categoryId=<%= cat[i]._id %>&sort=<%= selectedSort %>" 
+                                                               class="<%= selectedCategory === String(cat[i]._id) ? 'active-category' : '' %>">
+                                                                <%= cat[i].name %>
+                                                            </a>
+                                                        </li>
                                                     <% } %>
+                                                    
                                                 </ul>
                                             </div>
                                         </div>
@@ -148,10 +154,13 @@
 <%-include("../../views/partials/user/footer")%>
 
 <script>
-    function sortProducts() {
-        const selectedOption = document.getElementById("sortOptions").value;
-        window.location.href = `/products?sort=${selectedOption}`;
-    }
+  function sortProducts() {
+    const selectedOption = document.getElementById("sortOptions").value;
+    const categoryId = new URLSearchParams(window.location.search).get("categoryId");
+    const query = categoryId ? `?sort=${selectedOption}&categoryId=${categoryId}` : `?sort=${selectedOption}`;
+    window.location.href = `/products${query}`;
+}
+
     function addToWishlist(productId) {
     fetch("/addToWishlist", {
       method: "POST",
