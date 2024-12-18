@@ -148,8 +148,9 @@ const searchProducts = async (req,res) => {
     try {
         const {search} = req.query
         const category = await Category.find()
+        const selectedCategory = req.query.categoryId || null;
         const user = req.session.user;
-        const sort = req.query.sort || 'priceAsc';
+        const selectedSort = req.query.sort || 'default';
 
         const product = await Product.find({
             productName: { $regex: search, $options: 'i' }
@@ -160,7 +161,8 @@ const searchProducts = async (req,res) => {
             cat:category,
             product,
             user,
-            selectedSort: sort
+            selectedCategory,
+            selectedSort,
         })
     } catch (error) {
         console.error(error)
