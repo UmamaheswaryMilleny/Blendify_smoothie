@@ -91,6 +91,8 @@ const salesData = async (req, res) => {
 
       // Define date ranges and grouping format based on filter
       if (filter === 'yearly') {
+        // 0 means January (months in JavaScript start at 0 for January).
+        // 1 means the 1st day of January.
           startDate = new Date(currentDate.getFullYear() - 3, 0, 1); // Start of 3 years ago
           endDate = new Date(currentDate.getFullYear() + 1, 0, 1); // Start of next year
           groupFormat = { $year: "$createdOn" }; // Group by year

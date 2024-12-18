@@ -279,24 +279,24 @@
 <!-- Related Section End -->
 
 <script>
-      document.querySelectorAll('.thumbnail-link').forEach(item => {
-    item.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default link behavior
+//       document.querySelectorAll('.thumbnail-link').forEach(item => {
+//     item.addEventListener('click', function(event) {
+//         event.preventDefault(); // Prevent the default link behavior
 
-        // Get the main image element
-        const mainImage = document.getElementById('main-product-image');
-        const zoomedImage = document.getElementById('zoomedImage'); // Get the zoomed image element
+//         // Get the main image element
+//         const mainImage = document.getElementById('main-product-image');
+//         const zoomedImage = document.getElementById('zoomedImage'); // Get the zoomed image element
 
-        // Get the new image source from the clicked thumbnail
-        const newImageSrc = this.getAttribute('data-image-src');
+//         // Get the new image source from the clicked thumbnail
+//         const newImageSrc = this.getAttribute('data-image-src');
 
-        // Update the main image's src attribute
-        mainImage.src = newImageSrc;
+//         // Update the main image's src attribute
+//         mainImage.src = newImageSrc;
 
-        // Update the zoomed image's src attribute
-        zoomedImage.src = newImageSrc;
-    });
-});
+//         // Update the zoomed image's src attribute
+//         zoomedImage.src = newImageSrc;
+//     });
+// });
 
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -376,14 +376,21 @@ const mainImage = document.getElementById("main-product-image");
 const magnifier = document.getElementById("magnifier");
 
   mainImage.addEventListener("mousemove", (e) => {
+    // getBoundingClientRect() returns the size and position of the mainImage element.
+    //  returns an object called a DOMRect that contains properties describing the element's position and dimensions.
+
+
     const rect = mainImage.getBoundingClientRect();
+    // rect.left is the x-coordinate of the left edge of the image.
+    // e.clientX and e.clientY are the coordinates of the mouse pointer relative to the viepart
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-
+    // By subtracting rect.left and rect.top from these coordinates, you get the mouse position relative to the mainImage.
     // Show the magnifier
     magnifier.style.display = "block";
 
     // Position the magnifier
+    // magnifier.offsetWidth and magnifier.offsetHeight are the width and height of the magnifier element.
     const magnifierX = x - magnifier.offsetWidth / 2;
     const magnifierY = y - magnifier.offsetHeight / 2;
     magnifier.style.left = `${magnifierX}px`;

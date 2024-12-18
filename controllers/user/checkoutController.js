@@ -309,7 +309,7 @@ const paymentFailed = async (req, res) => {
 };
 
 const retryPayment = async (req, res) => {
-    console.log("req recieved");
+    console.log("req recieved for retry payment");
     
     try {
         const { orderId } = req.params;
@@ -330,7 +330,7 @@ const retryPayment = async (req, res) => {
         };
         
         const razorpayOrder = await razorpayInstance.orders.create(options);
-
+console.log(`this is razorpayOrder ${razorpayOrder}`)
         order.razorpayOrderId = razorpayOrder.id;
         await order.save(); 
 
@@ -356,6 +356,7 @@ const retryPayment = async (req, res) => {
 };
 
 const verifyRetryPayment = async (req, res) => {
+    console.log("req recieved for verify retry payment");
     try {
         const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
 

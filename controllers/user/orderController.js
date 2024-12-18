@@ -56,7 +56,6 @@ const getMyOrders = async (req, res) => {
       .send("An error occurred while fetching orders. Please try again later.");
   }
 };
-
 const cancelOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -67,22 +66,16 @@ const cancelOrder = async (req, res) => {
         message: "Cancellation reason is required.",
       });
     }
-    const order = await Order.findById(orderId).populate(
-      "orderedItems.product"
-    );
+    const order = await Order.findById(orderId).populate("orderedItems.product");
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order not found" });
+      return res.status(404).json({ success: false, message: "Order not found" });
     }
 
     if (order.status === "Pending" || order.status === "Placed") {
       for (const item of order.orderedItems) {
         const product = await Product.findById(item.product._id);
-
         if (product) {
           const sizeInfo = product.sizes.find((s) => s.size === item.size);
-
           if (sizeInfo) {
             sizeInfo.quantity += item.quantity;
             await product.save();
@@ -104,33 +97,36 @@ const cancelOrder = async (req, res) => {
             transactions: [],
           });
         }
-        const transactionId = new mongoose.Types.ObjectId();
-        wallet.balance += refundAmount;
 
-        wallet.transactions.push({
-          transaction_id: transactionId,
-          amount: refundAmount,
-          type: "credit",
-          date: new Date(),
-          description: "Refund for canceled order",
-        });
-
-        await wallet.save();
-
-        console.log(
-          "Order cancellation processed successfully and wallet updated"
+        // Check if a refund transaction for this order already exists
+        const existingTransaction = wallet.transactions.find(
+          (transaction) => transaction.description === `Refund for canceled order ${orderId}`
         );
+
+        if (!existingTransaction) {
+          const transactionId = new mongoose.Types.ObjectId();
+          wallet.balance += refundAmount;
+          wallet.transactions.push({
+            transaction_id: transactionId,
+            amount: refundAmount,
+            type: "credit",
+            date: new Date(),
+            description: `Refund for canceled order ${orderId}`,
+          });
+          await wallet.save();
+          console.log("Order cancellation processed successfully and wallet updated");
+        } else {
+          console.log("Refund for this order has already been processed");
+        }
       } else {
-        console.log(
-          "Order cancellation does not require refund to wallet as it was Cash on Delivery"
-        );
+        console.log("Order cancellation does not require refund to wallet as it was Cash on Delivery");
       }
-    // Update order status to "Canceled" and save the cancellation reason
-    order.status = "Canceled";
-    order.cancellationReason = reason; // Store the reason for cancellation
-    await order.save();
+
+      // Update order status to "Canceled" and save the cancellation reason
       order.status = "Canceled";
+      order.cancellationReason = reason;
       await order.save();
+
       return res.json({
         success: true,
         message: "Order canceled successfully",
@@ -143,6 +139,7 @@ const cancelOrder = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 
 const getOrderDetails = async (req, res) => {
   try {

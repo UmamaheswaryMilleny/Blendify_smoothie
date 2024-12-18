@@ -30,6 +30,10 @@ router.get('/auth/google/callback',passport.authenticate('google',{failureRedire
     res.redirect('/')
 })
 
+router.get("/about",userController.loadAbout)
+router.get("/blog",userController.loadBlog)
+router.get("/contact",userController.loadContact)
+
 router.get("/login",userController.loadLogin)
 router.post("/login",userController.login)
 router.get("/logout",userController.logout)

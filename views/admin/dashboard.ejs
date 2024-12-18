@@ -94,13 +94,14 @@
 <%- include("../../views/partials/admin/footer") %>
 
 <script>
+    //  The Chart.js library uses the ctx (2D context) as the target for drawing the chart.
     const ctx = document.getElementById('salesChart').getContext('2d');
     let salesChart;
 
     // Initialize the chart
     function initChart(labels, data) {
         if (salesChart) {
-            salesChart.destroy(); // Destroy existing chart instance to reinitialize
+            salesChart.destroy(); // Destroy existing chart instance to reinitialize it prevent dublicate
         }
         salesChart = new Chart(ctx, {
             type: 'bar',
@@ -124,12 +125,13 @@
             }
         });
     }
-
+    // labels: Time periods (e.g., years, months, or weeks).
     // Fetch sales data based on filter
     async function fetchSalesData(filter) {
         try {
             const response = await fetch(`/admin/sales-data?filter=${filter}`);
             const { labels, salesData } = await response.json();
+            // The data is passed to initChart() to update the bar chart.
             initChart(labels, salesData);
         } catch (error) {
             console.error('Failed to fetch sales data:', error);

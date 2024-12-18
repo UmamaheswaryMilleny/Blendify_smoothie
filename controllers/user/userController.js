@@ -40,6 +40,52 @@ const loadSignup=async(req,res)=>{
         res.status(500).send('Server Error')
     }
 }
+const loadAbout=async(req,res)=>{
+    try {
+        const user = req.session.user;
+
+        if (user) {
+            const userData = await User.findOne({ _id: user});
+            return res.render("about", { user: userData});
+        } else {
+            return res.render("about");
+        }
+    } catch (error) {
+        console.error("Error loading about page:", error);
+        res.status(500).send("Server error");
+    }
+
+}
+const loadBlog=async(req,res)=>{
+    try {
+        const user = req.session.user;
+
+        if (user) {
+            const userData = await User.findOne({ _id: user});
+            return res.render("blog", { user: userData});
+        } else {
+            return res.render("blog");
+        }
+    } catch (error) {
+        console.error("Error loading blog page:", error);
+        res.status(500).send("Server error");
+    }
+}
+const loadContact=async(req,res)=>{
+    try {
+        const user = req.session.user;
+
+        if (user) {
+            const userData = await User.findOne({ _id: user});
+            return res.render("contact", { user: userData});
+        } else {
+            return res.render("contact");
+        }
+    } catch (error) {
+        console.error("Error loading contact page:", error);
+        res.status(500).send("Server error");
+    }
+}
 
 function generateOtp(){
     return Math.floor(100000 + Math.random()*900000).toString()
@@ -92,6 +138,14 @@ const signup=async (req,res)=>{
         if(findUser){
             return res.render("signup",{message:"User with this email already exists"})
         }
+           // Check if the referral code is valid (if entered)
+           if (cReferral) {
+            const isReferralValid = await User.findOne({ referalCode: cReferral });
+            if (!isReferralValid) {
+                return res.render("signup", { message: "Invalid referral ID" });
+            }
+        }
+
         const otp=generateOtp()
 
         const emailSent=await sendVerificationEmail(email,otp)
@@ -119,18 +173,7 @@ function generateReferralCode(length=8){
     return referralCode
 }
 
-const securePassword = async(password)=>{
-    try {
-        
-        const passwordHash=await bcrypt.hash(password,10)
-        return passwordHash
 
-    } catch (error) {
-        
-    }
-
-
-}
 
 
 
@@ -192,7 +235,18 @@ const verifyOtp = async (req, res) => {
     }
 };
 
+const securePassword = async(password)=>{
+    try {
+        
+        const passwordHash=await bcrypt.hash(password,10)
+        return passwordHash
 
+    } catch (error) {
+        
+    }
+
+
+}
 const resendOTP = async(req,res)=>{
     try{
         const {email}=req.session.userData;
@@ -287,5 +341,8 @@ module.exports={
     logout,
     generateOtp,
     sendVerificationEmail,
-    securePassword
+    securePassword,
+    loadAbout,
+    loadBlog,
+    loadContact
 }
