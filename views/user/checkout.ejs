@@ -1,185 +1,203 @@
 <%- include("../../views/partials/user/header") %>
+<style>
+  @media (max-width: 768px) {
+  .checkout__order {
+    width: 100% !important;
+  }
 
-<section class="breadcrumb-option" style="padding: 15px 0">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="breadcrumb__text">
-          <h4>Check Out</h4>
-          <div class="breadcrumb__links">
-            <a href="/">Home</a>
-            <a href="/shop">Shop</a>
-            <a href="/cart">Shopping Cart</a>
-            <span>Checkout</span>
+  .cart__discount {
+    margin-bottom: 20px !important;
+  }
+
+  .checkout__address,
+  .checkout__payment {
+    margin-top: 20px !important;
+  }
+}
+
+</style>
+<div class="main-c">
+  <section class="breadcrumb-option" style="padding: 15px 0">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb__text">
+            <h4>Check Out</h4>
+            <div class="breadcrumb__links">
+              <a href="/">Home</a>
+              <a href="/shop">Shop</a>
+              <a href="/cart">Shopping Cart</a>
+              <span>Checkout</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="checkout spad" style="padding-bottom: 50px">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-7 col-md-6">
-        <div class="checkout__address" style="margin-top: 31px">
-          <h4 class="order__title"><b>Select Address</b></h4>
-          <a
-            href="/manage-addresses/add-address"
-            class="btn btn-primary mb-3"
-            style="margin-top: 11px"
-            >Add New Address</a
-          >
-          <div class="checkout__address__list">
-            <% if (addresses && addresses.address.length > 0) { %>
-            <select name="selectedAddress" class="form-control" required>
-              <% addresses.address.forEach((address) => { %>
-              <option value="<%= address._id %>">
-                <%= address.name %>, <%= address.houseName %>, <%=
-                address.street %>, <%= address.city %>, <%= address.state %> -
-                <%= address.pincode %>
-              </option>
-              <% }) %>
-            </select>
-            <% } else { %>
-            <p class="text-danger">
-              No addresses found. Please add an address in your Profile.
-            </p>
-            <% } %>
-          </div>
-        </div>
-        <div class="checkout__payment" style="margin: 80px 0">
-          <h4 class="order__title"><b>Select Payment Method</b></h4>
-          <div class="checkout__payment__options" style="margin-top: 10px">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="paymentMethod"
-                value="Online Payment"
-                id="onlinepayment"
-                required
-              />
-              <label class="form-check-label" for="onlinepayment">
-                Online Payment
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="paymentMethod"
-                value="Wallet"
-                id="wallet"
-                required
-              />
-              <label class="form-check-label" for="wallet"> Wallet </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="paymentMethod"
-                value="Cash on Delivery"
-                id="cod"
-                required
-              />
-              <label class="form-check-label" for="cod">
-                Cash on Delivery (COD)
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6">
-        <div
-          class="cart__discount"
-          style="margin-top: 45px; margin-bottom: 40px"
-        >
-          <h6 style="margin-bottom: 10px">Discount codes</h6>
-          <a href="/coupons">Available coupons</a>
-          <% if (discount && discount > 0) { %>
-          <form id="removeCouponForm" method="post">
-            <button
-              id="removeCoupon"
-              type="submit"
-              style="
-                background-color: #dc3545;
-                position: relative;
-                top: 0px;
-                padding: 11px 7px;
-                font-size: 12px;
-                border-radius: 5px;
-              "
+  </section>
+  
+  <section class="checkout spad" style="padding-bottom: 50px">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7 col-md-6">
+          <div class="checkout__address" style="margin-top: 31px">
+            <h4 class="order__title"><b>Select Address</b></h4>
+            <a
+              href="/manage-addresses/add-address"
+              class="btn btn-primary mb-3"
+              style="margin-top: 11px"
+              >Add New Address</a
             >
-              Remove Coupon
-            </button>
-          </form>
-
-          <% } else { %>
-          <!-- Show the apply coupon form if no discount is applied -->
-          <form id="applyCouponForm">
-            <input
-              type="text"
-              id="couponCodeInput"
-              name="couponCode"
-              placeholder="Coupon code"
-            />
-            <button type="submit">Apply</button>
-          </form>
-          <% } %>
-        </div>
-
-        <div class="checkout__order" style="margin-bottom: 5px; width: 460px">
-          <h4 class="order__title">Your order</h4>
-          <div class="checkout__order__products">
-            Product <span>Total</span>
+            <div class="checkout__address__list">
+              <% if (addresses && addresses.address.length > 0) { %>
+              <select name="selectedAddress" class="form-control" required>
+                <% addresses.address.forEach((address) => { %>
+                <option value="<%= address._id %>">
+                  <%= address.name %>, <%= address.houseName %>, <%=
+                  address.street %>, <%= address.city %>, <%= address.state %> -
+                  <%= address.pincode %>
+                </option>
+                <% }) %>
+              </select>
+              <% } else { %>
+              <p class="text-danger">
+                No addresses found. Please add an address in your Profile.
+              </p>
+              <% } %>
+            </div>
           </div>
-
-          <!-- Dynamically display cart items -->
-          <ul class="checkout__total__products">
-            <% cartItems.forEach((item, index) => { %>
-            <li>
-              <%= index + 1 %>. <%= item.productId.productName %>
-              <span style="margin-left: 15px">Size : <%=item.size%></span>
-              <span style="margin-left: 25px">Qty : <%=item.quantity%></span>
-              <span><%= item.totalPrice.toFixed(2) %></span>
-            </li>
-            <% }) %>
-          </ul>
-
-          <!-- Subtotal, Discount, and Total -->
-          <ul class="checkout__total__all">
-            <li>
-              Subtotal
-              <span><%= totalPrice.toFixed(2) %></span>
-            </li>
+          <div class="checkout__payment" style="margin: 80px 0">
+            <h4 class="order__title"><b>Select Payment Method</b></h4>
+            <div class="checkout__payment__options" style="margin-top: 10px">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="paymentMethod"
+                  value="Online Payment"
+                  id="onlinepayment"
+                  required
+                />
+                <label class="form-check-label" for="onlinepayment">
+                  Online Payment
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="paymentMethod"
+                  value="Wallet"
+                  id="wallet"
+                  required
+                />
+                <label class="form-check-label" for="wallet"> Wallet </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="paymentMethod"
+                  value="Cash on Delivery"
+                  id="cod"
+                  required
+                />
+                <label class="form-check-label" for="cod">
+                  Cash on Delivery (COD)
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4 col-md-6">
+          <div
+            class="cart__discount"
+            style="margin-top: 45px; margin-bottom: 40px"
+          >
+            <h6 style="margin-bottom: 10px">Discount codes</h6>
+            <a href="/coupons">Available coupons</a>
             <% if (discount && discount > 0) { %>
-            <li>
-              Discount
-              <span>- <%= discount.toFixed(2) %></span>
-            </li>
+            <form id="removeCouponForm" method="post">
+              <button
+                id="removeCoupon"
+                type="submit"
+                style="
+                  background-color: #dc3545;
+                  position: relative;
+                  top: 0px;
+                  padding: 11px 7px;
+                  font-size: 12px;
+                  border-radius: 5px;
+                "
+              >
+                Remove Coupon
+              </button>
+            </form>
+  
+            <% } else { %>
+            <!-- Show the apply coupon form if no discount is applied -->
+            <form id="applyCouponForm">
+              <input
+                type="text"
+                id="couponCodeInput"
+                name="couponCode"
+                placeholder="Coupon code"
+              />
+              <button type="submit">Apply</button>
+            </form>
             <% } %>
-            <!-- Delivery charge -->
-  <li>
-    Delivery Charge
-    <span><%= deliveryCharge %></span>
-  </li>
-            <li>
-              Total
-              <span><%= (totalPrice - (discount || 0) + deliveryCharge).toFixed(2) %></span>
-            </li>
-          </ul>
-
-          <button type="submit" class="site-btn" id="place-order">
-            PLACE ORDER
-          </button>
+          </div>
+  
+          <div class="checkout__order" style="margin-bottom: 5px; width: 460px">
+            <h4 class="order__title">Your order</h4>
+            <div class="checkout__order__products">
+              Product <span>Total</span>
+            </div>
+  
+            <!-- Dynamically display cart items -->
+            <ul class="checkout__total__products">
+              <% cartItems.forEach((item, index) => { %>
+              <li>
+                <%= index + 1 %>. <%= item.productId.productName %>
+                <span style="margin-left: 15px">Size : <%=item.size%></span>
+                <span style="margin-left: 25px">Qty : <%=item.quantity%></span>
+                <span><%= item.totalPrice.toFixed(2) %></span>
+              </li>
+              <% }) %>
+            </ul>
+  
+            <!-- Subtotal, Discount, and Total -->
+            <ul class="checkout__total__all">
+              <li>
+                Subtotal
+                <span><%= totalPrice.toFixed(2) %></span>
+              </li>
+              <% if (discount && discount > 0) { %>
+              <li>
+                Discount
+                <span>- <%= discount.toFixed(2) %></span>
+              </li>
+              <% } %>
+              <!-- Delivery charge -->
+    <li>
+      Delivery Charge
+      <span><%= deliveryCharge %></span>
+    </li>
+              <li>
+                Total
+                <span><%= (totalPrice - (discount || 0) + deliveryCharge).toFixed(2) %></span>
+              </li>
+            </ul>
+  
+            <button type="submit" class="site-btn" id="place-order">
+              PLACE ORDER
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
 <%- include("../../views/partials/user/footer") %>
 
