@@ -63,11 +63,12 @@ const orderSchema = new Schema({
     invoiceDate:{
         type:Date
     },
-    status:{
-        type:String,
-        required:true,
-        enum:['Pending','Placed','Delivered','Canceled']
-    },
+    status: {
+        type: String,
+        required: true,
+        enum: ['Pending', 'Placed', 'Delivered', 'Canceled', 'Return Request', 'Returned'], // Add "Return Request" and "Returned"
+    }
+    ,
     createdOn:{
         type:Date,
         default:Date.now,
@@ -85,7 +86,22 @@ const orderSchema = new Schema({
     razorpayOrderId:{
         type:String,
         required:false
-    }
+    },
+    returnRequest: {
+        type: Boolean, // Flag to indicate if a return request has been made
+        default: false,
+      },
+      returnReason: {
+        type: String, // Field to store the reason for the return
+      },
+      returnStatus: {
+        type: String,
+        enum: ["Requested", "Approved", "Rejected", "Completed"], // Different stages of the return process
+        default: "Requested",
+      },
+      returnProcessedOn: {
+        type: Date, // The date when the return was processed
+      }
 },{ timestamps: true })
 
 

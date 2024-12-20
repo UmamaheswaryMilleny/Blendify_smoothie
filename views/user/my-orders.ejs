@@ -41,6 +41,37 @@ background: url("/images/userImg/home/img2_1.png") no-repeat center
     color: black !important;
   }
 </style>
+<!-- Modal for Return Order -->
+<div class="modal fade" id="returnOrderModal" tabindex="-1" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="returnOrderModalLabel">Return Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Please select a reason for return:</p>
+                <form id="returnOrderForm">
+                    <input type="hidden" id="returnOrderId" name="orderId" value="">
+                    <div class="mb-3">
+                        <select id="returnReason" class="form-select" required>
+                            <option value="" disabled selected style="color: black;">Select a reason</option>
+                            <option value="The food is not good">The food is not good</option>
+                            <option value="Damaged product">Damaged product</option>
+                            <option value="Wrong item delivered">Wrong item delivered</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="confirmReturnOrder">Confirm Return</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal for Cancel Order -->
 <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -120,22 +151,17 @@ background: url("/images/userImg/home/img2_1.png") no-repeat center
                             <td>
                                 <% if (order.status === 'Canceled') { %>
                                     <button class="btn btn-secondary" disabled>Canceled</button>
-                                <% } else if (order.status == 'Pending') { %>
-                                    <button id="retry-payment-btn" data-order-id="<%= order.orderId %>">
-                                        Retry Payment
-                                    </button>
-                                <% } else if (order.status == 'Delivered') { %>
-                                    <button id="requestReturn" data-order-id="<%= order.orderId %>">
+                                <% } else if (order.status === 'Delivered') { %>
+                                    <button class="btn btn-warning request-return-btn" data-order-id="<%= order.orderId %>">
                                         Request Return
                                     </button>
-                                <% } else if (order.status == 'Return Request') { %>
-                                    <button class="btn btn-secondary" disabled>Return requested</button>                                                                        
-                                <% } else if (order.status !== 'Delivered') { %>
-                                    <button class="btn btn-danger cancel-order-btn" data-order-id="<%= order._id %>">Cancel</button>
+                                <% } else if (order.status === 'Return Requested') { %>
+                                    <button class="btn btn-secondary" disabled>Return Requested</button>
                                 <% } else { %>
-                                    <span>N/A</span>
-                                <% } %>                                
+                                    <button class="btn btn-danger cancel-order-btn" data-order-id="<%= order._id %>">Cancel</button>
+                                <% } %>
                             </td>
+                            
                             <td><a href="/orderDetails/<%=order._id%>" style="color: #fff;">Order Details</a></td>                                               
                         </tr>
                     <% }) %>
@@ -411,5 +437,72 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Open the Return Order Modal
+        const returnButtons = document.querySelectorAll('.request-return-btn');
+        returnButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const orderId = this.getAttribute('data-order-id');
+                document.getElementById('returnOrderId').value = orderId;
+                const returnOrderModal = new bootstrap.Modal(document.getElementById('returnOrderModal'));
+                returnOrderModal.show();
+            });
+        });
+
+        // Confirm Return Order
+        const confirmReturnButton = document.getElementById('confirmReturnOrder');
+        confirmReturnButton.addEventListener('click', function () {
+            const orderId = document.getElementById('returnOrderId').value;
+            const reason = document.getElementById('returnReason').value;
+
+            if (!reason) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Please select a reason for the return.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            // Send return request to the server
+            fetch(`/return-order/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ reason })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Return Requested!',
+                        text: 'Your return request has been submitted.',
+                        icon: 'success'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message || 'Failed to request a return.',
+                        icon: 'error'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An unexpected error occurred.',
+                    icon: 'error'
+                });
+            });
+        });
+    });
+
+
 
 </script>
