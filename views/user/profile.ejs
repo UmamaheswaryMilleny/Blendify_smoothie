@@ -1,67 +1,169 @@
 <%- include("../../views/partials/user/header") %>
 
 <style>
-  body{
+body {
+  background: url("/images/userImg/home/img2_1.png") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  font-family: "Poppins-Regular", sans-serif;
+  overflow-x: hidden;
+}
+/* .header__top {
+  padding: 0 !important;
+} */
+.forgot-password-link {
+  font-size: 0.875rem;
+  text-decoration: none;
+  color: rgba(139, 0, 0);
+}
+.forgot-password-link:hover {
+  color: rgba(139, 0, 0);
+  text-decoration: underline;
+}
 
-  background: url("/images/userImg/home/img2_1.png") no-repeat center
-          center fixed;
-        background-size: cover;
-        color: #fff;
-     
+.list-group-item.active {
+  background-color: rgba(139, 0, 0);
+  border-color: rgba(139, 0, 0);
+}
+
+h5 {
+  color: #fff;
+  padding: 2px;
+}
+
+.btn {
+  width: 30%; /* Make buttons responsive */
+  margin: 15px 0px;
+  background-color: #fa8a00 !important;
+  color: white;
+}
+
+.profile-page {
+  min-height: 70vh;
+  padding: 20px;
+}
+
+.form-control {
+  width: 100%; /* Adjust form width for responsiveness */
+}
+
+button {
+  width: 100%; /* Make buttons responsive */
+  background-color: rgba(139, 0, 0);
+  color: white !important;
+}
+button:hover {
+  color: white !important;
+}
+.card{
+  border-radius: 0 !important;
+}
+
+#profileCard {
+  background: rgba(139, 0, 0, 0.85);
+  font-family: "Poppins-Regular" !important;
+  padding: 20px;
+  /* border-radius: 10px; */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: rgb(210 118 48);
+  border-color: rgba(139, 0, 0);
+}
+.btn-primary:focus {
+  background-color: #fa8a00 !important;
+  border-color: rgba(139, 0, 0);
+}
+
+input {
+  border: none;
+  padding-left: 10px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  /* padding: 15px; */
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-md-9 {
+  flex: 1 1 70%;
+  max-width: 70%;
+  padding: 15px;
+}
+
+.col-md-9.profile-content {
+  margin-top: 20px;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+  flex: 1 1 30%;
+  max-width: 30%;
+  background: #333;
+  color: #fff;
+  padding: 15px;
+}
+
+.sidebar .list-group-item {
+  margin-bottom: 10px;
+  border: none;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .col-md-9,
+  .sidebar {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
-  .forgot-password-link {
-    font-size: 0.875rem;
-    text-decoration: none;
-    color: rgba(139, 0, 0);
-  }
-  .forgot-password-link:hover {
-    color: rgba(139, 0, 0);
-    text-decoration: underline;
-  }
-  .list-group-item.active {
-    background-color: rgba(139, 0, 0);
-    border-color: rgba(139, 0, 0);
-  }
-  h5 {
-    color: #fff;
-    padding: 2px;
-  }
-  .btn {
-    width: 184px;
-    margin: 15px 0px;
-    background-color: #fa8a00 !important;
-    color: white;
-  }
+
   .profile-page {
-    height: 70vh;
+    padding: 10px;
   }
-  .form-control {
-    width: 50% !important;
+
+  .btn {
+    width: 30%; /* Buttons remain responsive */
   }
-  button {
-    width: 184px;
-    background-color: rgba(139, 0, 0);
-    color: white !important;
+}
+
+@media (max-width: 576px) {
+  h3 {
+    font-size: 1.5rem;
   }
-  button:hover {
-    color: white !important;
+
+  h5 {
+    font-size: 1rem;
   }
-  #profileCard{
-    background: rgba(139, 0, 0, 0.85);
-    font-family: "Poppins-Regular" !important; 
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 10px;
   }
-  .btn-primary:hover {
-        background-color: rgb(210 118 48);
-        border-color: rgba(139, 0, 0);
-      }
-      .btn-primary:focus {
-        background-color: #fa8a00 !important;
-        border-color: rgba(139, 0, 0);
-      }
-      input{
-        border: none;
-        padding-left: 10px;
-      }
+
+
+  input {
+    font-size: 0.9rem;
+  }
+}
+
+
 </style>
 
 <div class="container mt-5 profile-page">
