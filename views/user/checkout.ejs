@@ -150,21 +150,34 @@
   
           <div class="checkout__order" style="margin-bottom: 5px; width: 460px">
             <h4 class="order__title">Your order</h4>
-            <div class="checkout__order__products">
+            <!-- <div class="checkout__order__products">
               Product <span>Total</span>
-            </div>
+            </div> -->
   
             <!-- Dynamically display cart items -->
-            <ul class="checkout__total__products">
-              <% cartItems.forEach((item, index) => { %>
-              <li>
-                <%= index + 1 %>. <%= item.productId.productName %>
-                <span style="margin-left: 15px">Size : <%=item.size%></span>
-                <span style="margin-left: 25px">Qty : <%=item.quantity%></span>
-                <span><%= item.totalPrice.toFixed(2) %></span>
-              </li>
-              <% }) %>
-            </ul>
+            <table class="checkout__total__products" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr>
+                  <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">#</th>
+                  <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Product Name</th>
+                  <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Size</th>
+                  <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Quantity</th>
+                  <th style="text-align: right; padding: 8px; border-bottom: 1px solid #ddd;">Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% cartItems.forEach((item, index) => { %>
+                  <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;"><%= index + 1 %></td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;"><%= item.productId.productName %></td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;"><%= item.size %></td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;"><%= item.quantity %></td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #ddd;"><%= item.totalPrice.toFixed(2) %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+            
   
             <!-- Subtotal, Discount, and Total -->
             <ul class="checkout__total__all">
