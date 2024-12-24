@@ -36,10 +36,10 @@
             <% }); %>
           </tbody>
           <tfoot>
-            <% if (order.discount && order.discount > 0) { %>
+            <% if (typeof discount !== 'undefined' && discount > 0) { %>
             <tr>
               <td colspan="3" class="text-end">Discount :</td>
-              <td>₹ <%= order.discount %></td>
+              <td>₹ <%= discount %></td>
             </tr>
             <% } %>
             <tr>
@@ -53,6 +53,7 @@
               <td><strong>₹ <%= totalAmountWithDelivery %></strong></td>
             </tr>
           </tfoot>
+          
         </table>
       </div>
     </div>

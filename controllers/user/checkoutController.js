@@ -261,10 +261,10 @@ const orderConfirmation = async (req,res) => {
         const userId = req.session.user
         const userData = await User.findById(userId);
         const orderId = String(req.params.orderId);
-        console.log(orderId);
+        // console.log(orderId);
         
         const order = await Order.findOne({ orderId:orderId })
-        console.log(order);
+        // console.log(order);
         
 
         if (!order) {
@@ -272,17 +272,18 @@ const orderConfirmation = async (req,res) => {
         }
 
         const addressDoc = await Address.findOne({userId:userId});
-        console.log(addressDoc);
+        // console.log(addressDoc);
         
 
         if (!addressDoc) {
             return res.redirect('/pageNotFound');
         }
-
+        const discount = order.discount || 0;
         const addressIdToCheck = order.address;
         const specificAddress = addressDoc.address.find(addr => addr._id.equals(addressIdToCheck));
         const deliveryCharge = order.deliveryCharge || 50;
-        const totalAmountWithDelivery = order.finalAmount + deliveryCharge;
+        const totalAmountWithDelivery = order.finalAmount -discount + deliveryCharge;
+        console.log('Ordersssss:', order);
         res.render('order-confirmation', {
             order,
             orderedItems: order.orderedItems || [],
@@ -292,8 +293,10 @@ const orderConfirmation = async (req,res) => {
             deliveryCharge,
             paymentMethod: order.paymentMethod,
             totalAmountWithDelivery,
+            discount,
             
         });
+
     } catch (error) {
         console.error('Error fetching order or rendering:', error);
         res.redirect('/pageNotFound');
