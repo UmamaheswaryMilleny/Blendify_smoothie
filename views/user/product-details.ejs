@@ -1,6 +1,20 @@
 <%-include("../../views/partials/user/header")%>
 <!-- Shop Details Section Begin -->
 <style>
+  .price-info {
+  text-align: left;
+  margin-top: -8px;
+}
+
+.sale-price {
+  color: red;
+}
+
+.regular-price {
+  color: rgb(71, 60, 60);
+  margin-left: 20px;
+}
+
   .out-of-stock {
   color: gray;
   text-decoration: line-through;
@@ -99,18 +113,19 @@
                   </div>
                   <!-- <img src="/images/userImg/icon/sale.gif" alt=""> -->
               <!-- Sale Price -->
-<% if (product.salePrice) { %>
-  <h6 style="text-align: left; color: rgb(255, 0, 0); margin-top: -8px;">
-    SalePrice: <b>₹<%= product.salePrice %></b>
-    <span style="margin-left: 20px; color: rgb(71, 60, 60);">
-      Price: ₹<%= product.regularPrice %>
-    </span>
-  </h6>
-<% } else { %>
-  <h6 style="text-align: left; color: rgb(71, 60, 60); margin-top: -8px;">
-    Price: ₹<%= product.regularPrice %>
-  </h6>
-<% } %>
+              <% if (product.salePrice) { %>
+                <h6 style="text-align: left; color: rgb(255, 0, 0); margin-top: -8px;">
+                  SalePrice: <b>₹<%= product.salePrice %></b>
+                  <span style="margin-left: 20px; color: rgb(71, 60, 60); text-decoration: line-through;">
+                    Price: ₹<%= product.regularPrice %>
+                  </span>
+                </h6>
+              <% } else { %>
+                <h6 style="text-align: left; color: rgb(71, 60, 60); margin-top: -8px;">
+                  Price: ₹<%= product.regularPrice %>
+                </h6>
+              <% } %>
+              
 
                   <p style="text-align: left;margin-top: 20px;" ><%= product.description %></p>
                   <div
@@ -250,13 +265,17 @@
               <i class="fa fa-star"></i>
               <i class="fa fa-star-o"></i>
             </div>
-            <h5>
-              <% if (product.salePrice) { %>
-                ₹<%= product.salePrice %>
-              <% } else { %>
-                ₹<%= product.regularPrice %>
-              <% } %>
-            </h5>
+            <% if (product.salePrice) { %>
+              <h6 class="price-info">
+                <span class="sale-price">SalePrice: ₹<%= product.salePrice %></span>
+                <span class="regular-price" style="text-decoration: line-through;">Price: ₹<%= product.regularPrice %></span>
+              </h6>
+            <% } else { %>
+              <h6 class="price-info">
+                Price: ₹<%= product.regularPrice %>
+              </h6>
+            <% } %>
+            
             
             <div class="product__color__select">
               <label for="pc-34">
