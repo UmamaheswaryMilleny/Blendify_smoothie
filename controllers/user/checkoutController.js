@@ -10,6 +10,7 @@ const env = require('dotenv').config()
 const Razorpay = require("razorpay")
 const crypto = require('crypto')
 const { log } = require("console")
+const { disconnect } = require("process")
 
 
 const razorpayInstance = new Razorpay({
@@ -27,17 +28,20 @@ const razorpayInstance = new Razorpay({
         const cart = await Cart.findOne({ userId: userId }).populate('items.productId');
 
         const cartItems = cart ? cart.items : [];
+        const discount = cart.discount;
+        console.log('disount',discount)
         const totalPrice = cartItems.reduce((total, item) => total + item.totalPrice, 0);
-        const deliveryCharge = 50; // Adding a delivery charge of 50 const grandTotal = totalPrice + deliveryCharge; // Calculate the grand total
+        const deliveryCharge = 50;
+         // Adding a delivery charge of 50 const grandTotal = totalPrice + deliveryCharge; // Calculate the grand total
         let appliedCouponCode = '';
-        const grandTotal = totalPrice + deliveryCharge;
+        const grandTotal = totalPrice - discount + deliveryCharge;
         if (cart && cart.couponApplied) {
             const appliedCoupon = await Coupon.findById(cart.couponApplied);
             if (appliedCoupon) {
                 appliedCouponCode = appliedCoupon.code;
             }
         }
-
+console.log('grandtaoal',grandTotal)
         res.render("checkout", {
             addresses,
             cartItems,
