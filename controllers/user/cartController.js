@@ -191,13 +191,13 @@ const updateCart = async (req, res) => {
 
       const product = await Product.findById(itemId);
 
-      console.log('Product sizes:', product.sizes);
+      // console.log('Product sizes:', product.sizes);
 
       const normalizedSize = size.trim().toLowerCase();
       const sizeInfo = product.sizes.find(s => s.size.trim().toLowerCase() === normalizedSize);
 
       if (!sizeInfo) {
-          console.log('Invalid size selected:', normalizedSize); 
+          // console.log('Invalid size selected:', normalizedSize); 
           return res.status(400).json({ success: false, message: 'Invalid size selected.' });
       }
 

@@ -71,7 +71,8 @@
                                                     </div>
                                                 </div>                                                
                                             </td>                                            
-                                            <td class="cart__price" id="totalPrice"><%= item.totalPrice.toFixed(2) %></td>
+                                            <td class="cart__price" data-product-id="<%= item.productId._id %>"><%= item.totalPrice.toFixed(2) %></td>
+
                                             <td class="cart__close">
                                                 <i class="fa fa-close" id="removeFromCart" data-product-id="<%= item.productId._id %>"></i>
                                             </td>                                            
@@ -182,7 +183,7 @@
 
         function updateQuantity(productId, size, newQuantity) {
     console.log("Updating quantity for product:", productId, "Size:", size, "Quantity:", newQuantity);
-    
+
     // Make an AJAX call to update the quantity
     fetch('/update-cart', {
         method: 'POST',
@@ -191,14 +192,23 @@
         },
         body: JSON.stringify({
             itemId: productId,
-            size: size,   // Pass size in the request body
+            size: size, // Pass size in the request body
             quantity: newQuantity
         })
-    }).then(response => response.json())
+    })
+    .then(response => response.json())
     .then(data => {
         if (data.success) {
-            document.getElementById("totalPrice").innerHTML=data.itemPrice;
-            document.getElementById("cartTotal").innerHTML=data.totalPrice;
+            // Update the total price for the specific item in the cart
+            const itemRow = document.querySelector(`[data-product-id="${productId}"]`);
+            if (itemRow) {
+                const totalPriceCell = itemRow;
+                totalPriceCell.textContent = `${data.itemPrice.toFixed(2)}`;
+            }
+
+            // Update the cart's total price
+            document.getElementById("cartTotal").textContent = `INR ${data.totalPrice.toFixed(2)}`;
+
             Swal.fire({
                 title: "Success!",
                 text: "Quantity updated successfully!",
@@ -213,11 +223,11 @@
                 button: "OK",
             });
         }
-    }).catch(error => {
-          console.error('Error updating quantity:', error);
-      });
+    })
+    .catch(error => {
+        console.error('Error updating quantity:', error);
+    });
 }
-
 
         </script>        
 

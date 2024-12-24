@@ -2753,7 +2753,7 @@ ol {
 
 .checkout__total__products li span {
   color: #111111;
-  float: right;
+  /* float: right; */
 }
 
 .checkout__total__all {
