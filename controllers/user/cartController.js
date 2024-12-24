@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 const getCartPage = async (req, res) => {
   try {
     const userId = req.session.user;
-    console.log(userId)
+    // console.log(userId)
     const userData = await User.findById(userId);
-    console.log('cart',userData)
+    // console.log('cart',userData)
     const cart = await Cart.findOne({ userId }).populate("items.productId");
 
     if (!cart || cart.items.length === 0) {
@@ -18,9 +18,13 @@ const getCartPage = async (req, res) => {
         user: userData,
       });
     }
-
     cart.items.forEach((item) => {
-      item.totalPrice = item.quantity * item.salePrice;
+      // Check if regularPrice exists; if not, use salePrice
+      if (item.productId.regularPrice) {
+        item.totalPrice = item.quantity * item.productId.regularPrice;
+      } else {
+        item.totalPrice = item.quantity * item.productId.salePrice;
+      }
     });
     res.render("cart", { cart, user: userData });
   } catch (error) {
@@ -202,25 +206,42 @@ const updateCart = async (req, res) => {
           return res.status(400).json({ success: false, message: `Only ${availableStock} units available for size ${size}.` });
       }
 
+      // Update the totalPrice based on salePrice or regularPrice
+      const priceToUse = product.salePrice > 0 ? product.salePrice : product.regularPrice;
+      
+      // Ensure price exists to avoid `NaN`
+      if (!priceToUse) {
+          return res.status(400).json({ success: false, message: 'Invalid product pricing' });
+      }
+
+      // Update cart item with the correct totalPrice based on the chosen price
       await Cart.updateOne(
           { 'items.productId': itemId, 'items.size': size }, 
-          { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * (product.salePrice || 0) } } 
+          { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * priceToUse } } 
       );
 
-      const userId=req.session.user;
-      const cart = await Cart.findOne({userId})
-      let finalPrice = 0;
-      cart.items.forEach((item)=>{
-        finalPrice+=item.totalPrice
-      });
-      console.log(finalPrice)
+      const userId = req.session.user;
+      const cart = await Cart.findOne({ userId });
 
-      res.json({ success: true, message: 'Quantity updated successfully' ,itemPrice:quantity * (product.salePrice || 0),totalPrice:finalPrice});
+      let finalPrice = 0;
+      cart.items.forEach((item) => {
+        finalPrice += item.totalPrice;
+      });
+
+      console.log('Final cart price:', finalPrice);
+
+      res.json({
+          success: true,
+          message: 'Quantity updated successfully',
+          itemPrice: quantity * priceToUse,
+          totalPrice: finalPrice
+      });
   } catch (error) {
       console.error('Error updating quantity:', error);
       res.status(500).json({ success: false, message: 'Error updating quantity' });
   }
 };
+
 
 
 module.exports = {

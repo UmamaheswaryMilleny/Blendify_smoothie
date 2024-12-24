@@ -25,7 +25,14 @@
                     <div class="card-body">
                         <h5 class="card-title"><%= item.productName %></h5>
                         <!-- <p class="card-text"><%= item.description %></p> -->
-                        <p class="text-muted">Price: ₹ <%= item.salePrice %></p>
+                        <% if (item.salePrice) { %>
+                            <p class="text-muted">
+                              <span style="color: red;">  Sale Price: ₹<%= item.salePrice %></span>
+                                <span style="text-decoration: line-through; color: rgb(71, 60, 60);">Price ₹<%= item.regularPrice %></span>
+                            </p>
+                        <% } else { %>
+                            <p class="text-muted">Price: ₹<%= item.regularPrice %></p>
+                        <% } %>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         <button class="btn btn-danger btn-sm" onclick="removeFromWishlist('<%= item.productId %>')">Remove</button>
