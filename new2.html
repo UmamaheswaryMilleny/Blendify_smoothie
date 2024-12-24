@@ -3,99 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Profile Page</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Category Page</title>
     <style>
+        input{
+            width: 100px;
+
+        }
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
             margin: 0;
             padding: 0;
+            background-color: #f9f9f9;
         }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-            background-image: url('background.jpg'); /* Add your background image here */
-            background-size: cover;
-            background-position: center;
-        }
+        table td.category-name {
+        max-width: 150px; /* Set maximum width for the category name */
+        word-wrap: break-word; /* Wrap long words to avoid overflow */
+        overflow-wrap: break-word; /* Ensure proper wrapping */
+        text-overflow: ellipsis; /* Truncate with ellipsis if too long */
+        white-space: nowrap; /* Avoid wrapping unless toggled */
+        overflow: hidden; /* Hide overflow content */
+    }
+
         .sidebar {
-            flex: 1;
-            min-width: 200px;
-            max-width: 300px;
-            background-color: #ff9800;
-            padding: 20px;
-            border-radius: 8px;
-            margin-right: 20px;
+    width: 200px; /* Decreased width */
+    background-color: #800020;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    padding-top: 20px;
+    transition: width 0.3s ease; /* Smooth transition when adjusting width */
+}
+
+.main-content {
+    margin-left: 200px; /* Adjust margin to match the new sidebar width */
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Smooth transition for alignment */
+}
+
+
+        .sidebar h2 {
+            text-align: center;
         }
-        .sidebar a {
-            display: block;
-            color: white;
-            text-decoration: none;
-            padding: 10px 0;
-            border-bottom: 1px solid #fff;
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
         }
-        .sidebar a:last-child {
-            border-bottom: none;
-        }
-        .profile-content {
-            flex: 2;
-            min-width: 300px;
-            background-color: rgba(128, 0, 0, 0.8);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            min-height: 870px;
-        }
-        .profile-content h2 {
-            margin-top: 0;
-        }
-        .profile-content p {
-            margin: 10px 0;
-        }
-        .edit-button {
-            display: inline-block;
+
+        .sidebar ul li {
             padding: 10px 20px;
-            background-color: #ff9800;
+        }
+
+        .sidebar ul li a {
             color: white;
             text-decoration: none;
-            border-radius: 4px;
-            margin-top: 10px;
         }
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .sidebar {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            .profile-content {
-                min-height: auto;
-            }
+
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .header button {
+            padding: 8px 15px;
+            background-color: #e6005c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #cc0052;
+        }
+
+        .add-category {
+            margin-top: 20px;
+        }
+
+        .add-category input {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .add-category button {
+            padding: 8px 15px;
+            background-color: #e6005c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-category button:hover {
+            background-color: #cc0052;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table td .add-offer {
+            background-color: #28a745;
+            color: white;
+        }
+
+        table td .add-offer:hover {
+            background-color: #1e7e34;
+        }
+        table th {
+            background-color: #800020;
+            color: white;
+        }
+
+        table td button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        table td .edit {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table td .edit:hover {
+            background-color: #0056b3;
+        }
+
+        table td .list {
+            background-color: #28a745;
+            color: white;
+        }
+
+        table td .list:hover {
+            background-color: #1e7e34;
+        }
+          /* Popup Modal */
+          .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 300px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .modal-content button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-content button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <a href="#">My Profile</a>
-            <a href="#">Manage Addresses</a>
-            <a href="#">My Orders</a>
-            <a href="#">Coupons</a>
-            <a href="#">Wallet</a>
+    <div class="sidebar">
+        <h2>Booklove</h2>
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Customers</a></li>
+            <li><a href="#">Category</a></li>
+            <li><a href="#">Add Product</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Coupon</a></li>
+            <li><a href="#">Sales Report</a></li>
+            <li><a href="#">Banner</a></li>
+            <li><a href="#">Orders</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Categories</h1>
+        <div class="header">
+            <input type="text" placeholder="Search category...">
+            <button>Clear</button>
         </div>
-        <div class="profile-content">
-            <h2>My Profile</h2>
-            <p>Name: Sara</p>
-            <p>Email: sara@gmail.com</p>
-            <p>Phone: 9898899999</p>
-            <a href="#" class="edit-button">Edit</a>
+        <div class="add-category">
+            <input type="text" placeholder="Enter category name">
+            <input type="text" placeholder="Enter category description">
+            <input type="text" placeholder="Enter offer (if any)">
+            <input type="text" placeholder="Enter offer price">
+            <button>Add Category</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th>Offer</th>
+                    <th>Offer %</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Fiction</td>
+                    <td>Ask me a Question</td>
+                    <td><button class="add-offer" onclick="openModal(this)">Add Offer</button></td>
+                    <td class="offer-price">N/A</td>
+                    <td>Active</td>
+                    <td><button class="list">List</button></td>
+                    <td><button class="edit" onclick="enableEditing(this)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Story</td>
+                    <td>Orikkal</td>
+                    <td><button class="add-offer" onclick="openModal(this)">Add Offer</button></td>
+                    <td class="offer-price">N/A</td>
+                    <td>Active</td>
+                    <td><button class="list">List</button></td>
+                    <td><button class="edit" onclick="enableEditing(this)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Novel</td>
+                    <td>Ram c/o Anandhi</td>
+                    <td><button class="add-offer" onclick="openModal(this)">Add Offer</button></td>
+                    <td class="offer-price">N/A</td>
+                    <td>Active</td>
+                    <td><button class="list">List</button></td>
+                    <td><button class="edit" onclick="enableEditing(this)">Edit</button></td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+    <div class="modal" id="offerModal">
+        <div class="modal-content">
+            <h3>Enter Offer Price</h3>
+            <input type="number" id="offerInput" placeholder="Enter offer price" min="0">
+            <button onclick="submitOffer()">Submit</button>
+            <button onclick="closeModal()">Cancel</button>
         </div>
     </div>
+    <script>
+        function enableEditing(button) {
+            const row = button.parentElement.parentElement;
+            const cells = row.querySelectorAll("td");
+    
+            // Enable editing for each cell except Actions and Edit
+            cells.forEach((cell, index) => {
+                if (index < cells.length - 2) {
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.value = cell.textContent.trim();
+                    cell.textContent = "";
+                    cell.appendChild(input);
+                }
+            });
+    
+            // Change the Edit button to Save
+            button.textContent = "Save";
+            button.classList.remove("edit");
+            button.classList.add("save");
+            button.onclick = () => saveChanges(button);
+        }
+    
+        function saveChanges(button) {
+            const row = button.parentElement.parentElement;
+            const cells = row.querySelectorAll("td");
+    
+            // Save the input values back to the table cells
+            cells.forEach((cell, index) => {
+                if (index < cells.length - 2) {
+                    const input = cell.querySelector("input");
+                    if (input) {
+                        cell.textContent = input.value;
+                    }
+                }
+            });
+    
+            // Change the Save button back to Edit
+            button.textContent = "Edit";
+            button.classList.remove("save");
+            button.classList.add("edit");
+            button.onclick = () => enableEditing(button);
+        }
+        let currentRow = null;
+    
+    function openModal(button) {
+        currentRow = button.closest('tr');
+        document.getElementById('offerModal').style.display = 'flex';
+    }
+    
+    function closeModal() {
+        document.getElementById('offerModal').style.display = 'none';
+        document.getElementById('offerInput').value = '';
+    }
+    
+    function submitOffer() {
+        const offerValue = document.getElementById('offerInput').value;
+        if (offerValue) {
+            const offerPriceCell = currentRow.querySelector('.offer-price');
+            offerPriceCell.textContent = `$${offerValue}`;
+            closeModal();
+        } else {
+            alert('Please enter a valid offer price');
+        }
+    }
+    </script>
 </body>
+
+
 </html>
