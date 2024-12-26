@@ -1,60 +1,226 @@
-const cancelOrder = async (req, res) => {
-    try {
-        const { orderId } = req.params;
+// <%- include("../../views/partials/user/header") %>
 
-        const order = await Order.findById(orderId).populate('orderedItems.product');  
-        if (!order) {
-            return res.status(404).json({ success: false, message: 'Order not found' });
-        }
+// <style>
+//     .qtybtn {
+//         display: none;
+//     }
+// </style>
 
-        if (order.status === 'Pending' || order.status === 'Placed') {
-            for (const item of order.orderedItems) {
-                const product = await Product.findById(item.product._id);
+// <!-- Breadcrumb Section Begin -->
+// <section class="breadcrumb-option" style="padding: 10px 0;">
+//     <div class="container">
+//         <div class="row">
+//             <div class="col-lg-12">
+//                 <div class="breadcrumb__text">
+//                     <h4>Shopping Cart</h4>
+//                     <div class="breadcrumb__links">
+//                         <a href="/">Home</a>
+//                         <a href="/shop">Shop</a>
+//                         <a href="/cart">Shopping Cart</a>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     </div>
+// </section>
+// <!-- Breadcrumb Section End -->
 
-                if (product) {
-                    const sizeInfo = product.sizes.find(s => s.size === item.size);
+// <!-- Shopping Cart Section Begin -->
+// <section class="shopping-cart spad" style="padding-top: 50px;">
+//     <div class="container">
+//         <div class="row">
+//             <div class="col-lg-8">
+//                 <div class="shopping__cart__table">
+//                     <table>
+//                         <thead>
+//                             <tr>
+//                                 <th>Product</th>
+//                                 <th>Quantity</th>
+//                                 <th>Total</th>
+//                                 <th></th>
+//                             </tr>
+//                         </thead>
+//                         <tbody>
+//                             <% if (cart && cart.items.length > 0) { %>
+//                                 <% cart.items.forEach(item => { %>
+//                                     <tr data-product-id="<%= item.productId._id %>" data-size="<%= item.size %>">
+//                                         <td class="product__cart__item">
+//                                             <div class="product__cart__item__pic">
+//                                                 <img src="/uploads/product-images/<%= item.productId.productImage[0] %>" alt="<%= item.productId.productName %>" class="img-fluid" style="max-width: 100px;">
+//                                             </div>
+//                                             <div class="product__cart__item__text">
+//                                                 <h6><%= item.productId.productName %></h6>
+//                                                 <% if (item.productId.salePrice) { %>
+//                                                     <h5><%= item.productId.salePrice.toFixed(2) %></h5>
+//                                                 <% } else { %>
+//                                                     <h5><%= item.productId.regularPrice.toFixed(2) %></h5>
+//                                                 <% } %>
+//                                             </div>
+//                                         </td>
+//                                         <td class="quantity__item">
+//                                             <div class="quantity">
+//                                                 <div class="pro-qty-2">
+//                                                     <select class="quantity-select" name="quantity" 
+//                                                             onchange="updateQuantity('<%= item.productId._id %>', '<%= item.size %>', this.value)">
+//                                                         <% 
+//                                                             const availableStock = item.productId.sizes.find(s => s.size === item.size).quantity;
+//                                                             const maxSelectable = Math.min(availableStock, 5);
+//                                                             for (let i = 1; i <= maxSelectable; i++) { 
+//                                                         %>
+//                                                             <option value="<%= i %>" <%= item.quantity == i ? 'selected' : '' %>><%= i %></option>
+//                                                         <% } %>
+//                                                     </select>
+//                                                 </div>
+//                                             </div>                                                
+//                                         </td>                                            
+//                                         <td class="cart__price"><%= item.totalPrice.toFixed(2) %></td>
+//                                         <td class="cart__close">
+//                                             <i class="fa fa-close" id="removeFromCart" data-product-id="<%= item.productId._id %>"></i>
+//                                         </td>                                            
+//                                     </tr>
+//                                 <% }) %>
+//                             <% } else { %>
+//                                 <tr>
+//                                     <td colspan="4" class="text-center">
+//                                         <p>Your cart is empty. Add something to the cart!</p>
+//                                     </td>
+//                                 </tr>
+//                             <% } %>
+//                         </tbody>
+//                     </table>
+//                 </div>
+//                 <div class="row">
+//                     <div class="col-lg-6 col-md-6 col-sm-6">
+//                         <div class="continue__btn">
+//                             <a href="/shop" style="background-color: rgba(139, 0, 0); color: white;">Continue Shopping</a>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//             <div class="col-lg-4">
+//                 <div class="cart__total mt-4">
+//                     <h6>Cart total</h6>
+//                     <ul>
+//                         <% 
+//                             let subtotal = 0;
+//                             if (cart && cart.items.length > 0) {
+//                                 cart.items.forEach(item => {
+//                                     subtotal += item.totalPrice;
+//                                 });
+//                             }
+//                         %>
+//                         <li>Total <span id="cartTotal">INR <%= subtotal.toFixed(2) %></span></li>
+//                     </ul>
+//                     <% if (cart && cart.items.length > 0) { %>
+//                         <a href="/checkout" class="primary-btn" style="background-color: rgba(139, 0, 0); color: white;">Proceed to checkout</a>
+//                     <% } else { %>
+//                         <a href="#" class="primary-btn disabled" style="background-color: rgba(139, 0, 0); color: white;">Proceed to checkout</a>
+//                     <% } %>
+//                 </div>                    
+//             </div>
+//         </div>
+//     </div>
+// </section>
+// <!-- Shopping Cart Section End -->
 
-                    if (sizeInfo) {
-                        sizeInfo.quantity += item.quantity;
-                        await product.save();
-                    }
-                }
-            }
+// <script>
+// document.addEventListener('DOMContentLoaded', function() {
+//             // Get all remove from cart icons
+//             const removeFromCartButtons = document.querySelectorAll('#removeFromCart');
+        
+//             removeFromCartButtons.forEach(button => {
+//                 button.addEventListener('click', function(e) {
+//                     e.preventDefault(); // Prevent default action
+                    
+//                     // Get the product ID (make sure this is correctly set in your HTML)
+//                     const productId = this.getAttribute('data-product-id'); // Assuming you're setting data-product-id in the icon
+                    
+//                     // Send a POST request using fetch to remove the item
+//                     fetch('/removeFromCart', {
+//                         method: 'POST',
+//                         headers: {
+//                             'Content-Type': 'application/json',
+//                         },
+//                         body: JSON.stringify({ productId: productId })
+//                     })
+//                     .then(response => response.json())
+//                     .then(data => {
+//                         if (data.success) {
+//                             // Show success message using SweetAlert
+//                             Swal.fire({
+//                                 title: "Success!",
+//                                 text: "Product removed from cart successfully!",
+//                                 icon: "success",
+//                                 button: "OK",
+//                             });
+        
+//                             // Optionally, remove the product from the UI
+//                             this.closest('tr').remove(); // Assuming the icon is within a table row
+//                         } else {
+//                             // Show error message
+//                             Swal.fire({
+//                                 title: "Error!",
+//                                 text: data.error || "Failed to remove product from cart",
+//                                 icon: "error",
+//                                 button: "OK",
+//                             });
+//                         }
+//                     })
+//                     .catch(error => {
+//                         console.error('Error:', error);
+//                         Swal.fire({
+//                             title: "Error!",
+//                             text: "An unexpected error occurred",
+//                             icon: "error",
+//                             button: "OK",
+//                         });
+//                     });
+//                 });
+//             });
+//         });
 
-            if (order.paymentMethod !== 'Cash on Delivery') {
-                const userId = order.user;
-                const refundAmount = order.finalAmount;
+//     function updateQuantity(productId, size, newQuantity) {
+//         console.log("Updating quantity for product:", productId, "Size:", size, "Quantity:", newQuantity);
 
-                let wallet = await Wallet.findOne({ user_id: userId });
+//         fetch('/update-cart', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 itemId: productId,
+//                 size: size,
+//                 quantity: newQuantity
+//             })
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.success) {
+//                 const itemRow = document.querySelector(`tr[data-product-id="${productId}"][data-size="${size}"]`);
+//                 if (itemRow) {
+//                     const totalPriceCell = itemRow.querySelector(".cart__price");
+//                     totalPriceCell.innerHTML = `INR ${data.itemPrice.toFixed(2)}`;
+//                     document.getElementById("cartTotal").innerHTML = `INR ${data.totalPrice.toFixed(2)}`;
+//                 }
+//                 Swal.fire({
+//                     title: "Success!",
+//                     text: "Quantity updated successfully!",
+//                     icon: "success",
+//                     button: "OK",
+//                 });
+//             } else {
+//                 Swal.fire({
+//                     title: "Error!",
+//                     text: data.message || "Failed to update quantity",
+//                     icon: "error",
+//                     button: "OK",
+//                 });
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error updating quantity:', error);
+//         });
+//     }
+// </script>
 
-                if (!wallet) {
-                    wallet = new Wallet({
-                        user_id: userId,
-                        balance: 0,
-                        transactions: []
-                    });
-                }
-
-                wallet.balance += refundAmount;
-
-                wallet.transactions.push({
-                    amount: refundAmount,
-                    date: new Date(),
-                    description: 'Refund for canceled order'
-                });
-
-                await wallet.save();
-            } else {
-                return res.json({ success: false, message: 'Order cancellation does not require refund to wallet as it was Cash on Delivery' });
-            }
-
-            order.status = 'Canceled';
-            await order.save();
-            return res.json({ success: true, message: 'Order canceled successfully' });
-        } else {
-            return res.json({ success: false, message: 'Order cannot be canceled' });
-        }
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error' });
-    }
-};
+// <%- include("../../views/partials/user/footer") %>

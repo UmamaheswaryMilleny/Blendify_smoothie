@@ -180,9 +180,8 @@ const removeFromCart = async (req, res) => {
   }
 };
 
-
 const updateCart = async (req, res) => {
-  const { itemId, quantity, size } = req.body; 
+  const { itemId, quantity, size } = req.body;
 
   try {
       if (!size) {
@@ -191,33 +190,27 @@ const updateCart = async (req, res) => {
 
       const product = await Product.findById(itemId);
 
-      // console.log('Product sizes:', product.sizes);
-
       const normalizedSize = size.trim().toLowerCase();
       const sizeInfo = product.sizes.find(s => s.size.trim().toLowerCase() === normalizedSize);
 
       if (!sizeInfo) {
-          // console.log('Invalid size selected:', normalizedSize); 
           return res.status(400).json({ success: false, message: 'Invalid size selected.' });
       }
 
-      const availableStock = sizeInfo.quantity; 
+      const availableStock = sizeInfo.quantity;
       if (quantity > availableStock) {
           return res.status(400).json({ success: false, message: `Only ${availableStock} units available for size ${size}.` });
       }
 
-      // Update the totalPrice based on salePrice or regularPrice
-      const priceToUse = product.salePrice > 0 ? product.salePrice : product.regularPrice;
-      
-      // Ensure price exists to avoid `NaN`
-      if (!priceToUse) {
-          return res.status(400).json({ success: false, message: 'Invalid product pricing' });
+      if (quantity > 5) {
+          return res.status(400).json({ success: false, message: 'You can only add a maximum of 5 units of this product.' });
       }
 
-      // Update cart item with the correct totalPrice based on the chosen price
+      const priceToUse = product.salePrice > 0 ? product.salePrice : product.regularPrice;
+
       await Cart.updateOne(
-          { 'items.productId': itemId, 'items.size': size }, 
-          { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * priceToUse } } 
+          { 'items.productId': itemId, 'items.size': size },
+          { $set: { 'items.$.quantity': quantity, 'items.$.totalPrice': quantity * priceToUse } }
       );
 
       const userId = req.session.user;
@@ -225,10 +218,8 @@ const updateCart = async (req, res) => {
 
       let finalPrice = 0;
       cart.items.forEach((item) => {
-        finalPrice += item.totalPrice;
+          finalPrice += item.totalPrice;
       });
-
-      console.log('Final cart price:', finalPrice);
 
       res.json({
           success: true,
