@@ -8,7 +8,7 @@ const categoryInfo=async(req,res)=>{
         const skip = (page -1)*limit;
 
         const categoryData = await Category.find({})
-        .sort({createdAt:1})
+        .sort({createdAt:-1})
         .skip(skip)
         .limit(limit);
         const totalCategories = await Category.countDocuments()
@@ -128,31 +128,38 @@ const removeCategoryOffer = async (req,res) => {
         res.status(500).json({status:false,message:"internal server error"})
     }
 }
-
-const editCategory = async (req,res) => {
+const editCategory = async (req, res) => {
     try {
-        const id = req.params.id
-        const {categoryName,description} = req.body
-        const existingCategory = await Category.findOne({name:categoryName})
+        const id = req.params.id;
+        const { categoryName, description } = req.body;
 
-        if(existingCategory){
-            return res.status(400).json({error:"Category exists, please choose another name"})
+        // Check if a category with the same name exists, but exclude the current category
+        const existingCategory = await Category.findOne({
+            name: categoryName,
+            _id: { $ne: id } // Exclude the current category by ID
+        });
+
+        if (existingCategory) {
+            return res.status(400).json({ error: "Category exists, please choose another name" });
         }
 
-        const updateCategory = await Category.findByIdAndUpdate(id,{
-            name:categoryName,
-            description:description
-        },{new:true})
+        // Update the category
+        const updateCategory = await Category.findByIdAndUpdate(
+            id,
+            { name: categoryName, description: description },
+            { new: true }
+        );
 
-        if(updateCategory){
-            res.redirect("/admin/category")
-        }else{
-            res.status(404).json({error:"Category not found"})
+        if (updateCategory) {
+            res.redirect("/admin/category");
+        } else {
+            res.status(404).json({ error: "Category not found" });
         }
     } catch (error) {
-        res.status(500).json({error:"Internal Server Error"})
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
 
 const getListCategory = async (req,res)=>{
     try {
