@@ -130,6 +130,7 @@
                     <th>Status</th>
                     <th>List/Unlist</th>
                     <th class="text-start">Edit</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -204,6 +205,15 @@
                         >Edit</a
                       >
                     </td>
+                    <td class="text-start">
+                      <button class="btn btn-danger" style="width: 80px;" onclick="confirmDelete('<%= category._id %>')">
+                        Delete
+                    </button>
+                      <!-- <a href="/admin/deleteCategory?id=<%= category._id %>" class=" text-white">delete</a> -->
+
+                  </button>
+                 
+              </td>
                   </tr>
                   <%})%>
                 </tbody>
@@ -380,6 +390,23 @@
         console.error("Error removing offer", error);
       }
     }
+    function confirmDelete(categoryId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to undo this action!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If user confirms, redirect to delete route
+            window.location.href = `/admin/deleteCategory?id=${categoryId}`;
+        }
+    });
+}
   </script>
   <%- include("../../views/partials/admin/footer") %>
 </body>

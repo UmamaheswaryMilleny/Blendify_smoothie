@@ -34,6 +34,8 @@ router.get("/listCategory",adminAuth,categoryController.getListCategory)
 router.get("/unlistCategory",adminAuth,categoryController.getUnlistCategory)
 router.post("/addCategoryOffer",adminAuth,categoryController.addCategoryOffer)
 router.post("/removeCategoryOffer",adminAuth,categoryController.removeCategoryOffer)
+router.get('/deleteCategory',adminAuth,categoryController.deleteCategory)
+
 
 router.get("/addProducts",adminAuth,productController.getProductAddPage)
 router.post("/addproducts",adminAuth,uploads.array("images",4),productController.addProducts)

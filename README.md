@@ -2,12 +2,12 @@
 **Blendify Banner**  
 
 ## Overview  
-Blendify is a customizable smoothie platform built with Node.js and MongoDB, allowing users to create, customize, and order their favorite smoothies. The project showcases modern web development techniques with an emphasis on usability, performance, and a seamless user experience.  
+Blendify is a customizable smoothie platform built with Node.js and MongoDB, allowing users to  order their favorite smoothies. The project showcases modern web development techniques with an emphasis on usability, performance, and a seamless user experience.  
 
 ---
 
 ## Live Demo  
-[Live Website])  
+[Live Website]()
 
 ---
 
@@ -15,19 +15,17 @@ Blendify is a customizable smoothie platform built with Node.js and MongoDB, all
 
 ### **Customer Features**  
 - User authentication with Google and OTP-based signup.  
-- Real-time nutrition calculator for custom smoothies.  
-- Save, name, and share custom smoothie recipes.  
-- Loyalty program with wallet and redeemable points.  
-- Coupon functionality for discounts and promotions.  
-- Advanced smoothie search and filtering by categories like Energy Boost, Vegan, etc.  
+- Coupon functionality for discounts  
+- wallet option and referral rewards
+- Advanced smoothie search and filtering by categories like Energy Booster, Vegan, etc.  
 - Responsive design for mobile, tablet, and desktop.  
 
 ### **Admin Features**  
-- Dashboard for managing smoothie recipes, categories, and orders.  
+- Dashboard for managing users products, categories, and orders.  
 - User management (view, block/unblock users).  
 - Analytics dashboard for revenue, sales, and user activity.  
 - Offer and coupon management.  
-- Inventory tracking and customization options for smoothie bases, add-ons, and sizes.  
+- Tracking of Orders.  
 
 ---
 
@@ -60,8 +58,64 @@ Blendify is a customizable smoothie platform built with Node.js and MongoDB, all
 
 ## Installation  
 
-### **Clone the Repository**  
+1. **Clone the Repository**  
 
 ```bash  
 git clone https://github.com/UmamaheswaryMilleny/Blendify_smoothie.git 
+ ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   Create a .env file in the root directory:
+   ```env
+   PORT=8080
+   MONGODB_URI=your_mongodb_uri
+   SESSION_SECRET=your_session_secret
+   EMAIL_USER=your_email
+   EMAIL_PASS=your_email_password
+   RAZORPAY_KEY_ID=your_razorpay_key
+   RAZORPAY_SECRET=your_razorpay_secret
+   ```
+
+   4. **Start the Server**
+   ```bash
+   # Development mode
+   npm run dev
+
+   # Production mode
+   npm start
+   ```
+
+   ## Project Structure
+
+```
+geradfashion/
+├── config/            # Configuration files
+├── controllers/       # Request handlers
+├── helpers/           # Utility functions
+├── middlewares/       # Custom middlewares
+├── models/            # Database models
+├── public/            # Static files
+│   ├── css/
+│   ├── fonts/
+│   ├── images/
+│   ├── js/
+│   └── styles/
+│   └── uploads/
+│   └── videos/
+├── routes/            # API routes
+├── views/             # EJS templates        
+└── index.js           # Entry point
+```
+
+
+**Umamaheswary Milleny**
+- GitHub: [@UmamaheswaryMilleny](https://github.com/UmamaheswaryMilleny)
+- LinkedIn: https://www.linkedin.com/in/umamaheswary-milleny
+
+
 

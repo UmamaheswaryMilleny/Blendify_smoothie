@@ -182,6 +182,38 @@ const getUnlistCategory = async (req,res) => {
 }
 
 
+const deleteCategory = async (req, res) => {
+    try {
+        const { id } = req.query;
+
+        if (!id) {
+            return res.status(400).redirect("/pageerror");
+        }
+
+        // Check if the category exists
+        const category = await Category.findById(id);
+        if (!category) {
+            return res.status(404).redirect("/pageerror");
+        }
+
+        // Find and delete all products associated with the category
+        const products = await Product.find({ category: id });
+        if (products.length > 0) {
+            await Product.deleteMany({ category: id });
+        }
+
+        // Delete the category
+        await Category.findByIdAndDelete(id);
+
+        res.redirect("/admin/category");
+    } catch (error) {
+        console.error("Error deleting category", error);
+        res.status(500).redirect("/admin/pageerror");
+    }
+};
+
+
+
 module.exports={
     categoryInfo,
     addCategory,
@@ -191,4 +223,5 @@ module.exports={
     getUnlistCategory,
     addCategoryOffer,
     removeCategoryOffer,
+    deleteCategory
 }
