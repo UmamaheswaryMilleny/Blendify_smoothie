@@ -1,29 +1,106 @@
 <%- include("../../views/partials/admin/header") %>
+<style>
+    .layout-page{
+        overflow: hidden;
 
+    }
+</style>
 <div class="container mt-4">
-    <h1>All Orders</h1>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Status</th>
-                <th>Total Price</th>
-                <th>View Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% orders.forEach(order => { %>
-                <tr>
-                    <td><%= order.orderId %></td>
-                    <td><%= order.status %></td>
-                    <td>₹<%= order.totalprice %></td>
-                    <td>
-                        <a href="/admin/orders/<%= order._id %>" class="btn btn-primary">View Details</a>
-                    </td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
+    <div class="row">
+        <!-- Orders Table -->
+        <div class="col-12">
+            <h1 class="mb-4 text-center">All Orders</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead class="thead">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Status</th>
+                            <th>Total Price</th>
+                            <th>Address</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Change Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% orders.forEach(order => { %>
+                            <tr>
+                                <td class="align-middle"><%= order.orderId %></td>
+                                <td class="align-middle"><%= order.status %></td>
+                                <td class="align-middle">₹<%= order.totalprice %></td>
+                                <td class="align-middle">
+                                    <% if (order.addressDetails) { %>
+                                        <div class="border p-2 rounded bg-light">
+                                            <strong><%= order.addressDetails.name %></strong><br>
+                                            <%= order.addressDetails.houseName %>, <%= order.addressDetails.street %>, <%= order.addressDetails.city %>, <%= order.addressDetails.state %>, <%= order.addressDetails.pincode %><br>
+                                            <strong>Phone:</strong> <%= order.addressDetails.phone %>
+                                        </div>
+                                    <% } else { %>
+                                        <span class="text-danger">Address not found</span>
+                                    <% } %>
+                                </td>
+                                <td class="align-middle">
+                                    <% order.orderedItems.forEach(item => { %>
+                                        <div><%= item.productDetails ? item.productDetails.productName : 'Product not found' %></div>
+                                    <% }) %>
+                                </td>
+                                <td class="align-middle">
+                                    <% order.orderedItems.forEach(item => { %>
+                                        <div><%= item.quantity %></div>
+                                    <% }) %>
+                                </td>
+                                <td class="align-middle">
+                                    <% if (order.status === 'Canceled') { %>
+                                        <button class="btn btn-secondary btn-sm" disabled>Canceled</button>
+                                    <% } else if (order.status !== 'Delivered') { %>
+                                        <form action="/admin/change-order-status/<%= order._id %>" method="POST">
+                                            <select name="status" class="form-control form-control-sm" onchange="updateOrderStatus(event, '<%= order._id %>')">
+                                                <option value="" disabled selected>Change Status</option>
+                                                <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                                <option value="Processing" <%= order.status === 'Processing' ? 'selected' : '' %>>Processing</option>
+                                                <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                                <option value="Canceled" <%= order.status === 'Canceled' ? 'selected' : '' %>>Canceled</option>
+                                            </select>
+                                        </form>
+                                    <% } else { %>
+                                        <button class="btn btn-secondary btn-sm" disabled>Delivered</button>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <%- include("../../views/partials/admin/footer") %>
+
+<script>
+    async function updateOrderStatus(event, orderId) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const status = event.target.value; // Get the selected status
+
+        try {
+            const response = await fetch(`/admin/change-order-status/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status }),
+            });
+
+            if (response.ok) {
+                // Reload the page after successful status update
+                window.location.reload();
+            } else {
+                console.error("Error updating order status");
+            }
+        } catch (error) {
+            console.error("An unexpected error occurred:", error);
+        }
+    }
+</script>

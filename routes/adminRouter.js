@@ -53,10 +53,6 @@ router.get('/orderList', adminAuth, orderController.getOrderList);
 router.post('/change-order-status/:orderId', adminAuth, orderController.changeOrderStatus);
 
 
-router.get('/orders', adminAuth, orderController.getOrderList);
-router.get('/orders/:orderId', adminAuth, orderController.getOrderDetails);
-
-
 router.get("/coupon",adminAuth,couponContrller.getCouponPage)
 router.post("/addCoupon",adminAuth,uploads.single("couponImage"),couponContrller.addCoupon)
 router.post("/deleteCoupon",adminAuth,couponContrller.deleteCoupon)

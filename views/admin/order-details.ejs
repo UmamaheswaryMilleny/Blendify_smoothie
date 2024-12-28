@@ -2,15 +2,20 @@
 
 <div class="container mt-4">
     <h1>Order Details</h1>
-    <p><strong>Order ID:</strong> <%= order.orderId %></p>
+    <p><strong>Order ID:</strong> <%= order._id %></p>
     <p><strong>Status:</strong> <%= order.status %></p>
     <p><strong>Total Price:</strong> ₹<%= order.totalprice %></p>
 
     <h3>Address Details</h3>
     <% if (order.addressDetails) { %>
         <p><strong>Name:</strong> <%= order.addressDetails.name %></p>
-        <p><strong>Address:</strong> <%= order.addressDetails.houseName %>, <%= order.addressDetails.street %>, 
-        <%= order.addressDetails.city %>, <%= order.addressDetails.state %>, <%= order.addressDetails.pincode %></p>
+        <p><strong>Address:</strong> 
+            <%= order.addressDetails.houseName %>, 
+            <%= order.addressDetails.street %>, 
+            <%= order.addressDetails.city %>, 
+            <%= order.addressDetails.state %>, 
+            <%= order.addressDetails.pincode %>
+        </p>
         <p><strong>Phone:</strong> <%= order.addressDetails.phone %></p>
     <% } else { %>
         <p class="text-danger">Address not found</p>
@@ -25,13 +30,31 @@
             </tr>
         </thead>
         <tbody>
-            <% order.orderedItems.forEach(item => { %>
+            <% if (order.orderedItems && order.orderedItems.length > 0) { %>
+                <% order.orderedItems.forEach(item => { %>
+                    <tr>
+                        <td><%= item.productDetails ? item.productDetails.productName : 'Product not found' %></td>
+                        <td><%= item.quantity %></td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
                 <tr>
-                    <td><%= item.productDetails ? item.productDetails.productName : 'Product not found' %></td>
-                    <td><%= item.quantity %></td>
+                    <td colspan="2" class="text-center text-danger">No products found</td>
                 </tr>
-            <% }) %>
+            <% } %>
         </tbody>
+    </table>
+
+    <h3>Pricing Details</h3>
+    <table class="table table-bordered">
+        <tr>
+            <td colspan="3" class="text-end">Delivery Charge :</td>
+            <td>+ ₹<%= deliveryCharge %></td>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-end"><strong>Total Price:</strong></td>
+            <td><strong>₹<%= order.totalprice + deliveryCharge %></strong></td>
+        </tr>
     </table>
 
     <a href="/admin/orders" class="btn btn-secondary">Back to Orders</a>
@@ -39,30 +62,29 @@
 
 <%- include("../../views/partials/admin/footer") %>
 
-
 <script>
     async function updateOrderStatus(event, orderId) {
-    event.preventDefault(); // Prevent the default form submission
+        event.preventDefault(); // Prevent the default form submission
 
-    const status = event.target.value; // Get the selected status
+        const status = event.target.value; // Get the selected status
 
-    try {
-        const response = await fetch(`/admin/change-order-status/${orderId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ status }),
-        });
+        try {
+            const response = await fetch(`/admin/change-order-status/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status }),
+            });
 
-        if (response.ok) {
-            // Reload the page after successful status update
-            window.location.reload();
-        } else {
-            console.error("Error updating order status");
+            if (response.ok) {
+                // Reload the page after successful status update
+                window.location.reload();
+            } else {
+                console.error("Error updating order status");
+            }
+        } catch (error) {
+            console.error("An unexpected error occurred:", error);
         }
-    } catch (error) {
-        console.error("An unexpected error occurred:", error);
     }
-}
 </script>
