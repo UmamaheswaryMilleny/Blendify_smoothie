@@ -19,6 +19,13 @@ const loadLogin = (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Validate email format
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailPattern.test(email)) {
+      return res.render("admin-login", { message: "Invalid email format" });
+    }
+
     const admin = await User.findOne({ email, isAdmin: true });
 
     if (admin) {
@@ -27,10 +34,10 @@ const login = async (req, res) => {
         req.session.admin = true;
         return res.redirect("/admin");
       } else {
-        return res.redirect("/admin/login");
+        return res.render("admin-login", { message: "Password not correct" });
       }
     } else {
-      return res.redirect("/admin/login");
+      return res.render("admin-login", { message: "Invalid user" });
     }
   } catch (error) {
     console.log("login error", error);

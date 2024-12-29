@@ -16,6 +16,14 @@
       type="text/css"
     />
     <title>Login</title>
+    <style>
+      .error-message {
+        color: rgba(255, 0, 0, 0.877);
+        font-size: small;
+        position: relative;
+        top: -19px;
+      }
+    </style>
   </head>
   <body>
     <div class="wrapper">
@@ -40,18 +48,8 @@
               <header style="color: rgba(139, 0, 0); font-size: larger">
                 Admin Signin
               </header>
-              <!-- <div class="input-field">
-                <input
-                  type="text"
-                  class="input"
-                  id="fullname"
-                  required=""
-                  autocomplete="off"
-                />
-                <label for="fullname">Full name</label>
-              </div> -->
               <% if (message) { %>
-              <div class="alert alert-danger text-center" style="color: black">
+              <div class="error-message text-center">
                 <%= message %>
               </div>
               <% } %>
@@ -59,14 +57,13 @@
               <form id="adminLoginForm" method="post" action="/admin/login">
                 <div class="input-field">
                   <input
-                    type="email"
+                    type="text"
                     class="input"
-                    id="email"
+                    id="adminEmail"
                     name="email"
-                    required=""
                     autocomplete="off"
                   />
-                  <label for="email">Email</label>
+                  <label for="adminEmail">Email</label>
                   <div id="emailError" class="error-message"></div>
                 </div>
                 <div class="input-field">
@@ -74,10 +71,9 @@
                     type="password"
                     class="input"
                     id="adminPassword"
-                    required=""
                     name="password"
                   />
-                  <label for="pass">Password</label>
+                  <label for="adminPassword">Password</label>
                   <div id="passwordError" class="error-message"></div>
                 </div>
                 <div class="input-field">
@@ -85,7 +81,7 @@
                     type="submit"
                     style="font-size: small; font-weight: 600"
                     class="submit"
-                    value="Sign Up"
+                    value="Sign In"
                   />
                 </div>
               </form>
