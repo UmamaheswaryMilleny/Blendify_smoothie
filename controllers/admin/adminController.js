@@ -80,55 +80,60 @@ const loadDashboard = async (req, res) => {
   }
 };
 
-
-
 const salesData = async (req, res) => {
   try {
       const { filter } = req.query;
 
       const currentDate = new Date();
-      let startDate, endDate, groupFormat;
+      let startDate, endDate, groupFormat, labels = [];
 
-      // Define date ranges and grouping format based on filter
       if (filter === 'yearly') {
-        // 0 means January (months in JavaScript start at 0 for January).
-        // 1 means the 1st day of January.
-          startDate = new Date(currentDate.getFullYear() - 3, 0, 1); // Start of 3 years ago
-          endDate = new Date(currentDate.getFullYear() + 1, 0, 1); // Start of next year
-          groupFormat = { $year: "$createdOn" }; // Group by year
+          startDate = new Date(2024, 0, 1);
+          endDate = new Date(2025, 0, 1);
+          groupFormat = { $year: "$createdOn" };
       } else if (filter === 'monthly') {
-          startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 5, 1); // Start of 6 months ago
-          endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1); // Start of next month
-          groupFormat = { $month: "$createdOn" }; // Group by month
+          startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+          endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+          groupFormat = { $month: "$createdOn" };
       } else if (filter === 'weekly') {
-          startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 27); // 4 weeks ago
-          endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1); // Tomorrow
-          groupFormat = { $week: "$createdOn" }; 
+          const weeksToShow = 4;
+          startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - (7 * (weeksToShow - 1)));
+          endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
+          groupFormat = { $week: "$createdOn" };
       }
 
       const data = await Order.aggregate([
           {
               $match: {
                   createdOn: { $gte: startDate, $lt: endDate },
-                  status: { $ne: "Canceled" } 
-              }
+                  status: { $ne: "Canceled" },
+              },
           },
           {
               $group: {
-                  _id: groupFormat, 
-                  totalSales: { $sum: "$finalAmount" } 
-              }
+                  _id: groupFormat,
+                  totalRevenue: { $sum: "$finalAmount" },
+                  totalOrders: { $sum: 1 },
+              },
           },
-          { $sort: { _id: 1 } }
+          { $sort: { _id: 1 } },
       ]);
 
-      const labels = data.map(item => item._id.toString());
-      const salesData = data.map(item => item.totalSales);
+      if (filter === 'yearly') {
+          labels = ['2024'];
+      } else if (filter === 'monthly') {
+          labels = ['November', 'December'];
+      } else if (filter === 'weekly') {
+          labels = data.map((_, index) => `Week ${index + 1}`);
+      }
 
-      res.json({ labels, salesData });
+      const revenueData = data.map(item => item.totalRevenue);
+      const orderData = data.map(item => item.totalOrders);
+
+      res.json({ labels, revenueData, orderData });
   } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Failed to fetch sales data' });
+      res.status(500).json({ error: "Failed to fetch sales data" });
   }
 };
 

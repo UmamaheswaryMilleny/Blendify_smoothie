@@ -5,119 +5,142 @@
     </div>
 
     <!-- Filters for Chart -->
-<div class="card mb-4">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h5>Sales Overview</h5>
-        <select id="chartFilter" class="form-select w-auto" aria-label="Filter">
-            <option value="yearly">Yearly</option>
-            <option value="monthly">Monthly</option>
-            <option value="weekly">Weekly</option>
-        </select>
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5>Sales Overview</h5>
+            <select id="chartFilter" class="form-select w-auto" aria-label="Filter">
+                <option value="yearly">Yearly</option>
+                <option value="monthly">Monthly</option>
+                <option value="weekly">Weekly</option>
+            </select>
+        </div>
+        <div class="card-body">
+            <canvas id="salesChart" class="w-100"></canvas>
+        </div>
     </div>
-    <div class="card-body">
-        <canvas id="salesChart" class="w-100"></canvas>
-    </div>
-</div>
 
     <!-- Best-Selling Products Table -->
-<div class="card mb-4">
-    <div class="card-header">
-        <h5>Top 10 Best-Selling Products</h5>
-    </div>
-    <div class="card-body">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Sales Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% products
-                    .map(product => ({ 
-                        productName: product.productName, 
-                        saleCount: productSales[product._id] || 0 
-                    }))
-                    .sort((a, b) => b.saleCount - a.saleCount) // Sort by sales count descending
-                    .slice(0, 10) // Take top 10
-                    .forEach((product, index) => { %>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Top 10 Best-Selling Products</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <th scope="row"><%= index + 1 %></th>
-                        <td><%= product.productName %></td>
-                        <td><%= product.saleCount %></td>
+                        <th scope="col">#</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Sales Count</th>
                     </tr>
-                <% }) %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <% products
+                        .map(product => ({ 
+                            productName: product.productName, 
+                            saleCount: productSales[product._id] || 0 
+                        }))
+                        .sort((a, b) => b.saleCount - a.saleCount) // Sort by sales count descending
+                        .slice(0, 10) // Take top 10
+                        .forEach((product, index) => { %>
+                        <tr>
+                            <th scope="row"><%= index + 1 %></th>
+                            <td><%= product.productName %></td>
+                            <td><%= product.saleCount %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
     <!-- Best-Selling Categories Table -->
-<div class="card mb-4">
-    <div class="card-header">
-        <h5>Top 10 Best-Selling Categories</h5>
-    </div>
-    <div class="card-body">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Category Name</th>
-                    <th scope="col">Sales Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% categories
-                    .map(category => ({ 
-                        name: category.name, 
-                        saleCount: categorySales[category._id] || 0 
-                    }))
-                    .sort((a, b) => b.saleCount - a.saleCount) // Sort by sales count descending
-                    .slice(0, 10) // Take top 10
-                    .forEach((category, index) => { %>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Top 10 Best-Selling Categories</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <th scope="row"><%= index + 1 %></th>
-                        <td><%= category.name %></td>
-                        <td><%= category.saleCount %></td>
+                        <th scope="col">#</th>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Sales Count</th>
                     </tr>
-                <% }) %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <% categories
+                        .map(category => ({ 
+                            name: category.name, 
+                            saleCount: categorySales[category._id] || 0 
+                        }))
+                        .sort((a, b) => b.saleCount - a.saleCount) // Sort by sales count descending
+                        .slice(0, 10) // Take top 10
+                        .forEach((category, index) => { %>
+                        <tr>
+                            <th scope="row"><%= index + 1 %></th>
+                            <td><%= category.name %></td>
+                            <td><%= category.saleCount %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-
-
 </section>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <%- include("../../views/partials/admin/footer") %>
 
 <script>
-    //  The Chart.js library uses the ctx (2D context) as the target for drawing the chart.
     const ctx = document.getElementById('salesChart').getContext('2d');
     let salesChart;
 
-    // Initialize the chart
-    function initChart(labels, data) {
+    function initChart(labels, revenueData, orderData, filter) {
         if (salesChart) {
-            salesChart.destroy(); // Destroy existing chart instance to reinitialize it prevent dublicate
+            salesChart.destroy();
         }
         salesChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
-                datasets: [{
-                    label: 'Total Revenue',
-                    data: data,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
+                datasets: [
+                    {
+                        label: 'Total Revenue',
+                        data: revenueData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Total Orders',
+                        data: orderData,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 scales: {
+                    x: {
+                        type: 'category',
+                        labels: labels,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                if (filter === 'weekly') {
+                                    return 'Week ' + (index + 1);
+                                } else if (filter === 'monthly') {
+                                    const monthNames = ["Nov", "Dec"];
+                                    return monthNames[index];
+                                } else if (filter === 'yearly') {
+                                    return '2024';
+                                } else {
+                                    return value;
+                                }
+                            }
+                        }
+                    },
                     y: {
                         beginAtZero: true
                     }
@@ -125,25 +148,21 @@
             }
         });
     }
-    // labels: Time periods (e.g., years, months, or weeks).
-    // Fetch sales data based on filter
+
     async function fetchSalesData(filter) {
         try {
             const response = await fetch(`/admin/sales-data?filter=${filter}`);
-            const { labels, salesData } = await response.json();
-            // The data is passed to initChart() to update the bar chart.
-            initChart(labels, salesData);
+            const { labels, revenueData, orderData } = await response.json();
+            initChart(labels, revenueData, orderData, filter);
         } catch (error) {
             console.error('Failed to fetch sales data:', error);
         }
     }
 
-    // Handle filter change
     document.getElementById('chartFilter').addEventListener('change', (e) => {
         const filter = e.target.value;
         fetchSalesData(filter);
     });
 
-    // Initialize chart with default filter
     fetchSalesData('yearly');
 </script>

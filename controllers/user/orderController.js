@@ -42,6 +42,14 @@ const getMyOrders = async (req, res) => {
         const deliveryCharge = order.deliveryCharge || 50;
         order.totalAmountWithDelivery = order.finalAmount;
         order.deliveryCharge = deliveryCharge;
+
+        // Add retry payment button logic
+        if (order.paymentStatus === "Failed") {
+          order.retryPayment = true;
+        } else {
+          order.retryPayment = false;
+        }
+
         return order;
       })
     );
@@ -56,6 +64,7 @@ const getMyOrders = async (req, res) => {
       .send("An error occurred while fetching orders. Please try again later.");
   }
 };
+
 const cancelOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -85,8 +94,7 @@ const cancelOrder = async (req, res) => {
 
       if (order.paymentMethod !== "Cash on Delivery") {
         const userId = order.user;
-        // const deliveryCharge = order.deliveryCharge || 50;
-        const refundAmount = order.finalAmount ;
+        const refundAmount = order.finalAmount;
 
         let wallet = await Wallet.findOne({ user_id: userId });
 
@@ -139,7 +147,6 @@ const cancelOrder = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-
 
 const getOrderDetails = async (req, res) => {
   try {
@@ -203,6 +210,7 @@ const returnOrder = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 module.exports = {
   getMyOrders,
   cancelOrder,

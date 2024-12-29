@@ -60,7 +60,7 @@ const generateSalesReport = async (req, res) => {
         if (orders.length > 0) {
             const overallSalesCount = orders.length;
             const overallOrderAmount = orders.reduce((total, order) => total + order.totalprice, 0);
-            const overallDiscount = orders.reduce((total, order) => total + order.discount, 0);
+            const overallDiscount = orders.reduce((total, order) => total + (order.discount || 0), 0);
             const overallDeliveryCharge = orders.reduce((total, order) => total + order.deliveryCharge, 0);
             const finalAmount = orders.reduce((total, order) => total + order.finalAmount, 0);
 
