@@ -2,10 +2,14 @@ const Order = require("../../models/orderSchema")
 const Product = require("../../models/productSchema")
 const Address = require("../../models/addressSchema")
 
-
-const getOrderList = async (req,res) => {
+const getOrderList = async (req, res) => {
     try {
-        const orders = await Order.find().sort({ createdAt: -1 }).lean();
+        const page = parseInt(req.query.page) || 1;
+        const limit = 20;
+        const skip = (page - 1) * limit;
+
+        const orders = await Order.find().sort({ createdAt: -1 }).skip(skip).limit(limit).lean();
+        const totalOrders = await Order.countDocuments();
 
         for (const order of orders) {
             const userAddressData = await Address.findOne({ userId: order.user }).lean();
@@ -19,7 +23,7 @@ const getOrderList = async (req,res) => {
             }
         }
 
-        res.render('admin-orders', { orders });
+        res.render('admin-orders', { orders, page, totalPages: Math.ceil(totalOrders / limit) });
     } catch (error) {
         res.status(500).send("Error fetching orders");
     }
@@ -45,5 +49,4 @@ const changeOrderStatus = async (req, res) => {
 module.exports = {
     getOrderList,
     changeOrderStatus,
-  
 }
