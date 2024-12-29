@@ -1,7 +1,7 @@
 <%- include("../../views/partials/admin/header") %>
 
 <!-- Report Content Wrapper -->
-<div id="reportContent">
+<div id="reportContent" class="container my-5">
     <!-- Overall Stats -->
     <div class="row mb-4">
         <div class="col-md-4">
@@ -32,9 +32,10 @@
 
     <!-- Orders Table -->
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover">
             <thead class="thead-light">
                 <tr>
+                    <th>#</th>
                     <th>Order ID</th>
                     <th>User</th>
                     <th>Ordered Items</th>
@@ -47,11 +48,12 @@
                     <th>Date</th>
                 </tr>
             </thead>
-            <tbody>
-                <% orders.forEach(order => { %>
+            <tbody id="ordersTableBody">
+                <% orders.forEach((order, index) => { %>
                     <tr>
+                        <td><%= (currentPage - 1) * 20 + index + 1 %></td>
                         <td><%= order.orderId %></td>
-                        <td><%= order.user.name%></td>
+                        <td><%= order.user.name %></td>
                         <td>
                             <ul class="list-unstyled">
                                 <% order.orderedItems.forEach(item => { %>
@@ -61,7 +63,6 @@
                                         <% } else { %>
                                             Product: [Product information not available]<br>
                                         <% } %>
-                                        
                                         Size: <%= item.size %>, Quantity: <%= item.quantity %>, Price: ₹ <%= item.price.toFixed(2) %>
                                     </li>
                                 <% }) %>
@@ -79,10 +80,21 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
 </div>
 
 <!-- Download Report Button -->
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
     <button class="btn btn-outline-primary me-md-2" type="button" onclick="downloadPDF()">Download PDF</button>
     <button class="btn btn-outline-success" type="button" onclick="downloadExcel()">Download Excel</button>
 </div>
