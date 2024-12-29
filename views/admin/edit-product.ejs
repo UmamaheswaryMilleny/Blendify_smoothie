@@ -84,7 +84,7 @@
                                     <input class="form-check-input" type="checkbox" name="sizes" value="S" id="size6"
                                         <% if (product.sizes.some(size => size.size === 'S')) { %> checked <% } %>>
                                     <label class="form-check-label" for="sizeS">S</label>
-                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity6" name="quantity6"
+                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity6" name="quantityS"
                                         placeholder="Quantity" value="<%= product.sizes.find(size => size.size === 'S')?.quantity || '' %>"
                                         <% if (product.sizes.some(size => size.size === 'S')) { %> display:block; <% } else { %> display:none; <% } %>>
                                 </div>
@@ -93,7 +93,7 @@
                                     <input class="form-check-input" type="checkbox" name="sizes" value="M" id="size7"
                                         <% if (product.sizes.some(size => size.size === 'M')) { %> checked <% } %>>
                                     <label class="form-check-label" for="sizeM">M</label>
-                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity7" name="quantity7"
+                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity7" name="quantityM"
                                         placeholder="Quantity" value="<%= product.sizes.find(size => size.size === 'M')?.quantity || '' %>"
                                         <% if (product.sizes.some(size => size.size === 'M')) { %> display:block; <% } else { %> display:none; <% } %>>
                                 </div>
@@ -102,7 +102,7 @@
                                     <input class="form-check-input" type="checkbox" name="sizes" value="L" id="size8"
                                         <% if (product.sizes.some(size => size.size === 'L')) { %> checked <% } %>>
                                     <label class="form-check-label" for="sizeL">L</label>
-                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity8" name="quantity8"
+                                    <input type="number" class="form-control mt-2 size-quantity" id="quantity8" name="quantityL"
                                         placeholder="Quantity" value="<%= product.sizes.find(size => size.size === 'L')?.quantity || '' %>"
                                         <% if (product.sizes.some(size => size.size === 'L')) { %> display:block; <% } else { %> display:none; <% } %>>
                                 </div>
@@ -125,7 +125,7 @@
                                            <label class="form-label">Category</label>
                                            <select class="form-select border" style="width: 150px;" name="category">
                                             <% for(let i = 0; i < cat.length; i++) { %>
-                                                <option value="<%= cat[i]._id %>">
+                                                <option value="<%= cat[i]._id %>" <%= product.category.equals(cat[i]._id) ? 'selected' : '' %>>
                                                     <%= cat[i].name %>
                                                 </option>
                                             <% } %>

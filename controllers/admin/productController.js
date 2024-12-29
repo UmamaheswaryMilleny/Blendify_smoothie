@@ -255,22 +255,17 @@ const editProduct = async (req, res) => {
       }
     }
     let sizes = [];
-    console.log(sizes)
     if (data.sizes && Array.isArray(data.sizes)) {
       sizes = data.sizes.map((size) => ({
         size: size, // Get the size value
-        
         quantity: data[`quantity${size}`] || 0, // Get the corresponding quantity from the form
-  
-       
-
       }));
     }
 
     // Prepare the fields to update
     const updateFields = {
       productName: data.productName,
-      description: data.description,
+      description: data.descriptionData, // Ensure this matches the form field name
       category: data.category,
       regularPrice: data.regularPrice,
       salePrice: data.salePrice,
@@ -278,6 +273,7 @@ const editProduct = async (req, res) => {
     };
 
     if (images.length > 0) {
+      const product = await Product.findById(id);
       updateFields.productImage = [...product.productImage, ...images];
     }
 
@@ -330,6 +326,6 @@ module.exports = {
   editProduct,
   getEditProduct,
   deleteSingleImage,
-   addProductOffer,
+  addProductOffer,
   removeProductOffer,
 };
