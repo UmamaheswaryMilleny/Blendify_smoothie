@@ -122,7 +122,10 @@ const salesData = async (req, res) => {
       if (filter === 'yearly') {
           labels = ['2024'];
       } else if (filter === 'monthly') {
-          labels = ['November', 'December'];
+          labels = Array.from({ length: 2 }, (_, i) => {
+              const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - (1 - i));
+              return date.toLocaleString('default', { month: 'long' });
+          });
       } else if (filter === 'weekly') {
           labels = data.map((_, index) => `Week ${index + 1}`);
       }
