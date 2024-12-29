@@ -1,20 +1,18 @@
 <%- include("../../views/partials/user/header") %>
-<style>  body{
-
-  background: url("/images/userImg/home/img2_1.png") no-repeat center
-          center fixed;
-        background-size: cover;
-        color: #fff;
-     
-        color: white !important;
+<style>  
+  body {
+    background: url("/images/userImg/home/img2_1.png") no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    color: white !important;
   }
-  .card{
+  .card {
     background: rgba(139, 0, 0, 0.85);
   }
-  tr{
+  tr {
     color: white;
   }
-  </style>
+</style>
 <div class="container my-5">
   <div class="row">
     <!-- Sidebar Column -->
@@ -24,30 +22,26 @@
 
     <!-- Wallet Content Column -->
     <div class="col-md-9">
-      <h2 class="mb-4" ><b>Wallet</b></h2>
+      <h2 class="mb-4"><b>Wallet</b></h2>
 
       <!-- Balance Section -->
       <div class="card mb-4">
         <div class="card-body">
           <h4 class="card-title" style="color: white;">Balance</h4>
-          <!-- //The .toFixed(2) ensures the balance is always displayed with two decimal points -->
+          <!-- The .toFixed(2) ensures the balance is always displayed with two decimal points -->
           <p class="card-text display-4" id="balance" style="color: white;">
             INR <%= wallet.balance.toFixed(2) %>
           </p>
         </div>
         <p class="card-text" style="color: white; padding: 6px 17px">
           <b>Your Referral Code :</b>
-          <span
-            id="referral-code"
-            class="font-weight-bold"
-            style="color:  #fa8a00"
-            ><%= user.referalCode %></span
-          >
+          <span id="referral-code" class="font-weight-bold" style="color: #fa8a00">
+            <%= user.referalCode %>
+          </span>
         </p>
       </div>
 
       <!-- Transaction History Table -->
- 
       <div class="card">
         <div class="card-body">
           <h4 class="card-title" style="color: white;">Transaction History</h4>
@@ -63,22 +57,22 @@
               </tr>
             </thead>
             <tbody id="transaction-history">
-              <% if (wallet.transactions.length > 0) { %> <%
-              wallet.transactions.forEach(transaction => { %>
-              <tr>
-                <td><%= new Date(transaction.date).toLocaleDateString() %></td>
-                <td><%= transaction.transaction_id %></td>
-                <td>
-                  <%= transaction.type.charAt(0).toUpperCase() +
-                  transaction.type.slice(1) %>
-                </td>
-                <td>INR <%= transaction.amount.toFixed(2) %></td>
-                <td><%= transaction.description || 'N/A' %></td>
-              </tr>
-              <% }) %> <% } else { %>
-              <tr>
-                <td colspan="5" class="text-center">No transactions found</td>
-              </tr>
+              <% if (wallet.transactions.length > 0) { %>
+                <% wallet.transactions.forEach(transaction => { %>
+                  <tr>
+                    <td><%= new Date(transaction.date).toLocaleDateString() %></td>
+                    <td><%= transaction.transaction_id %></td>
+                    <td>
+                      <%= transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1) %>
+                    </td>
+                    <td>INR <%= transaction.amount.toFixed(2) %></td>
+                    <td><%= transaction.description || 'N/A' %></td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="5" class="text-center">No transactions found</td>
+                </tr>
               <% } %>
             </tbody>
           </table>

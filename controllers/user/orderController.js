@@ -111,7 +111,7 @@ const cancelOrder = async (req, res) => {
             amount: refundAmount,
             type: "credit",
             date: new Date(),
-            description: `Refund for canceled order ${orderId}`,
+            description: `Refund for canceled order`,
           });
           await wallet.save();
           console.log("Order cancellation processed successfully and wallet updated");
