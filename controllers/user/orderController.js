@@ -85,8 +85,8 @@ const cancelOrder = async (req, res) => {
 
       if (order.paymentMethod !== "Cash on Delivery") {
         const userId = order.user;
-        const deliveryCharge = order.deliveryCharge || 50;
-        const refundAmount = order.finalAmount + deliveryCharge;
+        // const deliveryCharge = order.deliveryCharge || 50;
+        const refundAmount = order.finalAmount ;
 
         let wallet = await Wallet.findOne({ user_id: userId });
 

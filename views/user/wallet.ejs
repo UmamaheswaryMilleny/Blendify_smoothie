@@ -58,7 +58,15 @@
             </thead>
             <tbody id="transaction-history">
               <% if (wallet.transactions.length > 0) { %>
-                <% wallet.transactions.forEach(transaction => { %>
+                <% 
+                  const uniqueTransactions = new Map();
+                  wallet.transactions.forEach(transaction => {
+                    const uniqueKey = `${transaction.description}`;
+                    if (!uniqueTransactions.has(uniqueKey)) {
+                      uniqueTransactions.set(uniqueKey, transaction);
+                    }
+                  });
+                  uniqueTransactions.forEach(transaction => { %>
                   <tr>
                     <td><%= new Date(transaction.date).toLocaleDateString() %></td>
                     <td><%= transaction.transaction_id %></td>
@@ -68,7 +76,7 @@
                     <td>INR <%= transaction.amount.toFixed(2) %></td>
                     <td><%= transaction.description || 'N/A' %></td>
                   </tr>
-                <% }) %>
+                <% }); %>
               <% } else { %>
                 <tr>
                   <td colspan="5" class="text-center">No transactions found</td>
