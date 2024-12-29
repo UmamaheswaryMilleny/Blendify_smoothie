@@ -1,7 +1,7 @@
 <%- include("../../views/partials/admin/header") %>
 
 <!-- Report Content Wrapper -->
-<div id="reportContent" class="container my-5">
+<div id="reportContent" style="    overflow: hidden;">
     <!-- Overall Stats -->
     <div class="row mb-4">
         <div class="col-md-4">
@@ -31,29 +31,26 @@
     </div>
 
     <!-- Orders Table -->
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover">
+    <div class="table-responsive" style="    overflow: hidden;">
+        <table class="table table-bordered">
             <thead class="thead-light">
                 <tr>
-                    <th>#</th>
                     <th>Order ID</th>
                     <th>User</th>
                     <th>Ordered Items</th>
                     <th>Total Price</th>
                     <th>Discount</th>
-                    <th>Delivery Charge</th>
                     <th>Final Amount</th>
                     <th>Status</th>
                     <th>Payment Method</th>
                     <th>Date</th>
                 </tr>
             </thead>
-            <tbody id="ordersTableBody">
-                <% orders.forEach((order, index) => { %>
+            <tbody>
+                <% orders.forEach(order => { %>
                     <tr>
-                        <td><%= (currentPage - 1) * 20 + index + 1 %></td>
                         <td><%= order.orderId %></td>
-                        <td><%= order.user.name %></td>
+                        <td><%= order.user.name%></td>
                         <td>
                             <ul class="list-unstyled">
                                 <% order.orderedItems.forEach(item => { %>
@@ -63,6 +60,7 @@
                                         <% } else { %>
                                             Product: [Product information not available]<br>
                                         <% } %>
+                                        
                                         Size: <%= item.size %>, Quantity: <%= item.quantity %>, Price: ₹ <%= item.price.toFixed(2) %>
                                     </li>
                                 <% }) %>
@@ -70,8 +68,7 @@
                         </td>
                         <td>₹ <%= order.totalprice.toFixed(2) %></td>
                         <td>₹ <%= order.discount.toFixed(2) %></td>
-                        <td>₹ <%= order.deliveryCharge.toFixed(2) %></td>
-                        <td>₹ <%= (order.finalAmount + order.deliveryCharge).toFixed(2) %></td>
+                        <td>₹ <%= order.finalAmount.toFixed(2) %></td>
                         <td><%= order.status %></td>
                         <td><%= order.paymentMethod %></td>
                         <td><%= new Date(order.createdOn).toLocaleString() %></td>
@@ -80,76 +77,66 @@
             </tbody>
         </table>
     </div>
-
-    <!-- Pagination -->
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <% for (let i = 1; i <= totalPages; i++) { %>
-                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
-                </li>
-            <% } %>
-        </ul>
-    </nav>
 </div>
 
 <!-- Download Report Button -->
-<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <button class="btn btn-outline-primary me-md-2" type="button" onclick="downloadPDF()">Download PDF</button>
     <button class="btn btn-outline-success" type="button" onclick="downloadExcel()">Download Excel</button>
 </div>
 
 <%- include("../../views/partials/admin/footer") %>
 
-<script>
-    function downloadPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        const content = document.getElementById('reportContent');
+    <script>
+        function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const content = document.getElementById('reportContent');
 
-        html2canvas(content).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-            const imgWidth = 190; // Adjust to fit page width
-            const pageHeight = 297; // A4 size in mm (portrait)
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    html2canvas(content).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 190; // Adjust to fit page width
+        const pageHeight = 297; // A4 size in mm (portrait)
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-            // Check if content exceeds one page, add pages if necessary
-            let heightLeft = imgHeight;
-            let position = 10;
+        // Check if content exceeds one page, add pages if necessary
+        let heightLeft = imgHeight;
+        let position = 10;
 
+        doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
             doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
+        }
 
-            while (heightLeft >= 0) {
-                position = heightLeft - imgHeight;
-                doc.addPage();
-                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-            }
+        doc.save("invoice.pdf");
+    });
+}
+function downloadExcel() {
+    // Get table data
+    const table = document.querySelector('table');
+    const rows = Array.from(table.querySelectorAll('tr'));
 
-            doc.save("invoice.pdf");
-        });
-    }
+    // Extract data from table rows and cells
+    const excelData = rows.map(row => {
+        const cells = Array.from(row.querySelectorAll('th, td'));
+        return cells.map(cell => cell.innerText);
+    });
 
-    function downloadExcel() {
-        // Get table data
-        const table = document.querySelector('table');
-        const rows = Array.from(table.querySelectorAll('tr'));
+    // Create a new workbook and worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(excelData); // Convert array of arrays to a worksheet
 
-        // Extract data from table rows and cells
-        const excelData = rows.map(row => {
-            const cells = Array.from(row.querySelectorAll('th, td'));
-            return cells.map(cell => cell.innerText);
-        });
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Report");
 
-        // Create a new workbook and worksheet
-        const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.aoa_to_sheet(excelData); // Convert array of arrays to a worksheet
+    // Save the Excel file
+    XLSX.writeFile(wb, "report.xlsx");
+}
 
-        // Append the worksheet to the workbook
-        XLSX.utils.book_append_sheet(wb, ws, "Report");
 
-        // Save the Excel file
-        XLSX.writeFile(wb, "report.xlsx");
-    }
-</script>
+    </script>

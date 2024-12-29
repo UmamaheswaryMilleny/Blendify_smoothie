@@ -134,7 +134,8 @@ const salesReportDownload = async (req, res) => {
             startDate,
             endDate,
             currentPage: page,
-            totalPages
+            totalPages,
+            ordersJson: JSON.stringify(orders).replace(/</g, '\\u003c')
         });
     } catch (error) {
         res.redirect("/admin/pageerror");
