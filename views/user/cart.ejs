@@ -124,61 +124,64 @@
 <!-- Shopping Cart Section End -->
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-            // Get all remove from cart icons
-            const removeFromCartButtons = document.querySelectorAll('#removeFromCart');
-        
-            removeFromCartButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault(); // Prevent default action
-                    
-                    // Get the product ID (make sure this is correctly set in your HTML)
-                    const productId = this.getAttribute('data-product-id'); // Assuming you're setting data-product-id in the icon
-                    
-                    // Send a POST request using fetch to remove the item
-                    fetch('/removeFromCart', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ productId: productId })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Show success message using SweetAlert
-                            Swal.fire({
-                                title: "Success!",
-                                text: "Product removed from cart successfully!",
-                                icon: "success",
-                                button: "OK",
-                            });
-        
-                            // Optionally, remove the product from the UI
-                            this.closest('tr').remove(); // Assuming the icon is within a table row
-                        } else {
-                            // Show error message
-                            Swal.fire({
-                                title: "Error!",
-                                text: data.error || "Failed to remove product from cart",
-                                icon: "error",
-                                button: "OK",
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire({
-                            title: "Error!",
-                            text: "An unexpected error occurred",
-                            icon: "error",
-                            button: "OK",
-                        });
+    document.addEventListener('DOMContentLoaded', function() {
+    // Get all remove from cart icons
+    const removeFromCartButtons = document.querySelectorAll('#removeFromCart');
+
+    removeFromCartButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default action
+
+            // Get the product ID (make sure this is correctly set in your HTML)
+            const productId = this.getAttribute('data-product-id'); // Assuming you're setting data-product-id in the icon
+
+            // Send a POST request using fetch to remove the item
+            fetch('/removeFromCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId: productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message using SweetAlert
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Product removed from cart successfully!",
+                        icon: "success",
+                        button: "OK",
                     });
+
+                    // Optionally, remove the product from the UI
+                    this.closest('tr').remove(); // Assuming the icon is within a table row
+
+                    // Reload the page if necessary
+                    window.location.reload();
+                } else {
+                    // Show error message
+                    Swal.fire({
+                        title: "Error!",
+                        text: data.error || "Failed to remove product from cart",
+                        icon: "error",
+                        button: "OK",
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: "Error!",
+                    text: "An unexpected error occurred",
+                    icon: "error",
+                    button: "OK",
                 });
             });
         });
-        
+    });
+});
+
     function updateQuantity(productId, size, newQuantity) {
         console.log("Updating quantity for product:", productId, "Size:", size, "Quantity:", newQuantity);
 

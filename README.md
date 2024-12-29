@@ -1,76 +1,86 @@
-# Blendify  
-**Blendify Banner**  
+# Blendify
 
-## Overview  
-Blendify is a customizable smoothie platform built with Node.js and MongoDB, allowing users to  order their favorite smoothies. The project showcases modern web development techniques with an emphasis on usability, performance, and a seamless user experience.  
+**Blendify Banner**
+
+## Overview
+
+Blendify is a smoothie ecommerce website built with Node.js and MongoDB, allowing users to order their favorite smoothies. The project showcases modern web development techniques with an emphasis on usability, performance, and a seamless user experience.
 
 ---
 
-## Live Demo  
+## Live Demo
+
 [Live Website]()
 
 ---
 
-## Key Features  
+## Key Features
 
-### **Customer Features**  
-- User authentication with Google and OTP-based signup.  
-- Coupon functionality for discounts  
+### **Customer Features**
+
+- User authentication with Google and OTP-based signup.
+- Coupon functionality for discounts
 - wallet option and referral rewards
-- Advanced smoothie search and filtering by categories like Energy Booster, Vegan, etc.  
-- Responsive design for mobile, tablet, and desktop.  
+- Advanced smoothie search and filtering by categories like Energy Booster, Vegan, etc.
+- Responsive design for mobile, tablet, and desktop.
 
-### **Admin Features**  
-- Dashboard for managing users products, categories, and orders.  
-- User management (view, block/unblock users).  
-- Analytics dashboard for revenue, sales, and user activity.  
-- Offer and coupon management.  
-- Tracking of Orders.  
+### **Admin Features**
+
+- Dashboard for managing users products, categories, and orders.
+- User management (view, block/unblock users).
+- Analytics dashboard for revenue, sales, and user activity.
+- Offer and coupon management.
 
 ---
 
-## Technical Stack  
+## Technical Stack
 
-### **Backend**  
-- Node.js  
-- Express.js  
-- MongoDB  
-- Mongoose  
+### **Backend**
 
-### **Frontend**  
-- EJS (Embedded JavaScript)  
-- CSS  
-- JavaScript  
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
 
-### **Authentication & Security**  
-- Passport.js  
-- bcrypt  
+### **Frontend**
+
+- EJS (Embedded JavaScript)
+- CSS
+- JavaScript
+
+### **Authentication & Security**
+
+- Passport.js
+- bcrypt
 - nodemailer
-- Express-session  
+- Express-session
 
-### **Additional Tools**  
-- Multer (Image/File uploads)  
-- Nodemailer (Email notifications)  
-- Chart.js (Analytics visualization)  
-- Razorpay (Payment gateway)  
+### **Additional Tools**
+
+- Multer (Image/File uploads)
+- Nodemailer (Email notifications)
+- Chart.js (Analytics visualization)
+- Razorpay (Payment gateway)
 
 ---
 
-## Installation  
+## Installation
 
-1. **Clone the Repository**  
+1. **Clone the Repository**
 
-```bash  
-git clone https://github.com/UmamaheswaryMilleny/Blendify_smoothie.git 
- ```
+```bash
+git clone https://github.com/UmamaheswaryMilleny/Blendify_smoothie.git
+```
 
 2. **Install Dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Environment Setup**
    Create a .env file in the root directory:
+
    ```env
    PORT=8080
    MONGODB_URI=your_mongodb_uri
@@ -81,7 +91,8 @@ git clone https://github.com/UmamaheswaryMilleny/Blendify_smoothie.git
    RAZORPAY_SECRET=your_razorpay_secret
    ```
 
-   4. **Start the Server**
+4. **Start the Server**
+
    ```bash
    # Development mode
    npm run dev
@@ -108,14 +119,12 @@ geradfashion/
 │   └── uploads/
 │   └── videos/
 ├── routes/            # API routes
-├── views/             # EJS templates        
+├── views/             # EJS templates
 └── index.js           # Entry point
 ```
 
-
+**AUTHOR**
 **Umamaheswary Milleny**
+
 - GitHub: [@UmamaheswaryMilleny](https://github.com/UmamaheswaryMilleny)
 - LinkedIn: https://www.linkedin.com/in/umamaheswary-milleny
-
-
-
