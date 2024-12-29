@@ -40,6 +40,7 @@
                     <th>Ordered Items</th>
                     <th>Total Price</th>
                     <th>Discount</th>
+                    <th>Delivery Charge</th>
                     <th>Final Amount</th>
                     <th>Status</th>
                     <th>Payment Method</th>
@@ -68,10 +69,11 @@
                         </td>
                         <td>₹ <%= order.totalprice.toFixed(2) %></td>
                         <td>₹ <%= order.discount.toFixed(2) %></td>
-                        <td>₹ <%= order.finalAmount.toFixed(2) %></td>
+                        <td>₹ <%= order.deliveryCharge.toFixed(2) %></td>
+                        <td>₹ <%= (order.finalAmount + order.deliveryCharge).toFixed(2) %></td>
                         <td><%= order.status %></td>
                         <td><%= order.paymentMethod %></td>
-                        <td><%= order.createdOn %></td>
+                        <td><%= new Date(order.createdOn).toLocaleString() %></td>
                     </tr>
                 <% }) %>
             </tbody>
@@ -87,56 +89,55 @@
 
 <%- include("../../views/partials/admin/footer") %>
 
-    <script>
-        function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    const content = document.getElementById('reportContent');
+<script>
+    function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const content = document.getElementById('reportContent');
 
-    html2canvas(content).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const imgWidth = 190; // Adjust to fit page width
-        const pageHeight = 297; // A4 size in mm (portrait)
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        html2canvas(content).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = 190; // Adjust to fit page width
+            const pageHeight = 297; // A4 size in mm (portrait)
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // Check if content exceeds one page, add pages if necessary
-        let heightLeft = imgHeight;
-        let position = 10;
+            // Check if content exceeds one page, add pages if necessary
+            let heightLeft = imgHeight;
+            let position = 10;
 
-        doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-
-        while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            doc.addPage();
             doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
-        }
 
-        doc.save("invoice.pdf");
-    });
-}
-function downloadExcel() {
-    // Get table data
-    const table = document.querySelector('table');
-    const rows = Array.from(table.querySelectorAll('tr'));
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                doc.addPage();
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
 
-    // Extract data from table rows and cells
-    const excelData = rows.map(row => {
-        const cells = Array.from(row.querySelectorAll('th, td'));
-        return cells.map(cell => cell.innerText);
-    });
+            doc.save("invoice.pdf");
+        });
+    }
 
-    // Create a new workbook and worksheet
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet(excelData); // Convert array of arrays to a worksheet
+    function downloadExcel() {
+        // Get table data
+        const table = document.querySelector('table');
+        const rows = Array.from(table.querySelectorAll('tr'));
 
-    // Append the worksheet to the workbook
-    XLSX.utils.book_append_sheet(wb, ws, "Report");
+        // Extract data from table rows and cells
+        const excelData = rows.map(row => {
+            const cells = Array.from(row.querySelectorAll('th, td'));
+            return cells.map(cell => cell.innerText);
+        });
 
-    // Save the Excel file
-    XLSX.writeFile(wb, "report.xlsx");
-}
+        // Create a new workbook and worksheet
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(excelData); // Convert array of arrays to a worksheet
 
+        // Append the worksheet to the workbook
+        XLSX.utils.book_append_sheet(wb, ws, "Report");
 
-    </script>
+        // Save the Excel file
+        XLSX.writeFile(wb, "report.xlsx");
+    }
+</script>
