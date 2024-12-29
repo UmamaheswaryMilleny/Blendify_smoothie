@@ -40,7 +40,7 @@ const getMyOrders = async (req, res) => {
 
         order.orderedItems = enrichedItems;
         const deliveryCharge = order.deliveryCharge || 50;
-        order.totalAmountWithDelivery = order.finalAmount + deliveryCharge;
+        order.totalAmountWithDelivery = order.finalAmount;
         order.deliveryCharge = deliveryCharge;
         return order;
       })

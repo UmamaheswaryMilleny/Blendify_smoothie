@@ -30,8 +30,8 @@
             <tr>
               <td><%= item.productName %></td>
               <td><%= item.quantity %></td>
-              <td>₹ <%= item.price %></td>
-              <td>₹ <%= item.price %></td>
+              <td>₹ <%= (item.price / item.quantity).toFixed(2) %></td>
+              <td>₹ <%= item.price.toFixed(2) %></td>
             </tr>
             <% }); %>
           </tbody>
@@ -39,18 +39,18 @@
             <% if (typeof discount !== 'undefined' && discount > 0) { %>
             <tr>
               <td colspan="3" class="text-end">Discount :</td>
-              <td>₹ <%= discount %></td>
+              <td>₹ <%= discount.toFixed(2) %></td>
             </tr>
             <% } %>
             <tr>
               <td colspan="3" class="text-end">Delivery Charge :</td>
-              <td>₹ <%= deliveryCharge %></td>
+              <td>₹ <%= deliveryCharge.toFixed(2) %></td>
             </tr>
             <tr>
               <td colspan="3" class="text-end">
                 <strong>Total Price:</strong>
               </td>
-              <td><strong>₹ <%= totalAmountWithDelivery %></strong></td>
+              <td><strong>₹ <%= (order.finalAmount ).toFixed(2) %></strong></td>
             </tr>
           </tfoot>
           
@@ -67,7 +67,7 @@
     <!-- Shipping Address -->
     <div class="card mt-4">
       <div class="card-header">
-        <h4>Shipping Address</h4>
+        <h4>Delivery Address</h4>
       </div>
       <div class="card-body">
         <p>
