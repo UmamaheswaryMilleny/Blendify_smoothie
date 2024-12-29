@@ -29,19 +29,18 @@ const razorpayInstance = new Razorpay({
 
         const cartItems = cart ? cart.items : [];
         const discount = cart.discount;
-        console.log('disount',discount)
+        console.log('discount', discount)
         const totalPrice = cartItems.reduce((total, item) => total + item.totalPrice, 0);
-        const deliveryCharge = 50;
-         // Adding a delivery charge of 50 const grandTotal = totalPrice + deliveryCharge; // Calculate the grand total
+        const deliveryCharge = 50; // Adding a delivery charge of 50
+        const grandTotal = totalPrice - discount + deliveryCharge; // Calculate the grand total
         let appliedCouponCode = '';
-        const grandTotal = totalPrice - discount + deliveryCharge;
         if (cart && cart.couponApplied) {
             const appliedCoupon = await Coupon.findById(cart.couponApplied);
             if (appliedCoupon) {
                 appliedCouponCode = appliedCoupon.code;
             }
         }
-console.log('grandtaoal',grandTotal)
+        console.log('grandtotal', grandTotal)
         res.render("checkout", {
             addresses,
             cartItems,
@@ -49,7 +48,7 @@ console.log('grandtaoal',grandTotal)
             user: userData,
             discount: cart ? cart.discount : 0,
             appliedCouponCode,
-            deliveryCharge, // Pass delivery charge to the EJS file grandTotal,
+            deliveryCharge, // Pass delivery charge to the EJS file
             grandTotal,
         });
     } catch (error) {
@@ -282,7 +281,7 @@ const orderConfirmation = async (req,res) => {
         const addressIdToCheck = order.address;
         const specificAddress = addressDoc.address.find(addr => addr._id.equals(addressIdToCheck));
         const deliveryCharge = order.deliveryCharge || 50;
-        const totalAmountWithDelivery = order.finalAmount -discount + deliveryCharge;
+        const totalAmountWithDelivery = order.finalAmount  + deliveryCharge;
         console.log('Ordersssss:', order);
         res.render('order-confirmation', {
             order,
@@ -316,7 +315,7 @@ const paymentFailed = async (req, res) => {
 };
 
 const retryPayment = async (req, res) => {
-    console.log("req recieved for retry payment");
+    console.log("req received for retry payment");
     
     try {
         const { orderId } = req.params;
@@ -363,7 +362,7 @@ console.log(`this is razorpayOrder ${razorpayOrder}`)
 };
 
 const verifyRetryPayment = async (req, res) => {
-    console.log("req recieved for verify retry payment");
+    console.log("req received for verify retry payment");
     try {
         const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
 

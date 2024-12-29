@@ -30,7 +30,7 @@
                                 <td class="align-middle"><%= (page - 1) * 20 + index + 1 %></td>
                                 <td class="align-middle"><%= order.orderId %></td>
                                 <td class="align-middle"><%= order.status %></td>
-                                <td class="align-middle">₹<%= order.totalprice %></td>
+                                <td class="align-middle">₹<%= order.totalprice %> (Delivery Charge: ₹<%= order.deliveryCharge %>)</td>
                                 <td class="align-middle">
                                     <% if (order.addressDetails) { %>
                                         <div class="border p-2 rounded bg-light">

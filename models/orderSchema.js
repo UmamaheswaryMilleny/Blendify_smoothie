@@ -48,7 +48,7 @@ const orderSchema = new Schema({
         type:Number,
         required:true
     },
-    deliveryCharge: { // Add the deliveryFee field here
+    deliveryCharge: { // Add the deliveryCharge field here
         type: Number,
         default: 0
     },
