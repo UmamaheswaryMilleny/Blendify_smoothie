@@ -63,6 +63,8 @@
                                         <button class="btn btn-danger btn-sm" onclick="handleReturnRequest('<%= order._id %>', 'deny')">Deny</button>
                                     <% } else if (order.status === 'Return Accepted') { %>
                                         <button class="btn btn-secondary btn-sm" disabled>Returned</button>
+                                    <% } else if (order.status === 'Return Denied') { %>
+                                        <button class="btn btn-secondary btn-sm" disabled>Delivered</button>
                                     <% } else if (order.status !== 'Delivered') { %>
                                         <form action="/admin/change-order-status/<%= order._id %>" method="POST">
                                             <select name="status" class="form-control form-control-sm" onchange="updateOrderStatus(event, '<%= order._id %>')">
