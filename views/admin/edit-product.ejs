@@ -189,7 +189,7 @@
                                 <h4>Choose images</h4>
                             </div>
                             <div class="card-body">
-                                <div class="thumbnails-container">
+                                <div class="thumbnails-container" id="thumbnails-container">
                                     <% for(let i=0; i<product.productImage.length; i++){ %>
                                         <div class="thumbnail">
                                             <img src="/uploads/re-image/<%=product.productImage[i]%>" alt="">
@@ -205,7 +205,7 @@
                                 </div>
                                 <div class="image-cropper d-flex align-items-center">
                                     <img src="" id="croppedImg1" alt="">
-                                    <button type="button" id="saveButton1" class="btn-sm btn-primary">Save</button>
+                                    <button type="button" id="saveButton1" class="btn-sm btn-primary" onclick="saveCroppedImage(1)">Save</button>
                                 </div>
                                 <div class="file-input-container">
                                     <img src="" alt="" id="imgView2">
@@ -214,7 +214,7 @@
                                 </div>
                                 <div class="image-cropper d-flex align-items-center">
                                     <img src="" id="croppedImg2" alt="">
-                                    <button type="button" id="saveButton2" class="btn-sm btn-primary">Save</button>
+                                    <button type="button" id="saveButton2" class="btn-sm btn-primary" onclick="saveCroppedImage(2)">Save</button>
                                 </div>
                                 <div class="file-input-container">
                                     <img src="" alt="" id="imgView3">
@@ -223,7 +223,7 @@
                                 </div>
                                 <div class="image-cropper d-flex align-items-center">
                                     <img src="" id="croppedImg3" alt="">
-                                    <button type="button" id="saveButton3" class="btn-sm btn-primary">Save</button>
+                                    <button type="button" id="saveButton3" class="btn-sm btn-primary" onclick="saveCroppedImage(3)">Save</button>
                                 </div>
                                 <div class="file-input-container">
                                     <img src="" alt="" id="imgView4">
@@ -232,8 +232,9 @@
                                 </div>
                                 <div class="image-cropper d-flex align-items-center">
                                     <img src="" id="croppedImg4" alt="">
-                                    <button type="button" id="saveButton4" class="btn-sm btn-primary">Save</button>
+                                    <button type="button" id="saveButton4" class="btn-sm btn-primary" onclick="saveCroppedImage(4)">Save</button>
                                 </div>
+                                <div id="image-limit-error" class="error-message"></div>
                             </div>
                         </div>
                         <div>
@@ -280,71 +281,101 @@
     }
 
     function validateForm() {
-        let imageDatas = false;
-        clearErrorMessages();  // Clears previous error messages
+    let imageDatas = false;
+    clearErrorMessages();  // Clears previous error messages
 
-        const name = document.getElementsByName('productName')[0].value.trim();
-        const description = document.getElementsByName('descriptionData')[0].value.trim();
-        const price = document.getElementsByName('regularPrice')[0].value;
-        const salePrice = document.getElementsByName('salePrice')[0].value;
-        const category = document.getElementsByName('category')[0].value;
-        const images = [
-            document.getElementById('input1'),
-            document.getElementById('input2'),
-            document.getElementById('input3'),
-            document.getElementById('input4')
-        ];
-        const selectedSizes = getSelectedSizesAndQuantities();  // Assuming this function retrieves selected sizes with quantities
+    const name = document.getElementsByName('productName')[0].value.trim();
+    const description = document.getElementsByName('descriptionData')[0].value.trim();
+    const price = document.getElementsByName('regularPrice')[0].value;
+    const salePrice = document.getElementsByName('salePrice')[0].value;
+    const category = document.getElementsByName('category')[0].value;
+    const images = [
+        document.getElementById('input1'),
+        document.getElementById('input2'),
+        document.getElementById('input3'),
+        document.getElementById('input4')
+    ];
+    const selectedSizes = getSelectedSizesAndQuantities();  // Assuming this function retrieves selected sizes with quantities
 
-        let isValid = true;
+    let isValid = true;
 
-        // Validate product name
-        if (!name) {
-            displayErrorMessage('productName-error', 'Product name is required.');
-            isValid = false;
+    // Validate product name
+    if (!name) {
+        displayErrorMessage('productName-error', 'Product name is required.');
+        isValid = false;
+    }
+
+    // Validate description
+    if (!description) {
+        displayErrorMessage('description-error', 'Description is required.');
+        isValid = false;
+    }
+
+    // Validate category
+    if (!category) {
+        displayErrorMessage('category-error', 'Please select a category.');
+        isValid = false;
+    }
+
+    // Validate regular price
+    if (!price || isNaN(price) || price <= 0) {
+        displayErrorMessage('regularPrice-error', 'Regular price must be a positive number.');
+        isValid = false;
+    }
+
+    // Validate sale price
+    if (!salePrice || isNaN(salePrice) || salePrice <= 0) {
+        displayErrorMessage('salePrice-error', 'Sale price must be a positive number.');
+        isValid = false;
+    }
+
+    // Validate selected sizes and quantities
+    if (!selectedSizes.length) {
+        displayErrorMessage('sizes-error', 'Please select at least one size.');
+        isValid = false;
+    } else {
+        for (let i = 0; i < selectedSizes.length; i++) {
+            if (selectedSizes[i].quantity <= 0 || isNaN(selectedSizes[i].quantity)) {
+                displayErrorMessage('sizes-error', 'Quantity for selected sizes must be a positive number.');
+                isValid = false;
+                break;
+            }
         }
+    }
 
-        // Validate description
-        if (!description) {
-            displayErrorMessage('description-error', 'Description is required.');
-            isValid = false;
-        }
+    // Validate image count and image file types and sizes
+    const existingImages = document.querySelectorAll('.thumbnail').length;
+    const newImages = images.filter(input => input.files.length > 0).length;
 
-        // Validate category
-        if (!category) {
-            displayErrorMessage('category-error', 'Please select a category.');
-            isValid = false;
-        }
+    if (existingImages + newImages !== 4) {
+        displayErrorMessage('image-limit-error', 'Please upload exactly 4 images.');
+        isValid = false;
+    } else {
+        // Check file type and size for new images
+        for (let i = 0; i < images.length; i++) {
+            if (images[i].files.length > 0) {
+                const file = images[i].files[0];
+                const fileType = file.type;
+                const fileSize = file.size;
 
-        // Validate regular price
-        if (!price || isNaN(price) || price <= 0) {
-            displayErrorMessage('regularPrice-error', 'Regular price must be a positive number.');
-            isValid = false;
-        }
-
-        // Validate sale price
-        if (!salePrice || isNaN(salePrice) || salePrice <= 0) {
-            displayErrorMessage('salePrice-error', 'Sale price must be a positive number.');
-            isValid = false;
-        }
-
-        // Validate selected sizes and quantities
-        if (!selectedSizes.length) {
-            displayErrorMessage('sizes-error', 'Please select at least one size.');
-            isValid = false;
-        } else {
-            for (let i = 0; i < selectedSizes.length; i++) {
-                if (selectedSizes[i].quantity <= 0 || isNaN(selectedSizes[i].quantity)) {
-                    displayErrorMessage('sizes-error', 'Quantity for selected sizes must be a positive number.');
+                // Check file type
+                if (!['image/jpeg', 'image/jpg', 'image/png'].includes(fileType)) {
+                    displayErrorMessage('image-limit-error', `Invalid file type for image ${i + 1}. Only JPEG and PNG are allowed.`);
                     isValid = false;
-                    break;
+                }
+
+                // Check file size (e.g., 2MB max size)
+                if (fileSize > 2 * 1024 * 1024) {
+                    displayErrorMessage('image-limit-error', `File size for image ${i + 1} exceeds the 2MB limit.`);
+                    isValid = false;
                 }
             }
         }
-
-        // Final validation check
-        return isValid;
     }
+
+    // Final validation check
+    return isValid;
+}
 
     function displayErrorMessage(elementId, message) {
         var errorElement = document.getElementById(elementId);
@@ -361,6 +392,11 @@
     }
 
     function viewImage(event, index) {
+        const existingImages = document.querySelectorAll('.thumbnail').length;
+        if (existingImages >= 4) {
+            alert('You can only upload a maximum of 4 images.');
+            return;
+        }
         let input = event.target;
         let reader = new FileReader();
         reader.onload = function () {
@@ -392,12 +428,35 @@
                     input.files = fileList.files
                 });
                 cropperContainer.style.display = 'none';
+                addThumbnail(croppedImage.src, index);
             });
         };
         reader.readAsDataURL(input.files[0]);
     }
 
+    function addThumbnail(imageSrc, index) {
+        const thumbnailsContainer = document.getElementById('thumbnails-container');
+        const thumbnailDiv = document.createElement('div');
+        thumbnailDiv.classList.add('thumbnail');
+        const imgElement = document.createElement('img');
+        imgElement.src = imageSrc;
+        const removeIcon = document.createElement('span');
+        removeIcon.classList.add('remove-icon');
+        removeIcon.innerHTML = '&times;';
+        removeIcon.onclick = function () {
+            thumbnailDiv.remove();
+        };
+        thumbnailDiv.appendChild(imgElement);
+        thumbnailDiv.appendChild(removeIcon);
+        thumbnailsContainer.appendChild(thumbnailDiv);
+    }
+
     function deleteSingleImage(imageId, productId) {
+        const existingImages = document.querySelectorAll('.thumbnail').length;
+        if (existingImages <= 1) {
+            alert('You must have at least one image.');
+            return;
+        }
         $.ajax({
             url: "/admin/deleteImage",
             method: "POST",
