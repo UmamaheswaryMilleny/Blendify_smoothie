@@ -66,7 +66,7 @@ const orderSchema = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ['Pending', 'Placed', 'Delivered', 'Canceled', 'Return Request', 'Returned'], // Add "Return Request" and "Returned"
+        enum: ['Pending', 'Placed', 'Delivered', 'Canceled', 'Return Request', 'Return Accepted', 'Return Denied'], // Add "Return Accepted" and "Return Denied"
     }
     ,
     createdOn:{

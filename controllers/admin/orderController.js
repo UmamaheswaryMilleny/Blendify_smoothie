@@ -52,6 +52,7 @@ const acceptReturnRequest = async (req, res) => {
 
         const order = await Order.findById(orderId);
         if (!order) {
+            console.error(`Order not found: ${orderId}`);
             return res.status(404).json({ success: false, message: "Order not found" });
         }
 
@@ -71,6 +72,7 @@ const denyReturnRequest = async (req, res) => {
 
         const order = await Order.findById(orderId);
         if (!order) {
+            console.error(`Order not found: ${orderId}`);
             return res.status(404).json({ success: false, message: "Order not found" });
         }
 

@@ -161,6 +161,8 @@ background: url("/images/userImg/home/img2_1.png") no-repeat center
                                     </button>
                                 <% } else if (order.status == 'Return Request') { %>
                                     <button class="btn btn-secondary " disabled>Return requested</button>                                                                        
+                                <% } else if (order.status == 'Return Accepted') { %>
+                                    <button class="btn btn-secondary" disabled>Return Accepted</button>
                                 <% } else if (order.status !== 'Delivered') { %>
                                     <button class="btn btn-danger cancel-order-btn" data-order-id="<%= order._id %>">Cancel</button>
                                 <% } else { %>

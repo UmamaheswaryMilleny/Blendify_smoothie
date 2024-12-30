@@ -16,8 +16,7 @@
                         <tr>
                             <th>#</th>
                             <th>Order ID</th>
-                            
-                            
+                            <th>Status</th>
                             <th>Total Price</th>
                             <th>Address</th>
                             <th>Product Name</th>
@@ -60,11 +59,10 @@
                                     <% if (order.status === 'Canceled') { %>
                                         <button class="btn btn-secondary btn-sm" disabled>Canceled</button>
                                     <% } else if (order.status === 'Return Request') { %>
-                                        <% console.log(order.status); %>
-                                
-
                                         <button class="btn btn-success btn-sm" onclick="handleReturnRequest('<%= order._id %>', 'accept')">Accept</button>
                                         <button class="btn btn-danger btn-sm" onclick="handleReturnRequest('<%= order._id %>', 'deny')">Deny</button>
+                                    <% } else if (order.status === 'Return Accepted') { %>
+                                        <button class="btn btn-secondary btn-sm" disabled>Returned</button>
                                     <% } else if (order.status !== 'Delivered') { %>
                                         <form action="/admin/change-order-status/<%= order._id %>" method="POST">
                                             <select name="status" class="form-control form-control-sm" onchange="updateOrderStatus(event, '<%= order._id %>')">
@@ -136,10 +134,21 @@
             });
 
             if (response.ok) {
-                window.location.reload();
+                const result = await response.json();
+                if (result.success) {
+                    alert(`Return request ${action}ed`);
+                    window.location.reload();
+                } else {
+                    console.error(`Error handling return request: ${result.message}`);
+                    alert(`Error: ${result.message}`);
+                }
             } else {
                 console.error("Error handling return request");
+                alert("Error handling return request");
             }
         } catch (error) {
             console.error("An unexpected error occurred:", error);
-        }    }</script>
+            alert("An unexpected error occurred");
+        }
+    }
+</script>
