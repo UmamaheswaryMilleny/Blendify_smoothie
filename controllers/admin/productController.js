@@ -51,19 +51,16 @@ const addProducts = async (req, res) => {
       }
 
       let sizes = [];
-      let totalQuantity=0;
-      if(products.quantityS){
-        totalQuantity+=parseInt(products.quantityS)
+      let totalQuantity = 0;
+      if (products.quantityS) {
+        totalQuantity += parseInt(products.quantityS);
       }
-      if(products.quantityM){
-        totalQuantity+=parseInt(products.quantityM)
-
+      if (products.quantityM) {
+        totalQuantity += parseInt(products.quantityM);
       }
-      if(products.quantityL){
-        totalQuantity+=parseInt(products.quantityL)
-
+      if (products.quantityL) {
+        totalQuantity += parseInt(products.quantityL);
       }
-    //  console.log(products)
 
       if (products.sizes && Array.isArray(products.sizes)) {
         sizes = products.sizes.map((size, index) => ({
@@ -80,7 +77,7 @@ const addProducts = async (req, res) => {
         salePrice: products.salePrice,
         createdOn: new Date(),
         sizes: sizes,
-        quantity:totalQuantity,
+        quantity: totalQuantity,
         productImage: images,
         status: "Available",
       });
@@ -106,7 +103,8 @@ const getAllProducts = async (req, res) => {
 
     const productData = await Product.find({
       $or: [{ productName: { $regex: new RegExp(".*" + search + ".*", "i") } }],
-    }).sort({ createdAt: -1 })
+    })
+      .sort({ createdAt: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .populate("category")
@@ -115,7 +113,7 @@ const getAllProducts = async (req, res) => {
     const count = await Product.find({
       $or: [{ productName: { $regex: new RegExp(".*" + search + ".*", "i") } }],
     }).countDocuments();
-    console.log('productdat',productData);
+    console.log("productdat", productData);
 
     const category = await Category.find({ isListed: true });
     console.log(productData);
@@ -135,8 +133,6 @@ const getAllProducts = async (req, res) => {
     console.error("Error getting all products");
   }
 };
-
-
 
 const addProductOffer = async (req, res) => {
   try {
@@ -265,8 +261,9 @@ const editProduct = async (req, res) => {
     // Prepare the fields to update
     const updateFields = {
       productName: data.productName,
-      description: data.descriptionData, // Ensure this matches the form field name
+      description: data.description, // Ensure this matches the form field name
       category: data.category,
+
       regularPrice: data.regularPrice,
       salePrice: data.salePrice,
       sizes: sizes,
@@ -302,7 +299,7 @@ const deleteSingleImage = async (req, res) => {
     const imagePath = path.join(
       "public",
       "uploads",
-      "re-image",
+      "product-images",
       imageNameToServer
     );
     if (fs.existsSync(imagePath)) {
