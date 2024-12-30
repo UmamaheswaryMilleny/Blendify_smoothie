@@ -3,6 +3,10 @@
     .layout-page{
         overflow: hidden;
     }
+    /* Ensure that the numbers are not hidden */
+    td, th {
+        color: rgb(108, 108, 108); /* Ensure text color is visible */
+    }
 </style>
 <div class="content-header row">
     <div class="d-flex justify-content-between align-items-center">
@@ -23,6 +27,7 @@
     <table class="table table-striped">
         <thead>
           <tr>
+            <th scope="col"><b>#</b></th>
             <th scope="col"><b>Name</b></th>
             <th scope="col"><b>Email</b></th>
             <th scope="col"><b>Phone No</b></th>
@@ -30,24 +35,25 @@
           </tr>
         </thead>
         <tbody>
-            <% for(let i = 0; i < data.length; i++) { %>
+            <% data.forEach((customer, index) => { %>
                 <tr>
-                    <td><%= data[i].name %></td>
-                    <td><%= data[i].email %></td>
-                    <td><%= data[i].phone %></td>
+                    <td><%= (currentPage - 1) * 10 + index + 1 %></td>
+                    <td><%= customer.name %></td>
+                    <td><%= customer.email %></td>
+                    <td><%= customer.phone %></td>
                     <td>
-                        <% if(data[i].isBlocked === false) { %>
+                        <% if(customer.isBlocked === false) { %>
                             <button class="btn btn-danger" style="width: 80px;">
-                                <a href="/admin/blockCustomer?id=<%= data[i]._id %>" class="text-white" style="text-decoration: none;">Block</a>
+                                <a href="/admin/blockCustomer?id=<%= customer._id %>" class="text-white" style="text-decoration: none;">Block</a>
                             </button>
                         <% } else { %>
                             <button class="btn btn-success" style="width: 80px;">
-                                <a href="/admin/unblockCustomer?id=<%= data[i]._id %>" class="text-white" style="text-decoration: none;">Unblock</a>
+                                <a href="/admin/unblockCustomer?id=<%= customer._id %>" class="text-white" style="text-decoration: none;">Unblock</a>
                             </button> 
                         <% } %>
                     </td>
                 </tr>
-            <% } %>
+            <% }) %>
         </tbody>
     </table>
 </div>
