@@ -191,20 +191,28 @@ const getOrderDetails = async (req, res) => {
 const returnOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
+    const { reason } = req.body;
 
-    const order = await Order.findOne({ orderId });
+    if (!reason) {
+      return res.status(400).json({
+        success: false,
+        message: "Return reason is required.",
+      });
+    }
+
+    const order = await Order.findById(orderId);
     if (!order) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Order Not Found" });
+      return res.status(404).json({ success: false, message: "Order not found" });
     }
 
     order.status = "Return Request";
-    order.save();
+    order.returnReason = reason;
+    await order.save();
 
-    return res
-      .status(200)
-      .json({ success: true, message: "Return Requested Successfully" });
+    return res.status(200).json({
+      success: true,
+      message: "Return requested successfully",
+    });
   } catch (error) {
     console.error("Error requesting return order:", error);
     res.status(500).json({ success: false, message: "Server error" });

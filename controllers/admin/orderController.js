@@ -1,6 +1,7 @@
 const Order = require("../../models/orderSchema")
 const Product = require("../../models/productSchema")
 const Address = require("../../models/addressSchema")
+const Wallet = require("../../models/walletSchema")
 
 const getOrderList = async (req, res) => {
     try {
@@ -58,6 +59,41 @@ const acceptReturnRequest = async (req, res) => {
 
         order.status = "Return Accepted";
         await order.save();
+
+        // Refund the order amount to the user's wallet
+        const userId = order.user;
+        const refundAmount = order.finalAmount;
+
+        let wallet = await Wallet.findOne({ user_id: userId });
+
+        if (!wallet) {
+            wallet = new Wallet({
+                user_id: userId,
+                balance: 0,
+                transactions: [],
+            });
+        }
+
+        // Check if a refund transaction for this order already exists
+        const existingTransaction = wallet.transactions.find(
+            (transaction) => transaction.description === `Refund for returned order ${orderId}`
+        );
+
+        if (!existingTransaction) {
+            const transactionId = new mongoose.Types.ObjectId();
+            wallet.balance += refundAmount;
+            wallet.transactions.push({
+                transaction_id: transactionId,
+                amount: refundAmount,
+                type: "credit",
+                date: new Date(),
+                description: `Refund for returned order`,
+            });
+            await wallet.save();
+            console.log("Return request processed successfully and wallet updated");
+        } else {
+            console.log("Refund for this order has already been processed");
+        }
 
         return res.json({ success: true, message: "Return request accepted" });
     } catch (error) {
