@@ -33,34 +33,34 @@
             </tr>
         </thead>
         <tbody>
-            <% for (let i = data.length - 1; i >= 0; i--) { %>
+            <% data.forEach((product, index) => { %>
             <tr>
-                <td><%= data[i].productName %></td>
-                <td><%= data[i].category ? data[i].category.name : "No Category" %></td>
-                <td><%= data[i].salePrice %></td>
-                <td><%= data[i].regularPrice %></td>
+                <td><%= product.productName %></td>
+                <td><%= product.category ? product.category.name : "No Category" %></td>
+                <td><%= product.salePrice %></td>
+                <td><%= product.regularPrice %></td>
                 <td>
-                    <% if (locals.data[i].productOffer) { %>
-                        <%= data[i].productOffer %>
+                    <% if (product.productOffer) { %>
+                        <%= product.productOffer %>
                     <% } else { %>
                         0%
                     <% } %>
                 </td>
                 <td>
-                    <% if (locals.data[i].productOffer === 0) { %>
-                        <button class="btn btn-info" onclick="addOffer('<%= data[i]._id %>')" style="width: 100px;">
+                    <% if (product.productOffer === 0) { %>
+                        <button class="btn btn-info" onclick="addOffer('<%= product._id %>')" style="width: 100px;">
                             <a href="#" class="text-white text-decoration-none">Add Offer</a>
                         </button>
                     <% } else { %>
-                        <button class="btn btn-info" onclick="removeOffer('<%= data[i]._id %>')" style="width: 100px;">
+                        <button class="btn btn-info" onclick="removeOffer('<%= product._id %>')" style="width: 100px;">
                             <a href="#" class="text-white text-decoration-none">Remove</a>
                         </button>
                     <% } %>
                 </td>
                 <td>
-                    <% if (data[i].sizes && data[i].sizes.length > 0) { %>
+                    <% if (product.sizes && product.sizes.length > 0) { %>
                         <ul class="list-unstyled">
-                            <% data[i].sizes.forEach((size) => { %>
+                            <% product.sizes.forEach((size) => { %>
                                 <li><%= size.size %>: <%= size.quantity %></li>
                             <% }); %>
                         </ul>
@@ -69,23 +69,23 @@
                     <% } %>
                 </td>
                 <td>
-                    <% if (data[i].isBlocked === false) { %>
+                    <% if (product.isBlocked === false) { %>
                         <button class="btn btn-danger">
-                            <a href="/admin/blockProduct?id=<%= data[i]._id %>" class="text-white text-decoration-none">Block</a>
+                            <a href="/admin/blockProduct?id=<%= product._id %>" class="text-white text-decoration-none">Block</a>
                         </button>
                     <% } else { %>
                         <button class="btn btn-success">
-                            <a href="/admin/unblockProduct?id=<%= data[i]._id %>" class="text-white text-decoration-none">Unblock</a>
+                            <a href="/admin/unblockProduct?id=<%= product._id %>" class="text-white text-decoration-none">Unblock</a>
                         </button>
                     <% } %>
                 </td>
                 <td>
                     <button class="btn btn-info">
-                        <a href="/admin/editProduct?id=<%= data[i]._id %>" class="text-white text-decoration-none">Edit</a>
+                        <a href="/admin/editProduct?id=<%= product._id %>" class="text-white text-decoration-none">Edit</a>
                     </button>
                 </td>
             </tr>
-            <% } %>
+            <% }) %>
         </tbody>
     </table>
 </div>

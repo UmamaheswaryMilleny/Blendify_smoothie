@@ -54,19 +54,15 @@ const addProducts = async (req, res) => {
       let totalQuantity = 0;
       if (products.quantityS) {
         totalQuantity += parseInt(products.quantityS);
+        sizes.push({ size: 'S', quantity: parseInt(products.quantityS) });
       }
       if (products.quantityM) {
         totalQuantity += parseInt(products.quantityM);
+        sizes.push({ size: 'M', quantity: parseInt(products.quantityM) });
       }
       if (products.quantityL) {
         totalQuantity += parseInt(products.quantityL);
-      }
-
-      if (products.sizes && Array.isArray(products.sizes)) {
-        sizes = products.sizes.map((size, index) => ({
-          size: size,
-          quantity: products[`quantity${size}`] || 0,
-        }));
+        sizes.push({ size: 'L', quantity: parseInt(products.quantityL) });
       }
 
       const newProduct = new Product({
@@ -104,7 +100,7 @@ const getAllProducts = async (req, res) => {
     const productData = await Product.find({
       $or: [{ productName: { $regex: new RegExp(".*" + search + ".*", "i") } }],
     })
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: -1 }) // Ensure products are sorted by creation date in descending order
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .populate("category")
