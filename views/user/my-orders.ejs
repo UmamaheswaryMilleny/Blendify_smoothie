@@ -151,15 +151,21 @@ background: url("/images/userImg/home/img2_1.png") no-repeat center
                             <td>
                                 <% if (order.status === 'Canceled') { %>
                                     <button class="btn btn-secondary" disabled>Canceled</button>
-                                <% } else if (order.status === 'Delivered') { %>
-                                    <button class="btn btn-warning request-return-btn" data-order-id="<%= order.orderId %>">
+                                <% } else if (order.status == 'Pending') { %>
+                                    <button id="retry-payment-btn" data-order-id="<%= order.orderId %>">
+                                        Retry Payment
+                                    </button>
+                                <% } else if (order.status == 'Delivered') { %>
+                                    <button id="requestReturn" class="request-return-btn" data-order-id="<%= order.orderId %>">
                                         Request Return
                                     </button>
-                                <% } else if (order.status === 'Return Requested') { %>
-                                    <button class="btn btn-secondary" disabled>Return Requested</button>
-                                <% } else { %>
+                                <% } else if (order.status == 'Return Request') { %>
+                                    <button class="btn btn-secondary " disabled>Return requested</button>                                                                        
+                                <% } else if (order.status !== 'Delivered') { %>
                                     <button class="btn btn-danger cancel-order-btn" data-order-id="<%= order._id %>">Cancel</button>
-                                <% } %>
+                                <% } else { %>
+                                    <span>N/A</span>
+                                <% } %>                                
                             </td>
                             
                             <td><a href="/orderDetails/<%=order._id%>" style="color: #fff;">Order Details</a></td>                                               

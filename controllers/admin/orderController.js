@@ -46,7 +46,47 @@ const changeOrderStatus = async (req, res) => {
     }
 };
 
+const acceptReturnRequest = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        order.status = "Return Accepted";
+        await order.save();
+
+        return res.json({ success: true, message: "Return request accepted" });
+    } catch (error) {
+        console.error("Error accepting return request:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
+const denyReturnRequest = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        order.status = "Return Denied";
+        await order.save();
+
+        return res.json({ success: true, message: "Return request denied" });
+    } catch (error) {
+        console.error("Error denying return request:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
 module.exports = {
     getOrderList,
     changeOrderStatus,
+    acceptReturnRequest,
+    denyReturnRequest,
 }

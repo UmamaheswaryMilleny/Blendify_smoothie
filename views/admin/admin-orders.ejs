@@ -16,7 +16,8 @@
                         <tr>
                             <th>#</th>
                             <th>Order ID</th>
-                            <th>Status</th>
+                            
+                            
                             <th>Total Price</th>
                             <th>Address</th>
                             <th>Product Name</th>
@@ -58,6 +59,12 @@
                                 <td class="align-middle">
                                     <% if (order.status === 'Canceled') { %>
                                         <button class="btn btn-secondary btn-sm" disabled>Canceled</button>
+                                    <% } else if (order.status === 'Return Request') { %>
+                                        <% console.log(order.status); %>
+                                
+
+                                        <button class="btn btn-success btn-sm" onclick="handleReturnRequest('<%= order._id %>', 'accept')">Accept</button>
+                                        <button class="btn btn-danger btn-sm" onclick="handleReturnRequest('<%= order._id %>', 'deny')">Deny</button>
                                     <% } else if (order.status !== 'Delivered') { %>
                                         <form action="/admin/change-order-status/<%= order._id %>" method="POST">
                                             <select name="status" class="form-control form-control-sm" onchange="updateOrderStatus(event, '<%= order._id %>')">
@@ -118,4 +125,21 @@
             console.error("An unexpected error occurred:", error);
         }
     }
-</script>
+
+    async function handleReturnRequest(orderId, action) {
+        try {
+            const response = await fetch(`/admin/${action}-return-request/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error("Error handling return request");
+            }
+        } catch (error) {
+            console.error("An unexpected error occurred:", error);
+        }    }</script>

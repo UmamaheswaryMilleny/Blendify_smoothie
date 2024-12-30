@@ -49,9 +49,11 @@ router.post("/addProductOffer",adminAuth,productController.addProductOffer)
 router.post("/removeProductOffer",adminAuth,productController.removeProductOffer)
 // router.post("/addProducts",adminAuth,uploads.array("images",4),productController.addProducts)
 
+console.log(orderController);
 router.get('/orderList', adminAuth, orderController.getOrderList);
 router.post('/change-order-status/:orderId', adminAuth, orderController.changeOrderStatus);
-
+router.post('/accept-return-request/:orderId', adminAuth, orderController.acceptReturnRequest);
+router.post('/deny-return-request/:orderId', adminAuth, orderController.denyReturnRequest);
 
 router.get("/coupon",adminAuth,couponContrller.getCouponPage)
 router.post("/addCoupon",adminAuth,uploads.single("couponImage"),couponContrller.addCoupon)
