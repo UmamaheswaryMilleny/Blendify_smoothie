@@ -23,6 +23,16 @@
         position: relative;
         top: -19px;
       }
+      .input-field {
+        position: relative;
+      }
+      .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -74,6 +84,9 @@
                     name="password"
                   />
                   <label for="adminPassword">Password</label>
+                  <span class="toggle-password" onclick="togglePasswordVisibility()">
+                    <i class="bi bi-eye"></i>
+                  </span>
                   <div id="passwordError" class="error-message"></div>
                 </div>
                 <div class="input-field">
@@ -136,6 +149,21 @@
           }
         });
       });
+
+      function togglePasswordVisibility() {
+        const passwordField = document.getElementById("adminPassword");
+        const toggleIcon = document.querySelector(".toggle-password i");
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+          toggleIcon.classList.remove("bi-eye");
+          toggleIcon.classList.add("bi-eye-slash");
+        } else {
+          passwordField.type = "password";
+          toggleIcon.classList.remove("bi-eye-slash");
+          toggleIcon.classList.add("bi-eye");
+        }
+      }
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
   </body>
 </html>

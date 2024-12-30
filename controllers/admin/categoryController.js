@@ -1,30 +1,39 @@
-const Category=require("../../models/categorySchema")
-const Product = require("../../models/productSchema")
+const Category = require("../../models/categorySchema");
+const Product = require("../../models/productSchema");
 
-const categoryInfo=async(req,res)=>{
-    try{
-        const page=parseInt(req.query.page) || 1;
+const categoryInfo = async (req, res) => {
+    try {
+        let search = "";
+        if (req.query.search) {
+            search = req.query.search;
+        }
+        const page = parseInt(req.query.page) || 1;
         const limit = 4;
-        const skip = (page -1)*limit;
+        const skip = (page - 1) * limit;
 
-        const categoryData = await Category.find({})
-        .sort({createdAt:-1})
+        const categoryData = await Category.find({
+            name: { $regex: ".*" + search + ".*", $options: "i" }
+        })
+        .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
-        const totalCategories = await Category.countDocuments()
-        const totalPages=Math.ceil(totalCategories/limit);
-        res.render("category",{
-            cat:categoryData,
-            currentPage:page,
-            totalPages:totalPages,
-            totalCategories:totalCategories
-        })
-    }catch(error){
-        console.error(error);
-        res.redirect("/admin/pageerror")
-    }
-}
 
+        const totalCategories = await Category.countDocuments({
+            name: { $regex: ".*" + search + ".*", $options: "i" }
+        });
+        const totalPages = Math.ceil(totalCategories / limit);
+
+        res.render("category", {
+            cat: categoryData,
+            currentPage: page,
+            totalPages: totalPages,
+            totalCategories: totalCategories
+        });
+    } catch (error) {
+        console.error(error);
+        res.redirect("/admin/pageerror");
+    }
+};
 
 const addCategory = async (req,res) => {
     const {name,description} = req.body
