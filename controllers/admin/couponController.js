@@ -25,7 +25,7 @@ const getCouponPage = async (req,res) => {
 const addCoupon = async (req, res) => {
     try {
         // Destructure the form data directly from req.body
-        const { name, expireOn, offerPrice, minimumPrice, code } = req.body;
+        const { name, expireOn, offerPrice, minimumPrice, maximumPrice, code } = req.body;
 
         const existingCoupon = await Coupon.findOne({name})
 
@@ -45,6 +45,7 @@ const addCoupon = async (req, res) => {
             expireOn,
             offerPrice,
             minimumPrice,
+            maximumPrice: parseFloat(maximumPrice) || 0, // Ensure maximumPrice is a valid number
             code,
             isListed: true,
             createdOn: Date.now()

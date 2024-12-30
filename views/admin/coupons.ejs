@@ -46,6 +46,11 @@
           <div class="text-danger" id="minimumPriceError"></div>
         </div>
         <div class="mb-3">
+          <label for="maximumPrice" class="form-label">Maximum Price</label>
+          <input type="number" class="form-control" id="maximumPrice" name="maximumPrice" />
+          <div class="text-danger" id="maximumPriceError"></div>
+        </div>
+        <div class="mb-3">
           <label for="code" class="form-label">Coupon Code</label>
           <input type="text" class="form-control" id="code" name="code" />
           <div class="text-danger" id="codeError"></div>
@@ -80,6 +85,7 @@
             <th>Expiry Date</th>
             <th>Offer Percentage</th>
             <th>Minimum Price</th>
+            <th>Maximum Price</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -103,6 +109,7 @@
             <!-- Change to expireOn -->
             <td><%= coupon.offerPrice %></td>
             <td><%= coupon.minimumPrice %></td>
+            <td><%= coupon.maximumPrice %></td>
             <td>
               <!-- Add action buttons like edit or delete here -->
               <form id="deleteCouponForm" style="display: inline">
@@ -151,12 +158,14 @@
     document.getElementById("minimumPriceError").textContent = "";
     document.getElementById("codeError").textContent = "";
     document.getElementById("couponImageError").textContent = "";
+    document.getElementById("maximumPriceError").textContent = "";
 
     // Validate each field
     const name = document.getElementById("name").value.trim();
     const expireOn = document.getElementById("expireOn").value;
     const offerPrice = document.getElementById("offerPrice").value;
     const minimumPrice = document.getElementById("minimumPrice").value;
+    const maximumPrice = document.getElementById("maximumPrice").value;
     const code = document.getElementById("code").value.trim();
     const couponImage = document.getElementById("couponImage").files[0];
 
@@ -181,6 +190,11 @@
     if (!minimumPrice || minimumPrice <= 0) {
       document.getElementById("minimumPriceError").textContent =
         "Minimum price must be a positive number.";
+      isValid = false;
+    }
+
+    if (!maximumPrice || maximumPrice <= 0) {
+      document.getElementById("maximumPriceError").textContent = "Maximum price must be a positive number.";
       isValid = false;
     }
 
@@ -215,6 +229,7 @@
       }
 
       const formData = new FormData(this); // Create form data object
+      formData.append("maximumPrice", document.getElementById("maximumPrice").value);
 
       try {
         const response = await fetch("/admin/addCoupon", {
