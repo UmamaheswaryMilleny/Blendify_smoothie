@@ -2,7 +2,7 @@
 <style>
       body{
 
-background: url("/images/userImg/home/img2_1.png") no-repeat center
+background: url("/images/userImg/home/img2_1.jpg") no-repeat center
         center fixed;
       background-size: cover;
       color: #fff;
@@ -152,11 +152,11 @@ background: url("/images/userImg/home/img2_1.png") no-repeat center
                                 <% if (order.status === 'Canceled') { %>
                                     <button class="btn btn-secondary" disabled>Canceled</button>
                                 <% } else if (order.status == 'Pending') { %>
-                                    <button id="retry-payment-btn" data-order-id="<%= order.orderId %>">
+                                    <button id="retry-payment-btn" data-order-id="<%= order._id %>">
                                         Retry Payment
                                     </button>
                                 <% } else if (order.status == 'Delivered') { %>
-                                    <button id="requestReturn" class="request-return-btn" data-order-id="<%= order.orderId %>">
+                                    <button id="requestReturn" class="request-return-btn" data-order-id="<%= order._id %>">
                                         Request Return
                                     </button>
                                 <% } else if (order.status == 'Return Request') { %>
@@ -512,7 +512,4 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
-
-
-
 </script>

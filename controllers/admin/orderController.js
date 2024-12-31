@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Order = require('../../models/orderSchema');
 const Product = require('../../models/productSchema');
 const Address = require('../../models/addressSchema');
@@ -72,12 +73,19 @@ const acceptReturnRequest = async (req, res) => {
   try {
     const { orderId } = req.params;
 
+    if (!mongoose.Types.ObjectId.isValid(orderId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid order ID.',
+      });
+    }
+
     const order = await Order.findById(orderId);
     if (!order) {
-      console.error(`Order not found: ${orderId}`);
-      return res
-        .status(404)
-        .json({ success: false, message: 'Order not found' });
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found.',
+      });
     }
 
     order.status = 'Return Accepted';

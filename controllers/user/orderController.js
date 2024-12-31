@@ -209,6 +209,13 @@ const returnOrder = async (req, res) => {
       });
     }
 
+    if (!mongoose.Types.ObjectId.isValid(orderId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid order ID.',
+      });
+    }
+
     const order = await Order.findById(orderId);
     if (!order) {
       return res
@@ -226,6 +233,8 @@ const returnOrder = async (req, res) => {
     });
   } catch (error) {
     console.error('Error requesting return order:', error);
+    console.error('Request body:', req.body);
+    console.error('Request params:', req.params);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
