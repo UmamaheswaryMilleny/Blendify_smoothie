@@ -16,7 +16,10 @@
     if (toast && toast._element !== null) {
       if (toastPlacementExample) {
         toastPlacementExample.classList.remove(selectedType);
-        DOMTokenList.prototype.remove.apply(toastPlacementExample.classList, selectedPlacement);
+        DOMTokenList.prototype.remove.apply(
+          toastPlacementExample.classList,
+          selectedPlacement,
+        );
       }
       toast.dispose();
     }
@@ -28,10 +31,15 @@
         toastDispose(toastPlacement);
       }
       selectedType = document.querySelector('#selectTypeOpt').value;
-      selectedPlacement = document.querySelector('#selectPlacement').value.split(' ');
+      selectedPlacement = document
+        .querySelector('#selectPlacement')
+        .value.split(' ');
 
       toastPlacementExample.classList.add(selectedType);
-      DOMTokenList.prototype.add.apply(toastPlacementExample.classList, selectedPlacement);
+      DOMTokenList.prototype.add.apply(
+        toastPlacementExample.classList,
+        selectedPlacement,
+      );
       toastPlacement = new bootstrap.Toast(toastPlacementExample);
       toastPlacement.show();
     };

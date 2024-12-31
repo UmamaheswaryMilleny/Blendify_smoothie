@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // --------------------------------------------------------------------
     if (verticalExample) {
       new PerfectScrollbar(verticalExample, {
-        wheelPropagation: false
+        wheelPropagation: false,
       });
     }
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (horizontalExample) {
       new PerfectScrollbar(horizontalExample, {
         wheelPropagation: false,
-        suppressScrollY: true
+        suppressScrollY: true,
       });
     }
 
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // --------------------------------------------------------------------
     if (horizVertExample) {
       new PerfectScrollbar(horizVertExample, {
-        wheelPropagation: false
+        wheelPropagation: false,
       });
     }
   })();

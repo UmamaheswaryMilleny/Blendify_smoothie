@@ -41,7 +41,7 @@
   width: 1.125em;
   height: 0.875em;
   display: block;
-  content: "";
+  content: '';
   position: absolute;
 }
 .slicknav_menu .slicknav_no-text {
@@ -60,7 +60,7 @@
 }
 .slicknav_menu:after,
 .slicknav_menu:before {
-  content: " ";
+  content: ' ';
   display: table;
 }
 .slicknav_menu:after {

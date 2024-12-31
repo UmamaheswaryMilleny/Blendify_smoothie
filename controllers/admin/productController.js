@@ -1,19 +1,19 @@
-const Product = require("../../models/productSchema");
-const Category = require("../../models/categorySchema");
-const User = require("../../models/userSchema");
-const fs = require("fs");
-const path = require("path");
-const sharp = require("sharp");
-const { error } = require("console");
+const Product = require('../../models/productSchema');
+const Category = require('../../models/categorySchema');
+const User = require('../../models/userSchema');
+const fs = require('fs');
+const path = require('path');
+const sharp = require('sharp');
+const { error } = require('console');
 
 const getProductAddPage = async (req, res) => {
   try {
     const category = await Category.find({ isListed: true });
-    res.render("product-add", {
+    res.render('product-add', {
       cat: category,
     });
   } catch (error) {
-    res.redirect("/pageerror");
+    res.redirect('/pageerror');
   }
 };
 
@@ -21,7 +21,7 @@ const addProducts = async (req, res) => {
   try {
     const products = req.body;
     const productExists = await Product.findOne({
-      productName: { $regex: new RegExp(`^${products.productName}$`, "i") },
+      productName: { $regex: new RegExp(`^${products.productName}$`, 'i') },
     });
 
     if (!productExists) {
@@ -32,10 +32,10 @@ const addProducts = async (req, res) => {
           const originalImagePath = req.files[i].path;
 
           const resizedImagePath = path.join(
-            "public",
-            "uploads",
-            "product-images",
-            req.files[i].filename
+            'public',
+            'uploads',
+            'product-images',
+            req.files[i].filename,
           );
           await sharp(originalImagePath)
             .resize({ width: 440, height: 440 })
@@ -47,7 +47,7 @@ const addProducts = async (req, res) => {
       const categoryId = await Category.findById(products.category);
 
       if (!categoryId) {
-        return res.status(400).json({ error: "Invalid Category Name" });
+        return res.status(400).json({ error: 'Invalid Category Name' });
       }
 
       let sizes = [];
@@ -75,58 +75,58 @@ const addProducts = async (req, res) => {
         sizes: sizes,
         quantity: totalQuantity,
         productImage: images,
-        status: "Available",
+        status: 'Available',
       });
 
       await newProduct.save();
-      return res.redirect("/admin/addProducts");
+      return res.redirect('/admin/addProducts');
     } else {
       return res.status(400).json({
-        error: "Product already exists, please try with another name",
+        error: 'Product already exists, please try with another name',
       });
     }
   } catch (error) {
-    console.error("Error adding product", error);
-    res.redirect("/admin/pageerror");
+    console.error('Error adding product', error);
+    res.redirect('/admin/pageerror');
   }
 };
 
 const getAllProducts = async (req, res) => {
   try {
-    const search = req.query.search || "";
+    const search = req.query.search || '';
     const page = req.query.page || 1;
     const limit = 10;
 
     const productData = await Product.find({
-      $or: [{ productName: { $regex: new RegExp(".*" + search + ".*", "i") } }],
+      $or: [{ productName: { $regex: new RegExp('.*' + search + '.*', 'i') } }],
     })
       .sort({ createdAt: -1 }) // Ensure products are sorted by creation date in descending order
       .limit(limit * 1)
       .skip((page - 1) * limit)
-      .populate("category")
+      .populate('category')
       .exec();
 
     const count = await Product.find({
-      $or: [{ productName: { $regex: new RegExp(".*" + search + ".*", "i") } }],
+      $or: [{ productName: { $regex: new RegExp('.*' + search + '.*', 'i') } }],
     }).countDocuments();
-    console.log("productdat", productData);
+    console.log('productdat', productData);
 
     const category = await Category.find({ isListed: true });
     console.log(productData);
 
     if (category) {
-      res.render("products", {
+      res.render('products', {
         data: productData,
         currentPage: page,
         totalPages: Math.ceil(count / limit),
         cat: category,
       });
     } else {
-      res.render("pageerror");
+      res.render('pageerror');
     }
   } catch (error) {
-    res.redirect("/admin/pageerror");
-    console.error("Error getting all products");
+    res.redirect('/admin/pageerror');
+    console.error('Error getting all products');
   }
 };
 
@@ -139,21 +139,21 @@ const addProductOffer = async (req, res) => {
     if (findCategory.categoryOffer > percentage) {
       return res.json({
         status: false,
-        message: "This products category already has a category offer",
+        message: 'This products category already has a category offer',
       });
     }
 
     if (isNaN(percentage)) {
       return res.json({
         status: false,
-        message: "The offer percentage should be a positive number below 100",
+        message: 'The offer percentage should be a positive number below 100',
       });
     }
 
     if (percentage > 100 || percentage < 1) {
       return res.json({
         status: false,
-        message: "The offer percentage should be a positive number below 100",
+        message: 'The offer percentage should be a positive number below 100',
       });
     }
 
@@ -167,8 +167,8 @@ const addProductOffer = async (req, res) => {
 
     res.json({ status: true });
   } catch (error) {
-    res.redirect("/admin/pageerror");
-    res.status(500).json({ status: false, message: "Internal server error" });
+    res.redirect('/admin/pageerror');
+    res.status(500).json({ status: false, message: 'Internal server error' });
   }
 };
 
@@ -185,7 +185,7 @@ const removeProductOffer = async (req, res) => {
 
     res.json({ status: true });
   } catch (error) {
-    res.redirect("/admin/pageerror");
+    res.redirect('/admin/pageerror');
   }
 };
 
@@ -193,9 +193,9 @@ const blockProduct = async (req, res) => {
   try {
     const id = req.query.id;
     await Product.updateOne({ _id: id }, { $set: { isBlocked: true } });
-    res.redirect("/admin/products");
+    res.redirect('/admin/products');
   } catch (error) {
-    res.redirect("/admin/pageerror");
+    res.redirect('/admin/pageerror');
   }
 };
 
@@ -203,9 +203,9 @@ const unblockProduct = async (req, res) => {
   try {
     const id = req.query.id;
     await Product.updateOne({ _id: id }, { $set: { isBlocked: false } });
-    res.redirect("/admin/products");
+    res.redirect('/admin/products');
   } catch (error) {
-    res.redirect("/admin/pageerror");
+    res.redirect('/admin/pageerror');
   }
 };
 
@@ -215,12 +215,12 @@ const getEditProduct = async (req, res) => {
     const product = await Product.findOne({ _id: id });
     const category = await Category.find({});
 
-    res.render("edit-product", {
+    res.render('edit-product', {
       product: product,
       cat: category,
     });
   } catch (error) {
-    res.redirect("/admin/pageerror");
+    res.redirect('/admin/pageerror');
   }
 };
 
@@ -236,7 +236,7 @@ const editProduct = async (req, res) => {
     if (existingProduct) {
       return res.status(400).json({
         error:
-          "Product with this name already exists, please try with another name",
+          'Product with this name already exists, please try with another name',
       });
     }
 
@@ -275,14 +275,14 @@ const editProduct = async (req, res) => {
     });
 
     if (updatedProduct) {
-      console.log("Product updated successfully");
-      return res.redirect("/admin/products");
+      console.log('Product updated successfully');
+      return res.redirect('/admin/products');
     } else {
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ error: 'Product not found' });
     }
   } catch (error) {
-    console.error("Error updating product", error);
-    res.redirect("/admin/pageerror");
+    console.error('Error updating product', error);
+    res.redirect('/admin/pageerror');
   }
 };
 
@@ -293,10 +293,10 @@ const deleteSingleImage = async (req, res) => {
       $pull: { productImage: imageNameToServer },
     });
     const imagePath = path.join(
-      "public",
-      "uploads",
-      "product-images",
-      imageNameToServer
+      'public',
+      'uploads',
+      'product-images',
+      imageNameToServer,
     );
     if (fs.existsSync(imagePath)) {
       await fs.unlinkSync(imagePath);
@@ -306,7 +306,7 @@ const deleteSingleImage = async (req, res) => {
     }
     res.send({ status: true });
   } catch (error) {
-    res.redirect("pageerror");
+    res.redirect('pageerror');
   }
 };
 

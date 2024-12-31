@@ -14,7 +14,7 @@ let menu, animate;
   layoutMenuEl.forEach(function (element) {
     menu = new Menu(element, {
       orientation: 'vertical',
-      closeChildren: false
+      closeChildren: false,
     });
     // Change parameter to true if you want scroll animation
     window.Helpers.scrollToActive((animate = false));
@@ -23,8 +23,8 @@ let menu, animate;
 
   // Initialize menu togglers and bind click on each
   let menuToggler = document.querySelectorAll('.layout-menu-toggle');
-  menuToggler.forEach(item => {
-    item.addEventListener('click', event => {
+  menuToggler.forEach((item) => {
+    item.addEventListener('click', (event) => {
       event.preventDefault();
       window.Helpers.toggleCollapsed();
     });
@@ -74,7 +74,9 @@ let menu, animate;
   // --------------------
 
   // Init BS Tooltip
-  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  const tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]'),
+  );
   tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
@@ -88,10 +90,18 @@ let menu, animate;
     }
   };
 
-  const accordionTriggerList = [].slice.call(document.querySelectorAll('.accordion'));
+  const accordionTriggerList = [].slice.call(
+    document.querySelectorAll('.accordion'),
+  );
   const accordionList = accordionTriggerList.map(function (accordionTriggerEl) {
-    accordionTriggerEl.addEventListener('show.bs.collapse', accordionActiveFunction);
-    accordionTriggerEl.addEventListener('hide.bs.collapse', accordionActiveFunction);
+    accordionTriggerEl.addEventListener(
+      'show.bs.collapse',
+      accordionActiveFunction,
+    );
+    accordionTriggerEl.addEventListener(
+      'hide.bs.collapse',
+      accordionActiveFunction,
+    );
   });
 
   // Auto update layout based on screen size

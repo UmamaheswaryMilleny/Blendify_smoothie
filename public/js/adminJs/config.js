@@ -22,6 +22,6 @@ let config = {
     body: '#f4f5fb',
     headingColor: '#566a7f',
     axisColor: '#a1acb8',
-    borderColor: '#eceef1'
-  }
+    borderColor: '#eceef1',
+  },
 };

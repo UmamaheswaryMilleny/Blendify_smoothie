@@ -14,7 +14,9 @@
 
   // Function to get and auto play youTube video
   const autoPlayYouTubeModal = function () {
-    const modalTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="modal"]'));
+    const modalTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="modal"]'),
+    );
     modalTriggerList.map(function (modalTriggerEl) {
       modalTriggerEl.onclick = function () {
         const theModal = this.getAttribute('data-bs-target'),

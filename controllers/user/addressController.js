@@ -1,5 +1,5 @@
-const User = require("../../models/userSchema");
-const Address = require("../../models/addressSchema");
+const User = require('../../models/userSchema');
+const Address = require('../../models/addressSchema');
 
 const getManageAddresses = async (req, res) => {
   try {
@@ -8,20 +8,20 @@ const getManageAddresses = async (req, res) => {
     const userData = await User.findById(userId);
 
     if (!addressDoc || addressDoc.address.length === 0) {
-      return res.render("manage-addresses", {
-        message: "No addresses added. Add a new address to get started!",
+      return res.render('manage-addresses', {
+        message: 'No addresses added. Add a new address to get started!',
         addresses: [],
         user: userData,
       });
     }
 
-    res.render("manage-addresses", {
+    res.render('manage-addresses', {
       addresses: addressDoc.address,
       user: userData,
       message: null,
     });
   } catch (error) {
-    res.redirect("/pageNotFound");
+    res.redirect('/pageNotFound');
     console.error(error);
   }
 };
@@ -29,12 +29,12 @@ const getManageAddresses = async (req, res) => {
 const getAddAddress = async (req, res) => {
   try {
     const userData = await User.findById(req.session.user);
-    res.render("add-address", {
+    res.render('add-address', {
       user: userData,
     });
   } catch (error) {
     console.error(error);
-    res.redirect("/pageNotFound");
+    res.redirect('/pageNotFound');
   }
 };
 
@@ -65,12 +65,12 @@ const addAddress = async (req, res) => {
     ) {
       return res
         .status(400)
-        .json({ message: "All required fields must be provided." });
+        .json({ message: 'All required fields must be provided.' });
     }
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found." });
+      return res.status(404).json({ message: 'User not found.' });
     }
 
     const newAddress = {
@@ -81,8 +81,8 @@ const addAddress = async (req, res) => {
       state,
       pincode,
       phone: mobile,
-      altPhone: altPhone || "",
-      addressType: addressType || "home",
+      altPhone: altPhone || '',
+      addressType: addressType || 'home',
     };
 
     const addressDoc = await Address.findOne({ userId });
@@ -96,13 +96,12 @@ const addAddress = async (req, res) => {
       });
     }
 
-    res.redirect("/manage-addresses");
+    res.redirect('/manage-addresses');
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server error" });
+    res.status(500).json({ message: 'Internal Server error' });
   }
 };
-
 
 const getEditAddress = async (req, res) => {
   try {
@@ -112,19 +111,19 @@ const getEditAddress = async (req, res) => {
     const userAddressData = await Address.findOne({ userId: userId });
 
     if (!userAddressData) {
-      return res.status(404).json({ message: "User addresses not found" });
+      return res.status(404).json({ message: 'User addresses not found' });
     }
 
     const address = userAddressData.address.id(addressId);
 
     if (!address) {
-      return res.status(404).json({ message: "Address not found" });
+      return res.status(404).json({ message: 'Address not found' });
     }
 
-    res.render("edit-address", { address });
+    res.render('edit-address', { address });
   } catch (error) {
-    console.error("Error editing address:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error('Error editing address:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
@@ -133,19 +132,18 @@ const editAddress = async (req, res) => {
     const { addressId } = req.params;
     const { name, houseName, street, city, state, pincode, phone, altPhone } =
       req.body;
-    const userId = req.session.user; 
+    const userId = req.session.user;
 
     const userAddressData = await Address.findOne({ userId: userId });
 
     if (!userAddressData) {
-      return res.status(404).json({ message: "User addresses not found" });
+      return res.status(404).json({ message: 'User addresses not found' });
     }
-
 
     const address = userAddressData.address.id(addressId);
 
     if (!address) {
-      return res.status(404).json({ message: "Address not found" });
+      return res.status(404).json({ message: 'Address not found' });
     }
 
     address.name = name;
@@ -159,10 +157,10 @@ const editAddress = async (req, res) => {
 
     await userAddressData.save();
 
-    res.redirect("/manage-addresses");
+    res.redirect('/manage-addresses');
   } catch (error) {
-    console.error("Error updating address:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error('Error updating address:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
@@ -175,25 +173,25 @@ const deleteAddress = async (req, res) => {
     if (!addressDoc) {
       return res
         .status(404)
-        .json({ message: "Address document not found for the user." });
+        .json({ message: 'Address document not found for the user.' });
     }
 
     const updatedAddresses = addressDoc.address.filter(
-      (addr) => addr._id.toString() !== addressId
+      (addr) => addr._id.toString() !== addressId,
     );
 
     if (updatedAddresses.length === addressDoc.address.length) {
-      return res.status(404).json({ message: "Address not found." });
+      return res.status(404).json({ message: 'Address not found.' });
     }
 
     addressDoc.address = updatedAddresses;
 
     await addressDoc.save();
 
-    res.status(200).json({ message: "Address deleted successfully." });
+    res.status(200).json({ message: 'Address deleted successfully.' });
   } catch (error) {
-    console.error("Error deleting address:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error('Error deleting address:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

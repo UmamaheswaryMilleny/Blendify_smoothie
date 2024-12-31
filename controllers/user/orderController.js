@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
-const User = require("../../models/userSchema");
-const Order = require("../../models/orderSchema");
-const Product = require("../../models/productSchema");
-const Address = require("../../models/addressSchema");
-const Wallet = require("../../models/walletSchema");
+const mongoose = require('mongoose');
+const User = require('../../models/userSchema');
+const Order = require('../../models/orderSchema');
+const Product = require('../../models/productSchema');
+const Address = require('../../models/addressSchema');
+const Wallet = require('../../models/walletSchema');
 
 const getMyOrders = async (req, res) => {
   try {
@@ -13,7 +13,7 @@ const getMyOrders = async (req, res) => {
     const orders = await Order.find({ user: userId }).lean();
 
     if (orders.length < 1) {
-      return res.render("my-orders", { orders: [] });
+      return res.render('my-orders', { orders: [] });
     }
 
     const userAddressData = await Address.findOne({ userId }).lean();
@@ -35,7 +35,7 @@ const getMyOrders = async (req, res) => {
           order.orderedItems.map(async (item) => {
             const product = await Product.findById(item.productId).lean();
             return { ...item, productDetails: product || null };
-          })
+          }),
         );
 
         order.orderedItems = enrichedItems;
@@ -44,24 +44,24 @@ const getMyOrders = async (req, res) => {
         order.deliveryCharge = deliveryCharge;
 
         // Add retry payment button logic
-        if (order.paymentStatus === "Failed") {
+        if (order.paymentStatus === 'Failed') {
           order.retryPayment = true;
         } else {
           order.retryPayment = false;
         }
 
         return order;
-      })
+      }),
     );
     enrichedOrders.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
-    res.render("my-orders", { orders: enrichedOrders, user: userData });
+    res.render('my-orders', { orders: enrichedOrders, user: userData });
   } catch (error) {
-    console.error("Error fetching orders:", error);
+    console.error('Error fetching orders:', error);
     res
       .status(500)
-      .send("An error occurred while fetching orders. Please try again later.");
+      .send('An error occurred while fetching orders. Please try again later.');
   }
 };
 
@@ -72,15 +72,19 @@ const cancelOrder = async (req, res) => {
     if (!reason) {
       return res.status(400).json({
         success: false,
-        message: "Cancellation reason is required.",
+        message: 'Cancellation reason is required.',
       });
     }
-    const order = await Order.findById(orderId).populate("orderedItems.product");
+    const order = await Order.findById(orderId).populate(
+      'orderedItems.product',
+    );
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Order not found' });
     }
 
-    if (order.status === "Pending" || order.status === "Placed") {
+    if (order.status === 'Pending' || order.status === 'Placed') {
       for (const item of order.orderedItems) {
         const product = await Product.findById(item.product._id);
         if (product) {
@@ -92,7 +96,7 @@ const cancelOrder = async (req, res) => {
         }
       }
 
-      if (order.paymentMethod !== "Cash on Delivery") {
+      if (order.paymentMethod !== 'Cash on Delivery') {
         const userId = order.user;
         const refundAmount = order.finalAmount;
 
@@ -108,7 +112,8 @@ const cancelOrder = async (req, res) => {
 
         // Check if a refund transaction for this order already exists
         const existingTransaction = wallet.transactions.find(
-          (transaction) => transaction.description === `Refund for canceled order ${orderId}`
+          (transaction) =>
+            transaction.description === `Refund for canceled order ${orderId}`,
         );
 
         if (!existingTransaction) {
@@ -117,34 +122,38 @@ const cancelOrder = async (req, res) => {
           wallet.transactions.push({
             transaction_id: transactionId,
             amount: refundAmount,
-            type: "credit",
+            type: 'credit',
             date: new Date(),
             description: `Refund for canceled order`,
           });
           await wallet.save();
-          console.log("Order cancellation processed successfully and wallet updated");
+          console.log(
+            'Order cancellation processed successfully and wallet updated',
+          );
         } else {
-          console.log("Refund for this order has already been processed");
+          console.log('Refund for this order has already been processed');
         }
       } else {
-        console.log("Order cancellation does not require refund to wallet as it was Cash on Delivery");
+        console.log(
+          'Order cancellation does not require refund to wallet as it was Cash on Delivery',
+        );
       }
 
       // Update order status to "Canceled" and save the cancellation reason
-      order.status = "Canceled";
+      order.status = 'Canceled';
       order.cancellationReason = reason;
       await order.save();
 
       return res.json({
         success: true,
-        message: "Order canceled successfully",
+        message: 'Order canceled successfully',
       });
     } else {
-      return res.json({ success: false, message: "Order cannot be canceled" });
+      return res.json({ success: false, message: 'Order cannot be canceled' });
     }
   } catch (error) {
-    console.error("Error canceling order:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error('Error canceling order:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
@@ -157,23 +166,23 @@ const getOrderDetails = async (req, res) => {
     console.log(orderId);
 
     if (!order) {
-      return res.redirect("/pageNotFound");
+      return res.redirect('/pageNotFound');
     }
 
     const addressDoc = await Address.findOne({ userId: userId });
     console.log(addressDoc);
 
     if (!addressDoc) {
-      return res.redirect("/pageNotFound");
+      return res.redirect('/pageNotFound');
     }
 
     const addressIdToCheck = order.address;
     const specificAddress = addressDoc.address.find((addr) =>
-      addr._id.equals(addressIdToCheck)
+      addr._id.equals(addressIdToCheck),
     );
     const deliveryCharge = order.deliveryCharge || 50;
     const totalAmountWithDelivery = order.finalAmount + deliveryCharge;
-    res.render("order-details", {
+    res.render('order-details', {
       order,
       user: userData,
       orderedItems: order.orderedItems || [],
@@ -184,7 +193,7 @@ const getOrderDetails = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.redirect("/pageNotFound");
+    res.redirect('/pageNotFound');
   }
 };
 
@@ -196,26 +205,28 @@ const returnOrder = async (req, res) => {
     if (!reason) {
       return res.status(400).json({
         success: false,
-        message: "Return reason is required.",
+        message: 'Return reason is required.',
       });
     }
 
     const order = await Order.findById(orderId);
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Order not found' });
     }
 
-    order.status = "Return Request";
+    order.status = 'Return Request';
     order.returnReason = reason;
     await order.save();
 
     return res.status(200).json({
       success: true,
-      message: "Return requested successfully",
+      message: 'Return requested successfully',
     });
   } catch (error) {
-    console.error("Error requesting return order:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error('Error requesting return order:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 

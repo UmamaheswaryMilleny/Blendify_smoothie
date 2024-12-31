@@ -33,7 +33,7 @@
 html,
 body {
   height: 100%;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -46,7 +46,7 @@ h6 {
   margin: 0;
   color: #111111;
   font-weight: 400;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
 }
 
 h1 {
@@ -75,7 +75,7 @@ h6 {
 
 p {
   font-size: 15px;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
   color: #3d3d3d;
   font-weight: 400;
   line-height: 25px;
@@ -500,7 +500,7 @@ ol {
   width: 100%;
   height: 2px;
   background: #e53637;
-  content: "";
+  content: '';
   -webkit-transition: all, 0.5s;
   -o-transition: all, 0.5s;
   transition: all, 0.5s;
@@ -744,7 +744,7 @@ ol {
   width: 100%;
   height: 2px;
   background: #111111;
-  content: "";
+  content: '';
   -webkit-transition: all, 0.3s;
   -o-transition: all, 0.3s;
   transition: all, 0.3s;
@@ -775,7 +775,7 @@ ol {
   width: 600px;
   background: #ffffff;
   z-index: -1;
-  content: "";
+  content: '';
 }
 
 .categories__text h2 {
@@ -860,7 +860,7 @@ ol {
   position: absolute;
   right: 0;
   top: 7px;
-  content: ":";
+  content: ':';
   font-size: 24px;
   font-weight: 700;
   color: #3d3d3d;
@@ -1050,7 +1050,7 @@ ol {
   height: 15px;
   width: 15px;
   background: #111111;
-  content: "";
+  content: '';
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -1148,7 +1148,7 @@ ol {
   height: 18px;
   width: 18px;
   border: 1px solid #b9b9b9;
-  content: "";
+  content: '';
   border-radius: 50%;
   opacity: 0;
 }
@@ -1372,7 +1372,7 @@ ol {
   height: 36px;
   width: 36px;
   border: 1px solid #e5e5e5;
-  content: "";
+  content: '';
   border-radius: 50%;
 }
 
@@ -1408,9 +1408,9 @@ ol {
 .shop__sidebar__accordion .card-heading a:after,
 .shop__sidebar__accordion
   .card-heading
-  > a.active[aria-expanded="false"]:after {
-  content: "";
-  font-family: "FontAwesome";
+  > a.active[aria-expanded='false']:after {
+  content: '';
+  font-family: 'FontAwesome';
   font-size: 24px;
   font-weight: 700;
   color: #111111;
@@ -1421,8 +1421,8 @@ ol {
 }
 
 .shop__sidebar__accordion .card-heading.active a:after {
-  content: "";
-  font-family: "FontAwesome";
+  content: '';
+  font-family: 'FontAwesome';
   font-size: 24px;
   font-weight: 700;
   color: #111111;
@@ -1590,8 +1590,8 @@ ol {
   position: absolute;
   right: -14px;
   top: 0;
-  content: "";
-  font-family: "FontAwesome";
+  content: '';
+  font-family: 'FontAwesome';
 }
 
 .product__details__breadcrumb span {
@@ -1757,7 +1757,7 @@ ol {
   height: 36px;
   width: 36px;
   border: 1px solid #e5e5e5;
-  content: "";
+  content: '';
   border-radius: 50%;
 }
 
@@ -1847,7 +1847,7 @@ ol {
   height: 1px;
   width: 460px;
   background: #e5e5e5;
-  content: "";
+  content: '';
   z-index: -1;
   margin: 0 auto;
 }
@@ -2093,7 +2093,7 @@ ol {
   position: absolute;
   right: -14px;
   top: 0;
-  content: "\003e"; /* Unicode for greater-than sign */
+  content: '\003e'; /* Unicode for greater-than sign */
   font-family: inherit; /* Remove FontAwesome if not needed */
 }
 
@@ -2672,7 +2672,7 @@ ol {
   height: 14px;
   width: 14px;
   border: 1.5px solid #d7d7d7;
-  content: "";
+  content: '';
   border-radius: 2px;
 }
 
@@ -2687,7 +2687,7 @@ ol {
   -webkit-transform: rotate(127deg);
   -ms-transform: rotate(127deg);
   transform: rotate(127deg);
-  content: "";
+  content: '';
   opacity: 0;
 }
 
@@ -2853,7 +2853,7 @@ ol {
   width: 100%;
   height: 2px;
   background: #111111;
-  content: "";
+  content: '';
   -webkit-transition: all, 0.3s;
   -o-transition: all, 0.3s;
   transition: all, 0.3s;
@@ -2922,7 +2922,7 @@ ol {
   height: 5px;
   width: 70px;
   background: #e1e1e1;
-  content: "";
+  content: '';
   margin: 0 auto;
 }
 
@@ -3001,7 +3001,7 @@ ol {
   position: absolute;
   right: -25px;
   top: 0;
-  content: "|";
+  content: '|';
 }
 
 .blog__hero__text ul li:last-child {
@@ -3537,7 +3537,7 @@ ol {
     height: 100%;
     width: 100%;
     background: rgba(0, 0, 0, 0.7);
-    content: "";
+    content: '';
     z-index: 98;
     -webkit-transition: all, 0.5s;
     -o-transition: all, 0.5s;

@@ -1,69 +1,76 @@
-const mongoose = require("mongoose")
-const {Schema} = mongoose
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const userSchema = new Schema({
-    name:{
-        type:String,
-        required:true
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    email:{
-        type:String,
-        required:true,
-        sparse:true,
-        unique:true
+    email: {
+      type: String,
+      required: true,
+      sparse: true,
+      unique: true,
     },
-    phone:{
-        type:String,
-        required:false,
-        unique:false,
-        sparse:true,
-        default:null
+    phone: {
+      type: String,
+      required: false,
+      unique: false,
+      sparse: true,
+      default: null,
     },
     googleId: {
-        type:String,
-        unique:true,
-        required: false,
-        sparse:true,
+      type: String,
+      unique: true,
+      required: false,
+      sparse: true,
     },
-    password:{
-        type:String,
-        required:false
+    password: {
+      type: String,
+      required: false,
     },
-    isBlocked:{
-        type:Boolean,
-        default:false
+    isBlocked: {
+      type: Boolean,
+      default: false,
     },
-    isAdmin:{
-        type:Boolean,
-        default:false
+    isAdmin: {
+      type: Boolean,
+      default: false,
     },
-    cart:[{
-        type:Schema.Types.ObjectId,
-        ref:"Cart"
-    }],
-    wallet:{
-        type:Number,
-        default:0,
+    cart: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Cart',
+      },
+    ],
+    wallet: {
+      type: Number,
+      default: 0,
     },
-    wishlist:[{
-        type:Schema.Types.ObjectId,
-        ref:"Wishlist"
-    }],
-    orderHistory:[{
-        type:Schema.Types.ObjectId,
-        ref:"Order"
-    }],
-    createdOn:{
-        type:Date,
-        default:Date.now
+    wishlist: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Wishlist',
+      },
+    ],
+    orderHistory: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
+      },
+    ],
+    createdOn: {
+      type: Date,
+      default: Date.now,
     },
-    referalCode:{
-        type:String
+    referalCode: {
+      type: String,
     },
+  },
+  { timestamps: true },
+);
 
-},{ timestamps: true })
-
-
-const User = mongoose.model("User",userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

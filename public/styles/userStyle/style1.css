@@ -1,10 +1,10 @@
 @font-face {
-  font-family: "Poppins-Regular";
-  src: url("../fonts/poppins/Poppins-Regular.ttf");
+  font-family: 'Poppins-Regular';
+  src: url('../fonts/poppins/Poppins-Regular.ttf');
 }
 @font-face {
-  font-family: "Poppins-SemiBold";
-  src: url("../fonts/poppins/Poppins-SemiBold.ttf");
+  font-family: 'Poppins-SemiBold';
+  src: url('../fonts/poppins/Poppins-SemiBold.ttf');
 }
 * {
   -webkit-box-sizing: border-box;
@@ -13,7 +13,7 @@
 }
 
 body {
-  font-family: "Poppins-Regular";
+  font-family: 'Poppins-Regular';
   color: #333;
   font-size: 13px;
   margin: 0;
@@ -26,13 +26,13 @@ body {
 }
 
 .wrapper::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/images/userImg/home/img2.jpg"); /* Use the same image */
+  background-image: url('/images/userImg/home/img2.jpg'); /* Use the same image */
   background-size: cover;
   background-position: center;
   filter: blur(3px); /* Apply the blur effect */
@@ -42,7 +42,7 @@ input,
 textarea,
 select,
 button {
-  font-family: "Poppins-Regular";
+  font-family: 'Poppins-Regular';
   color: #333;
   font-size: 13px;
 }
@@ -102,7 +102,7 @@ a:hover {
 .inner h3 {
   text-transform: uppercase;
   font-size: 25px;
-  font-family: "Poppins-SemiBold";
+  font-family: 'Poppins-SemiBold';
   text-align: center;
   color: rgba(139, 0, 0);
   margin-bottom: 28px;
@@ -135,22 +135,22 @@ a:hover {
 .form-control::-webkit-input-placeholder {
   font-size: 13px;
   color: #333;
-  font-family: "Poppins-Regular";
+  font-family: 'Poppins-Regular';
 }
 .form-control::-moz-placeholder {
   font-size: 13px;
   color: #333;
-  font-family: "Poppins-Regular";
+  font-family: 'Poppins-Regular';
 }
 .form-control:-ms-input-placeholder {
   font-size: 13px;
   color: #333;
-  font-family: "Poppins-Regular";
+  font-family: 'Poppins-Regular';
 }
 .form-control:-moz-placeholder {
   font-size: 13px;
   color: #333;
-  font-family: "Poppins-Regular";
+  font-family: 'Poppins-Regular';
 }
 
 select {
@@ -159,7 +159,7 @@ select {
   cursor: pointer;
   padding-left: 20px;
 }
-select option[value=""][disabled] {
+select option[value=''][disabled] {
   display: none;
 }
 .button {

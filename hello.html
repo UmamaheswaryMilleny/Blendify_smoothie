@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -157,29 +157,29 @@
       </div>
     </div>
     <script>
-      const nameid = document.getElementById("name");
-      const emailid = document.getElementById("email");
-      const phoneid = document.getElementById("phone");
-      const passid = document.getElementById("password");
-      const cpassid = document.getElementById("confirm-password");
-      const error1 = document.getElementById("error1");
-      const error2 = document.getElementById("error2");
-      const error3 = document.getElementById("error3");
-      const error4 = document.getElementById("error4");
-      const error5 = document.getElementById("error5");
-      const signform = document.getElementById("signform");
+      const nameid = document.getElementById('name');
+      const emailid = document.getElementById('email');
+      const phoneid = document.getElementById('phone');
+      const passid = document.getElementById('password');
+      const cpassid = document.getElementById('confirm-password');
+      const error1 = document.getElementById('error1');
+      const error2 = document.getElementById('error2');
+      const error3 = document.getElementById('error3');
+      const error4 = document.getElementById('error4');
+      const error5 = document.getElementById('error5');
+      const signform = document.getElementById('signform');
 
       function nameValidateChecking() {
         const nameval = nameid.value;
         const namepattern = /^[A-Za-z\s]+$/;
-        if (nameval.trim() === "") {
-          error1.style.display = "block";
-          error1.innerHTML = "Please enter a valid name";
+        if (nameval.trim() === '') {
+          error1.style.display = 'block';
+          error1.innerHTML = 'Please enter a valid name';
         } else if (!namepattern.test(nameval)) {
-          error1.style.display = "block";
-          error1.innerHTML = "Name can only contain letters and spaces";
+          error1.style.display = 'block';
+          error1.innerHTML = 'Name can only contain letters and spaces';
         } else {
-          error1.style.display = "none";
+          error1.style.display = 'none';
           // error1.innerHTML = "";
         }
       }
@@ -188,20 +188,20 @@
         const phoneval = phoneid.value.trim();
         const phonePattern = /^[0-9]+$/;
 
-        if (phoneval === "") {
-          error3.style.display = "block";
-          error3.innerHTML = "Enter a valid phone number";
+        if (phoneval === '') {
+          error3.style.display = 'block';
+          error3.innerHTML = 'Enter a valid phone number';
         } else if (!phonePattern.test(phoneval)) {
-          error3.style.display = "block";
-          error3.innerHTML = "Phone number can only contain digits";
+          error3.style.display = 'block';
+          error3.innerHTML = 'Phone number can only contain digits';
         } else if (phoneval.length !== 10) {
-          error3.style.display = "block";
-          error3.innerHTML = "Phone number must be 10 digits";
-        } else if (phoneval === "0000000000") {
-          error3.style.display = "block";
-          error3.innerHTML = "Phone number cannot be all zeros";
+          error3.style.display = 'block';
+          error3.innerHTML = 'Phone number must be 10 digits';
+        } else if (phoneval === '0000000000') {
+          error3.style.display = 'block';
+          error3.innerHTML = 'Phone number cannot be all zeros';
         } else {
-          error3.style.display = "none";
+          error3.style.display = 'none';
         }
       }
 
@@ -209,10 +209,10 @@
         const emailVal = emailid.value;
         const emailpattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!emailpattern.test(emailVal)) {
-          error2.style.display = "block";
-          error2.innerHTML = "Enter a valid email address";
+          error2.style.display = 'block';
+          error2.innerHTML = 'Enter a valid email address';
         } else {
-          error2.style.display = "none";
+          error2.style.display = 'none';
           // error2.innerHTML = "";
         }
       }
@@ -223,26 +223,26 @@
         const alpha = /[a-zA-Z]/;
         const digit = /\d/;
         if (passval.length < 8) {
-          error4.style.display = "block";
-          error4.innerHTML = "Password must be at least 8 characters";
+          error4.style.display = 'block';
+          error4.innerHTML = 'Password must be at least 8 characters';
         } else if (!alpha.test(passval) || !digit.test(passval)) {
-          error4.style.display = "block";
-          error4.innerHTML = "Password should contain both letters and numbers";
+          error4.style.display = 'block';
+          error4.innerHTML = 'Password should contain both letters and numbers';
         } else {
-          error4.style.display = "none";
-          error4.innerHTML = "";
+          error4.style.display = 'none';
+          error4.innerHTML = '';
         }
         if (passval !== cpassval) {
-          error5.style.display = "block";
-          error5.innerHTML = "Passwords do not match";
+          error5.style.display = 'block';
+          error5.innerHTML = 'Passwords do not match';
         } else {
-          error5.style.display = "none";
+          error5.style.display = 'none';
           // error5.innerHTML = "";
         }
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        signform.addEventListener("submit", function (e) {
+      document.addEventListener('DOMContentLoaded', function () {
+        signform.addEventListener('submit', function (e) {
           nameValidateChecking();
           emailValidateChecking();
           phoneValidateChecking();
@@ -259,17 +259,17 @@
         });
       });
 
-      nameid.addEventListener("input", nameValidateChecking);
-      emailid.addEventListener("input", emailValidateChecking);
-      phoneid.addEventListener("input", phoneValidateChecking);
-      passid.addEventListener("input", passValidateChecking);
-      cpassid.addEventListener("input", passValidateChecking);
+      nameid.addEventListener('input', nameValidateChecking);
+      emailid.addEventListener('input', emailValidateChecking);
+      phoneid.addEventListener('input', phoneValidateChecking);
+      passid.addEventListener('input', passValidateChecking);
+      cpassid.addEventListener('input', passValidateChecking);
     </script>
   </body>
 </html>
 
 <!-- verifyotp.ejs -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -305,7 +305,7 @@
       html {
         height: 100%;
         margin: 0;
-        font-family: "Nunito Sans", sans-serif;
+        font-family: 'Nunito Sans', sans-serif;
         overflow: hidden;
       }
       .container {
@@ -458,7 +458,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-      document.getElementById("otp").focus();
+      document.getElementById('otp').focus();
 
       let timer = 60;
       let timerInterval;
@@ -466,29 +466,29 @@
       function startTimer() {
         timerInterval = setInterval(() => {
           timer--;
-          document.getElementById("timerValue").textContent = timer;
+          document.getElementById('timerValue').textContent = timer;
           if (timer <= 0) {
             clearInterval(timerInterval);
-            document.getElementById("timerValue").classList.add("expired");
-            document.getElementById("timerValue").textContent = "Expired";
-            document.getElementById("otp").disabled = true;
-            document.getElementById("resendOtpBtn").disabled = false;
+            document.getElementById('timerValue').classList.add('expired');
+            document.getElementById('timerValue').textContent = 'Expired';
+            document.getElementById('otp').disabled = true;
+            document.getElementById('resendOtpBtn').disabled = false;
           }
         }, 1000);
       }
 
       function validateOTPForm() {
-        const otpInput = document.getElementById("otp").value;
+        const otpInput = document.getElementById('otp').value;
 
         $.ajax({
-          type: "POST",
-          url: "verify-otp",
+          type: 'POST',
+          url: 'verify-otp',
           data: { otp: otpInput },
           success: function (response) {
             if (response.success) {
               Swal.fire({
-                icon: "success",
-                title: "OTP Verifies Successfully",
+                icon: 'success',
+                title: 'OTP Verifies Successfully',
                 showConfirmButton: false,
                 timer: 1500,
               }).then(() => {
@@ -496,7 +496,7 @@
               });
             } else {
               Swal.fire({
-                icon: "error",
+                icon: 'error',
                 title: Error,
                 text: response.message,
               });
@@ -504,9 +504,9 @@
           },
           error: function () {
             Swal.fire({
-              icon: "error",
-              title: "Invalid OTP",
-              text: "Please try again",
+              icon: 'error',
+              title: 'Invalid OTP',
+              text: 'Please try again',
             });
           },
         });
@@ -517,28 +517,28 @@
       function resendOTP() {
         clearInterval(timerInterval);
         timer = 60;
-        document.getElementById("otp").disabled = false;
-        document.getElementById("timerValue").classList.remove("expiresd");
-        document.getElementById("timerValue").textContent = timer;
-        document.getElementById("resendOtpBtn").disabled = true;
+        document.getElementById('otp').disabled = false;
+        document.getElementById('timerValue').classList.remove('expiresd');
+        document.getElementById('timerValue').textContent = timer;
+        document.getElementById('resendOtpBtn').disabled = true;
         startTimer();
 
         $.ajax({
-          type: "POST",
-          url: "resend-otp",
+          type: 'POST',
+          url: 'resend-otp',
           success: function (response) {
             if (response.success) {
               Swal.fire({
-                icon: "success",
-                title: "OTP Resend Successfully",
+                icon: 'success',
+                title: 'OTP Resend Successfully',
                 showConfirmButton: false,
                 timer: 1500,
               });
             } else {
               Swal.fire({
-                icon: "erroR",
-                title: "Error",
-                text: "An error occured while resending OTP,Please try again",
+                icon: 'erroR',
+                title: 'Error',
+                text: 'An error occured while resending OTP,Please try again',
               });
             }
           },
@@ -552,7 +552,7 @@
 </html>
 
 <!-- login -->
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -678,11 +678,11 @@
       </div>
     </div>
     <script>
-      const emailid = document.getElementById("email");
-      const passid = document.getElementById("password");
-      const error1 = document.getElementById("error1");
-      const error2 = document.getElementById("error2");
-      const loginform = document.getElementById("loginform");
+      const emailid = document.getElementById('email');
+      const passid = document.getElementById('password');
+      const error1 = document.getElementById('error1');
+      const error2 = document.getElementById('error2');
+      const loginform = document.getElementById('loginform');
 
       function emailValidateChecking(e) {
         const emailval = emailid.value;
@@ -690,32 +690,32 @@
           /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,4})$/;
 
         if (!emailpattern.test(emailval)) {
-          error1.style.display = "block";
-          error1.innerHTML = "Invalid Format";
+          error1.style.display = 'block';
+          error1.innerHTML = 'Invalid Format';
         } else {
-          error1.style.display = "none";
-          error1.innerHTML = "";
+          error1.style.display = 'none';
+          error1.innerHTML = '';
         }
       }
 
       function passValidateChecking(e) {
         const passval = passid.value;
         if (passval.length < 8) {
-          error2.style.display = "block";
-          error2.innerHTML = "Should contain at least 8 characters";
+          error2.style.display = 'block';
+          error2.innerHTML = 'Should contain at least 8 characters';
         } else {
-          error2.style.display = "none";
-          error2.innerHTML = "";
+          error2.style.display = 'none';
+          error2.innerHTML = '';
         }
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        loginform.addEventListener("submit", function (e) {
+      document.addEventListener('DOMContentLoaded', function () {
+        loginform.addEventListener('submit', function (e) {
           emailValidateChecking();
           passValidateChecking();
 
           if (!emailid || !passid || !error1 || !error2 || !loginform) {
-            console.error("One or more elements not found");
+            console.error('One or more elements not found');
           }
 
           if (error1.innerHTML || error2.innerHTML) {
@@ -728,15 +728,15 @@
 
       function togglePassword() {
         // Get references to elements
-        const passwordField = document.getElementById("password");
-        const passIcon = document.getElementById("pass-icon");
+        const passwordField = document.getElementById('password');
+        const passIcon = document.getElementById('pass-icon');
 
         if (isPasswordVisible) {
-          passwordField.type = "password";
-          passIcon.src = "/images/userImg/icon/closed2.png"; // Closed-eye icon
+          passwordField.type = 'password';
+          passIcon.src = '/images/userImg/icon/closed2.png'; // Closed-eye icon
         } else {
-          passwordField.type = "text";
-          passIcon.src = "/images/userImg/icon/open.png"; // Open-eye icon
+          passwordField.type = 'text';
+          passIcon.src = '/images/userImg/icon/open.png'; // Open-eye icon
         }
 
         // Toggle state
@@ -1074,16 +1074,16 @@
 <!-- Related Section End -->
 
 <script>
-  document.querySelectorAll(".thumbnail-link").forEach((item) => {
-    item.addEventListener("click", function (event) {
+  document.querySelectorAll('.thumbnail-link').forEach((item) => {
+    item.addEventListener('click', function (event) {
       event.preventDefault(); // Prevent the default link behavior
 
       // Get the main image element
-      const mainImage = document.getElementById("main-product-image");
-      const zoomedImage = document.getElementById("zoomedImage"); // Get the zoomed image element
+      const mainImage = document.getElementById('main-product-image');
+      const zoomedImage = document.getElementById('zoomedImage'); // Get the zoomed image element
 
       // Get the new image source from the clicked thumbnail
-      const newImageSrc = this.getAttribute("data-image-src");
+      const newImageSrc = this.getAttribute('data-image-src');
 
       // Update the main image's src attribute
       mainImage.src = newImageSrc;
@@ -1093,17 +1093,17 @@
     });
   });
 
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener('DOMContentLoaded', function () {
     // Get the add to cart button
-    var addToCartButton = document.getElementById("addToCartButton");
+    var addToCartButton = document.getElementById('addToCartButton');
 
     // Add click event listener
-    addToCartButton.addEventListener("click", function (e) {
+    addToCartButton.addEventListener('click', function (e) {
       e.preventDefault(); // Prevent default action
 
       // Get selected quantity and product ID
-      var quantity = parseInt(document.getElementById("quantity").value, 10);
-      var productId = "<%= product._id %>"; // Ensure this is correctly rendered
+      var quantity = parseInt(document.getElementById('quantity').value, 10);
+      var productId = '<%= product._id %>'; // Ensure this is correctly rendered
 
       // Get the selected size
       var selectedSize = document.querySelector('input[name="size"]:checked');
@@ -1112,19 +1112,19 @@
       // Ensure a size is selected
       if (!size) {
         Swal.fire({
-          title: "Error!",
-          text: "Please select a size before adding to cart",
-          icon: "error",
-          button: "OK",
+          title: 'Error!',
+          text: 'Please select a size before adding to cart',
+          icon: 'error',
+          button: 'OK',
         });
         return; // Stop if no size is selected
       }
 
       // Send a POST request using fetch
-      fetch("/addToCart", {
-        method: "POST",
+      fetch('/addToCart', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           productId: productId,
@@ -1137,29 +1137,29 @@
           if (data.success) {
             // Show success message using SweetAlert
             Swal.fire({
-              title: "Success!",
-              text: "Product added to cart successfully!",
-              icon: "success",
-              button: "OK",
+              title: 'Success!',
+              text: 'Product added to cart successfully!',
+              icon: 'success',
+              button: 'OK',
             });
           } else {
             // Show error message
             Swal.fire({
-              title: "Error!",
-              text: data.message || "Failed to add product to cart",
-              icon: "error",
-              button: "OK",
+              title: 'Error!',
+              text: data.message || 'Failed to add product to cart',
+              icon: 'error',
+              button: 'OK',
             });
           }
         })
         .catch((error) => {
           // Log the error and show an error alert
-          console.error("Error:", error);
+          console.error('Error:', error);
           Swal.fire({
-            title: "Error!",
-            text: "An unexpected error occurred",
-            icon: "error",
-            button: "OK",
+            title: 'Error!',
+            text: 'An unexpected error occurred',
+            icon: 'error',
+            button: 'OK',
           });
         });
     });
@@ -1167,19 +1167,19 @@
 
   // Open the modal
   function openZoomModal() {
-    document.getElementById("zoomModal").style.display = "flex";
+    document.getElementById('zoomModal').style.display = 'flex';
   }
 
   // Close the modal
   function closeZoomModal() {
-    document.getElementById("zoomModal").style.display = "none";
+    document.getElementById('zoomModal').style.display = 'none';
   }
 
   function addToWishlist(productId) {
-    fetch("/addToWishlist", {
-      method: "POST",
+    fetch('/addToWishlist', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ productId: productId }),
     })
@@ -1187,36 +1187,34 @@
       .then((data) => {
         if (data.success) {
           Swal.fire({
-            title: "Success!",
-            text: "Product added to Wishlist successfully!",
-            icon: "success",
-            confirmButtonText: "OK",
+            title: 'Success!',
+            text: 'Product added to Wishlist successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK',
           });
         } else {
           Swal.fire({
-            title: "Error!",
-            text: data.message || "Failed to add product to Wishlist",
-            icon: "error",
-            confirmButtonText: "OK",
+            title: 'Error!',
+            text: data.message || 'Failed to add product to Wishlist',
+            icon: 'error',
+            confirmButtonText: 'OK',
           });
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
         Swal.fire({
-          title: "Error!",
-          text: "An unexpected error occurred",
-          icon: "error",
-          confirmButtonText: "OK",
+          title: 'Error!',
+          text: 'An unexpected error occurred',
+          icon: 'error',
+          confirmButtonText: 'OK',
         });
       });
   }
 </script>
 
-<%-include("../../views/partials/user/footer")%>
-
-// forgotpaasswordotp
-<!DOCTYPE html>
+<%-include("../../views/partials/user/footer")%> // forgotpaasswordotp
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -1447,7 +1445,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-      document.getElementById("otp").focus();
+      document.getElementById('otp').focus();
 
       let timer = 60;
       let timerInterval;
@@ -1455,29 +1453,29 @@
       function startTimer() {
         timerInterval = setInterval(() => {
           timer--;
-          document.getElementById("timerValue").textContent = timer;
+          document.getElementById('timerValue').textContent = timer;
           if (timer <= 0) {
             clearInterval(timerInterval);
-            document.getElementById("timerValue").classList.add("expired");
-            document.getElementById("timerValue").textContent = "Expired";
-            document.getElementById("otp").disabled = true;
-            document.getElementById("resendOtpBtn").disabled = false;
+            document.getElementById('timerValue').classList.add('expired');
+            document.getElementById('timerValue').textContent = 'Expired';
+            document.getElementById('otp').disabled = true;
+            document.getElementById('resendOtpBtn').disabled = false;
           }
         }, 1000);
       }
 
       function validateOTPForm() {
-        const otpInput = document.getElementById("otp").value;
+        const otpInput = document.getElementById('otp').value;
 
         $.ajax({
-          type: "POST",
-          url: "/verify-forgotPassword-otp",
+          type: 'POST',
+          url: '/verify-forgotPassword-otp',
           data: { otp: otpInput },
           success: function (response) {
             if (response.success) {
               Swal.fire({
-                icon: "success",
-                title: "OTP Verified Successfully",
+                icon: 'success',
+                title: 'OTP Verified Successfully',
                 showConfirmButton: false,
                 timer: 1500,
               }).then(() => {
@@ -1485,17 +1483,17 @@
               });
             } else {
               Swal.fire({
-                icon: "error",
-                title: "Invalid OTP",
+                icon: 'error',
+                title: 'Invalid OTP',
                 text: response.message,
               });
             }
           },
           error: function () {
             Swal.fire({
-              icon: "error",
-              title: "Invalid OTP",
-              text: "Please try again",
+              icon: 'error',
+              title: 'Invalid OTP',
+              text: 'Please try again',
             });
           },
         });
@@ -1506,28 +1504,28 @@
       function resendOTP() {
         clearInterval(timerInterval);
         timer = 60;
-        document.getElementById("otp").disabled = false;
-        document.getElementById("timerValue").classList.remove("expired");
-        document.getElementById("timerValue").textContent = timer;
-        document.getElementById("resendOtpBtn").disabled = true;
+        document.getElementById('otp').disabled = false;
+        document.getElementById('timerValue').classList.remove('expired');
+        document.getElementById('timerValue').textContent = timer;
+        document.getElementById('resendOtpBtn').disabled = true;
         startTimer();
 
         $.ajax({
-          type: "POST",
-          url: "/resend-forgot-otp",
+          type: 'POST',
+          url: '/resend-forgot-otp',
           success: function (response) {
             if (response.success) {
               Swal.fire({
-                icon: "success",
-                title: "OTP Resent Successfully",
+                icon: 'success',
+                title: 'OTP Resent Successfully',
                 showConfirmButton: false,
                 timer: 1500,
               });
             } else {
               Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "An error occurred while resending OTP, please try again",
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while resending OTP, please try again',
               });
             }
           },
@@ -1540,4 +1538,3 @@
     </script>
   </body>
 </html>
-

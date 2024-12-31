@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index"
+    "start": "nodemon index",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "author": "",
   "license": "ISC",
@@ -33,5 +35,11 @@
     "razorpay": "^2.9.5",
     "sharp": "^0.33.5",
     "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2"
   }
 }
