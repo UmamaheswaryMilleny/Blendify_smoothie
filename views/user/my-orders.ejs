@@ -152,7 +152,7 @@ background: url("/images/userImg/home/img2_1.jpg") no-repeat center
                                 <% if (order.status === 'Canceled') { %>
                                     <button class="btn btn-secondary" disabled>Canceled</button>
                                 <% } else if (order.status == 'Pending') { %>
-                                    <button id="retry-payment-btn" data-order-id="<%= order._id %>">
+                                    <button id="retry-payment-btn" data-order-id="<%=order.orderId%>">
                                         Retry Payment
                                     </button>
                                 <% } else if (order.status == 'Delivered') { %>
