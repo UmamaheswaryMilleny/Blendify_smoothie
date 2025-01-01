@@ -10,7 +10,7 @@ Blendify is a smoothie ecommerce website built with Node.js and MongoDB, allowin
 
 ## Live Demo
 
-[Live Website]()
+[Live Website](https://blendify.website)
 
 ---
 
