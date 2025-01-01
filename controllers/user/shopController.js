@@ -11,6 +11,7 @@ const getShopPage = async (req, res) => {
     const user = req.session.user;
     const selectedCategory = req.query.categoryId || null; // Get categoryId from query params
     const selectedSort = req.query.sort || 'default'; // Get sort from query params or default value
+    const searchQuery = req.query.search || ''; // Get search query from query params
     let userData = null;
 
     if (user) {
@@ -24,6 +25,7 @@ const getShopPage = async (req, res) => {
       user: userData,
       selectedCategory,
       selectedSort,
+      searchQuery,
     });
   } catch (error) {
     console.error(error);
@@ -67,6 +69,7 @@ const sortProducts = async (req, res) => {
   try {
     const categoryId = req.query.categoryId; // Get category ID from query params
     const sort = req.query.sort || 'priceAsc'; // Get sort option from query params
+    const searchQuery = req.query.search || ''; // Get search query from query params
     let sortCriteria;
 
     switch (sort) {
@@ -111,6 +114,7 @@ const sortProducts = async (req, res) => {
       user,
       selectedSort: sort,
       selectedCategory: categoryId, // Pass selected category for the view
+      searchQuery,
     });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -163,6 +167,7 @@ const searchProducts = async (req, res) => {
       user,
       selectedCategory,
       selectedSort,
+      searchQuery: search,
     });
   } catch (error) {
     console.error(error);

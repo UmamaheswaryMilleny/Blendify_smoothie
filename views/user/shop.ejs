@@ -28,6 +28,17 @@
     body{
         overflow-x:clip;
     }
+    .clear-search {
+        font-weight: 600;
+    background-color: #dbdbdb;
+    padding: 4px 15px;
+    display: inline-block;
+    margin-left: 0px;
+    margin-top: 11px;
+    color: #000000;
+    text-decoration: none;
+}
+    
 </style>
 
 <!-- Breadcrumb Section Begin -->
@@ -57,8 +68,11 @@
                     <div class="shop__sidebar">
                         <div class="shop__sidebar__search">
                             <form action="/search" method="get">
-                                <input type="text" name="search" placeholder="Search...">
+                                <input type="text" name="search" placeholder="Search..." value="<%= searchQuery || '' %>">
                                 <!-- <button type="submit"><span class="icon_search"></span></button> -->
+                                <% if (searchQuery && searchQuery.trim() !== '') { %>
+                                    <a href="/products" class="clear-search">Clear</a>
+                                <% } %>
                             </form>
                         </div>
                         <div class="shop__sidebar__accordion">
