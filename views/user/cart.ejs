@@ -123,6 +123,7 @@
 </section>
 <!-- Shopping Cart Section End -->
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     // Get all remove from cart icons
@@ -222,6 +223,47 @@
         })
         .catch(error => {
             console.error('Error updating quantity:', error);
+        });
+    }
+
+    function applyCoupon() {
+        const couponCode = document.getElementById('couponCodeInput').value;
+
+        fetch('/applyCoupon', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ couponCode }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                }).then(() => {
+                    location.reload(); // Reload the page to update the cart
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                });
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'An unexpected error occurred',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
         });
     }
 </script>

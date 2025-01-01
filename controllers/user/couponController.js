@@ -41,11 +41,12 @@ const addCoupon = async (req, res) => {
       0,
     );
 
-    let discount = 0;
-    if (totalPrice >= coupon.minimumPrice) {
-      discount = (totalPrice * coupon.offerPrice) / 100;
-      discount = Math.min(discount, totalPrice);
+    if (totalPrice < coupon.minimumPrice) {
+      return res.status(400).json({ message: `Minimum purchase of ₹${coupon.minimumPrice} is required to apply this coupon.` });
     }
+
+    let discount = (totalPrice * coupon.offerPrice) / 100;
+    discount = Math.min(discount, totalPrice);
 
     cart.discount = discount;
     cart.couponApplied = coupon._id;
