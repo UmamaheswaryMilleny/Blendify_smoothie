@@ -3314,7 +3314,7 @@ ol {
 -----------------------*/
 
 .contact__text .section-title {
-  text-align: left;
+  /* text-align: left; */
   margin-bottom: 40px;
 }
 
