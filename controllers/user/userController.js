@@ -19,9 +19,9 @@ const loadHomepage = async (req, res) => {
 
     if (user) {
       const userData = await User.findOne({ _id: user });
-      return res.render('home', { user: userData });
+      return res.render('home', { user: userData, isLoggedIn: true });
     } else {
-      return res.render('home');
+      return res.render('home', { isLoggedIn: false });
     }
   } catch (error) {
     console.error('Error loading home page:', error);
