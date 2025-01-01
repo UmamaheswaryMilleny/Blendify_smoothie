@@ -38,6 +38,17 @@ const getAddAddress = async (req, res) => {
   }
 };
 
+const getnewaddress = async (req, res) => {
+  try {
+    const userData = await User.findById(req.session.user);
+    res.render('new-address', {
+      user: userData,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect('/pageNotFound');
+  }
+};
 const addAddress = async (req, res) => {
   try {
     const userId = req.session.user;
@@ -97,6 +108,70 @@ const addAddress = async (req, res) => {
     }
 
     res.redirect('/manage-addresses');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server error' });
+  }
+};
+const addnewAddress = async (req, res) => {
+  try {
+    const userId = req.session.user;
+
+    const {
+      name,
+      houseName,
+      street,
+      city,
+      state,
+      pincode,
+      mobile,
+      altPhone,
+      addressType,
+    } = req.body;
+
+    if (
+      !name ||
+      !houseName ||
+      !street ||
+      !city ||
+      !state ||
+      !pincode ||
+      !mobile
+    ) {
+      return res
+        .status(400)
+        .json({ message: 'All required fields must be provided.' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    const newAddress = {
+      name,
+      houseName,
+      street,
+      city,
+      state,
+      pincode,
+      phone: mobile,
+      altPhone: altPhone || '',
+      addressType: addressType || 'home',
+    };
+
+    const addressDoc = await Address.findOne({ userId });
+
+    if (addressDoc) {
+      await Address.updateOne({ userId }, { $push: { address: newAddress } });
+    } else {
+      await Address.create({
+        userId: user._id,
+        address: [newAddress],
+      });
+    }
+
+    res.redirect('/checkout');
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server error' });
@@ -202,4 +277,6 @@ module.exports = {
   getEditAddress,
   editAddress,
   deleteAddress,
+  getnewaddress,
+  addnewAddress
 };
