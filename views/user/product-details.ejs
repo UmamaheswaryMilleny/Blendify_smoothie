@@ -74,7 +74,7 @@
         <div class="col-lg-1 col-md-1">
           <ul class="nav nav-tabs">
             <% for(let i = 0; i < product.productImage.length; i++) { %>
-            <li class="nav-item">
+            <li class="nav-item" style="cursor: pointer;">
               <a
                 class="nav-link thumbnail-link"
                 data-image-src="/uploads/product-images/<%= product.productImage[i] %>"
@@ -298,25 +298,20 @@
 <!-- Related Section End -->
 
 <script>
-//       document.querySelectorAll('.thumbnail-link').forEach(item => {
-//     item.addEventListener('click', function(event) {
-//         event.preventDefault(); // Prevent the default link behavior
+  document.querySelectorAll('.thumbnail-link').forEach(item => {
+    item.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default link behavior
 
-//         // Get the main image element
-//         const mainImage = document.getElementById('main-product-image');
-//         const zoomedImage = document.getElementById('zoomedImage'); // Get the zoomed image element
+        // Get the main image element
+        const mainImage = document.getElementById('main-product-image');
 
-//         // Get the new image source from the clicked thumbnail
-//         const newImageSrc = this.getAttribute('data-image-src');
+        // Get the new image source from the clicked thumbnail
+        const newImageSrc = this.getAttribute('data-image-src');
 
-//         // Update the main image's src attribute
-//         mainImage.src = newImageSrc;
-
-//         // Update the zoomed image's src attribute
-//         zoomedImage.src = newImageSrc;
-//     });
-// });
-
+        // Update the main image's src attribute
+        mainImage.src = newImageSrc;
+    });
+  });
 
   document.addEventListener("DOMContentLoaded", function () {
     // Get the add to cart button
