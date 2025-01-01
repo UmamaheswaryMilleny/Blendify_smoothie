@@ -81,10 +81,9 @@ background: url("/images/userImg/home/img2_1.jpg") no-repeat center
 
 <%-include("../../views/partials/user/footer")%>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-
 function copyToClipboard(couponCode) {
-
     // Create a temporary textarea to copy the code
     const tempTextArea = document.createElement('textarea');
     tempTextArea.value = couponCode;
@@ -97,7 +96,12 @@ function copyToClipboard(couponCode) {
     // Remove the temporary textarea
     document.body.removeChild(tempTextArea);
 
-    // Show an alert or message to indicate success
-    alert('Coupon code ' + couponCode + ' copied to clipboard!');
-  }
+    // Show a SweetAlert to indicate success
+    Swal.fire({
+        title: 'Copied!',
+        text: 'Coupon code ' + couponCode + ' copied to clipboard!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+    });
+}
 </script>
