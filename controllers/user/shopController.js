@@ -7,11 +7,12 @@ const path = require('path');
 const getShopPage = async (req, res) => {
   try {
     const category = await Category.find({ isListed: true });
-    const product = await Product.find({ isBlocked: false });
     const user = req.session.user;
     const selectedCategory = req.query.categoryId || null; // Get categoryId from query params
     const selectedSort = req.query.sort || 'default'; // Get sort from query params or default value
     const searchQuery = req.query.search || ''; // Get search query from query params
+    const page = parseInt(req.query.page) || 1; // Get page number from query params
+    const limit = 9; // Number of products per page
     let userData = null;
 
     if (user) {
@@ -19,6 +20,22 @@ const getShopPage = async (req, res) => {
     } else {
       return res.redirect('/login');
     }
+
+    let query = { isBlocked: false };
+    if (selectedCategory) {
+      query.category = selectedCategory;
+    }
+    if (searchQuery) {
+      query.productName = { $regex: searchQuery, $options: 'i' };
+    }
+
+    const totalProducts = await Product.countDocuments(query);
+    const totalPages = Math.ceil(totalProducts / limit);
+    const product = await Product.find(query)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
     res.render('shop', {
       cat: category,
       product: product,
@@ -26,6 +43,8 @@ const getShopPage = async (req, res) => {
       selectedCategory,
       selectedSort,
       searchQuery,
+      currentPage: page,
+      totalPages,
     });
   } catch (error) {
     console.error(error);
@@ -70,6 +89,8 @@ const sortProducts = async (req, res) => {
     const categoryId = req.query.categoryId; // Get category ID from query params
     const sort = req.query.sort || 'priceAsc'; // Get sort option from query params
     const searchQuery = req.query.search || ''; // Get search query from query params
+    const page = parseInt(req.query.page) || 1; // Get page number from query params
+    const limit = 9; // Number of products per page
     let sortCriteria;
 
     switch (sort) {
@@ -105,8 +126,16 @@ const sortProducts = async (req, res) => {
     if (categoryId) {
       query.category = categoryId;
     }
+    if (searchQuery) {
+      query.productName = { $regex: searchQuery, $options: 'i' };
+    }
 
-    const product = await Product.find(query).sort(sortCriteria); // Fetch and sort products
+    const totalProducts = await Product.countDocuments(query);
+    const totalPages = Math.ceil(totalProducts / limit);
+    const product = await Product.find(query)
+      .sort(sortCriteria)
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     res.render('shop', {
       cat: category,
@@ -115,6 +144,8 @@ const sortProducts = async (req, res) => {
       selectedSort: sort,
       selectedCategory: categoryId, // Pass selected category for the view
       searchQuery,
+      currentPage: page,
+      totalPages,
     });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -156,10 +187,20 @@ const searchProducts = async (req, res) => {
     const selectedCategory = req.query.categoryId || null;
     const user = req.session.user;
     const selectedSort = req.query.sort || 'default';
+    const page = parseInt(req.query.page) || 1; // Get page number from query params
+    const limit = 9; // Number of products per page
 
-    const product = await Product.find({
-      productName: { $regex: search, $options: 'i' },
-    });
+    let query = { productName: { $regex: search, $options: 'i' } };
+    if (selectedCategory) {
+      query.category = selectedCategory;
+    }
+
+    const totalProducts = await Product.countDocuments(query);
+    const totalPages = Math.ceil(totalProducts / limit);
+    const product = await Product.find(query)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     res.render('shop', {
       cat: category,
@@ -168,6 +209,8 @@ const searchProducts = async (req, res) => {
       selectedCategory,
       selectedSort,
       searchQuery: search,
+      currentPage: page,
+      totalPages,
     });
   } catch (error) {
     console.error(error);

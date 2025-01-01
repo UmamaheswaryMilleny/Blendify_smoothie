@@ -38,7 +38,23 @@
     color: #000000;
     text-decoration: none;
 }
-    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .pagination a {
+        margin: 0 5px;
+        padding: 10px 15px;
+        background-color: #f1f1f1;
+        color: #333;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .pagination a.active {
+        background-color: #333;
+        color: #fff;
+    }
 </style>
 
 <!-- Breadcrumb Section Begin -->
@@ -165,7 +181,19 @@
                             <% } %>
                         <% } %>
                     </div>
-                
+
+                    <!-- Pagination Controls -->
+                    <div class="pagination">
+                        <% if (currentPage > 1) { %>
+                            <a href="?page=<%= currentPage - 1 %>&sort=<%= selectedSort %>&categoryId=<%= selectedCategory %>&search=<%= searchQuery %>">&laquo; Previous</a>
+                        <% } %>
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <a href="?page=<%= i %>&sort=<%= selectedSort %>&categoryId=<%= selectedCategory %>&search=<%= searchQuery %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+                        <% } %>
+                        <% if (currentPage < totalPages) { %>
+                            <a href="?page=<%= currentPage + 1 %>&sort=<%= selectedSort %>&categoryId=<%= selectedCategory %>&search=<%= searchQuery %>">Next &raquo;</a>
+                        <% } %>
+                    </div>
                 </div>
             </div>
         </div>
